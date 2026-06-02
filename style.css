@@ -4418,8 +4418,6 @@ label {
     font-size: 12px !important;
   }
 }
-}
-
 /* ==========================================================================
    NAVIGATION BAR & DESKTOP OPTIMIZATION
    ========================================================================== */
@@ -4465,23 +4463,26 @@ label {
 @media (min-width: 1024px) {
   /* Transform bottom nav into left sidebar */
   .app-navigation-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: auto;
-    transform: none;
-    width: 250px;
-    height: 100vh;
-    border-radius: 0;
-    border: none;
-    border-right: 1px solid var(--border-glass);
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    padding: 32px 16px;
-    gap: 8px;
-    background: var(--bg-dark);
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 250px !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-right: 1px solid var(--border-glass) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    padding: 32px 16px !important;
+    gap: 8px !important;
+    background: var(--bg-dark) !important;
+    max-width: none !important;
   }
+
   
   .nav-item {
     flex-direction: row;

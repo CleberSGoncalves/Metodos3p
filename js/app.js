@@ -593,15 +593,10 @@ class AppOrchestrator {
     if (isStandalone) {
       if (installBtn) installBtn.style.display = 'none';
       if (dashInstallBtn) {
-        dashInstallBtn.style.display = 'block';
-        dashInstallBtn.style.background = 'rgba(38, 208, 124, 0.1)';
-        dashInstallBtn.style.border = '1px solid rgba(38, 208, 124, 0.3)';
-        dashInstallBtn.style.color = 'var(--color-success)';
-        dashInstallBtn.style.cursor = 'default';
-        dashInstallBtn.textContent = "✅ Aplicativo Instalado Offline";
-        dashInstallBtn.disabled = true;
-        dashInstallBtn.removeAttribute('onclick');
+        dashInstallBtn.style.display = 'none';
       }
+      const dashBanner = document.getElementById('dash-pwa-install-banner');
+      if (dashBanner) dashBanner.style.display = 'none';
       if (directBtn) directBtn.style.display = 'none';
     } else if (this.deferredPrompt) {
       // Prompt is available (installable)
