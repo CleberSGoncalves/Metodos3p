@@ -4380,6 +4380,10 @@ label {
     min-height: 40px;
   }
   
+  .currency-input {
+    padding-left: 42px !important;
+  }
+  
   /* Badges readability improvements */
   .stats-badge,
   .pdf-cat-badge,
