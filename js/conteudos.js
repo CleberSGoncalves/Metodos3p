@@ -375,7 +375,6 @@ class ContentsController {
     
     grid.innerHTML = allEnvIds.map(envId => {
       const isSelected = this.app.selectedEnvironments.includes(envId);
-      if (!isSelected) return '';
       
       const envData = METODO_3P_DATABASE.checklists[envId];
       const isLocked = this.app.paywallController.isEnvironmentLocked(envId);
