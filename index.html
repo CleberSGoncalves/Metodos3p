@@ -1628,8 +1628,8 @@
   <script src="js/supabase.js?v=2.0.4"></script>
   <script src="js/database.js?v=2.0.4"></script>
   <script src="js/financeiro.js?v=2.0.4"></script>
-  <script src="js/decisao.js?v=2.0.4"></script>
-  <script src="js/conteudos.js?v=2.0.4"></script>
+  <script src="js/protocolos.js?v=3.0.0"></script>
+  <script src="js/conteudos-v2.js?v=3.0.0"></script>
   <script src="js/paywall.js?v=2.0.4"></script>
   <script src="js/app.js?v=2.0.4"></script>
   
@@ -1648,7 +1648,7 @@
     // Register PWA service worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=2.0.4').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=3.0.0').then(reg => {
           console.log('ServiceWorker registered successfully.', reg.scope);
         }).catch(err => {
           console.log('ServiceWorker registration failed: ', err);
