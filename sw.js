@@ -1,72 +1,27 @@
-const CACHE_NAME = 'reformas-3p-v10';
-const ASSETS_TO_CACHE = [
-  'index.html?v=2.0.1',
-  'style.css?v=2.0.1',
-  'manifest.json?v=2.0.1',
-  'js/supabase.js?v=2.0.1',
-  'js/app.js?v=2.0.1',
-  'js/database.js?v=2.0.1',
-  'js/financeiro.js?v=2.0.1',
-  'js/decisao.js?v=2.0.1',
-  'js/conteudos.js?v=2.0.1',
-  'js/paywall.js?v=2.0.1',
-  'icon-192.png',
-  'icon-512.png',
-  'https://cdn.jsdelivr.net/npm/chart.js',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap'
-];
+const CACHE_NAME = 'reformas-3p-online-v1';
 
-// Install event - caching basic shell assets
+// Install event - force immediate activation
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('[ServiceWorker] Pre-caching offline assets...');
-        return cache.addAll(ASSETS_TO_CACHE);
-      })
-      .then(() => self.skipWaiting())
-  );
+  self.skipWaiting();
 });
 
-// Activate event - cleaning old caches if present
+// Activate event - delete ALL old offline caches to free users from stuck versions
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheKeys => {
       return Promise.all(
         cacheKeys.map(key => {
-          if (key !== CACHE_NAME) {
-            console.log('[ServiceWorker] Removing old cache:', key);
-            return caches.delete(key);
-          }
+          console.log('[ServiceWorker] Removing old cache:', key);
+          return caches.delete(key);
         })
       );
     }).then(() => self.clients.claim())
   );
 });
 
-// Fetch event - serving assets from network first, falling back to cache if offline
+// Fetch event - ALWAYS go to the network (Online Only)
 self.addEventListener('fetch', event => {
-  // Only handle GET requests
-  if (event.request.method !== 'GET') return;
-  
-  // Skip handling browser extensions or non-http protocols
-  if (!event.request.url.startsWith('http')) return;
-
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        // If the request succeeded and it's a valid 200 response, cache it
-        if (response && response.status === 200) {
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseToCache);
-          });
-        }
-        return response;
-      })
-      .catch(() => {
-        // Network failed (offline), try to get from cache
-        return caches.match(event.request);
-      })
-  );
+  // We provide a basic fetch handler to satisfy PWA install requirements,
+  // but we DO NOT cache anything anymore. The app is strictly online and always updated.
+  event.respondWith(fetch(event.request));
 });
