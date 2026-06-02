@@ -98,12 +98,16 @@ class AppOrchestrator {
     document.getElementById('screen-main').classList.remove('active');
     const wizardBtn = document.getElementById('dash-floating-wizard-btn');
     if (wizardBtn) wizardBtn.style.display = 'none';
+    const navBar = document.querySelector('.app-navigation-bar');
+    if (navBar) navBar.style.display = 'none';
     this.nextOnboardingSlide(1);
   }
 
   showMainAppScreen() {
     document.getElementById('screen-onboarding').classList.remove('active');
     document.getElementById('screen-main').classList.add('active');
+    const navBar = document.querySelector('.app-navigation-bar');
+    if (navBar) navBar.style.display = '';
     
     // Welcome push notification simulation
     setTimeout(() => {
