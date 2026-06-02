@@ -318,8 +318,9 @@ class PaywallController {
         this.app.conteudosController.renderEnvironmentCards();
         this.app.conteudosController.renderPdfGrid();
         this.app.financeiroController.updateDashboard();
-        this.app.decisoesController.renderDecisionScenarios();
-        this.app.decisoesController.renderWaterproofingArea();
+        if (this.app.decisoesController) {
+          this.app.decisoesController.renderEnvironmentsGrid();
+        }
         
       }, 800);
     }, 1000);
