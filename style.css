@@ -203,6 +203,7 @@ body {
 /* Scrollable Container inside active app screens */
 .app-viewport-content {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   padding: 88px 20px 100px 20px; /* space for header & floating nav bar */
   display: flex;
