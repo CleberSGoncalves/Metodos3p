@@ -67,6 +67,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
 }
 
 /* Scrollbar customizations inside views */
@@ -170,6 +172,7 @@ body {
 .app-container {
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   position: relative;
   overflow: hidden;
   background-color: var(--bg-void);
