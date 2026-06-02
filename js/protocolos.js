@@ -18,8 +18,8 @@ class DecisionsController {
     const grid = document.getElementById('protocolos-environments-grid');
     if (!grid) return;
     
-    // Mostra todos os ambientes que possuem protocolos de decisão na plataforma
-    const envs = Object.keys(METODO_3P_DATABASE.checklists);
+    // Mostra todos os ambientes válidos
+    const envs = Object.keys(METODO_3P_DATABASE.checklists).filter(k => k !== 'areas');
 
     grid.innerHTML = envs.map(envId => {
       const envData = METODO_3P_DATABASE.checklists[envId];
