@@ -332,17 +332,21 @@
             <div id="tab-painel" class="tab-view active">
               
               <!-- App Dashboard Branding Header -->
-              <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 0 16px 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-glass); position: relative;">
+              <div style="position: relative; overflow: hidden; border-radius: 20px; border: 1px solid var(--border-glass); padding: 24px 16px 20px 16px; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);">
+                <!-- Background Image Overlay -->
+                <div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0.3; background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80') center 30% / cover no-repeat; z-index: 0;"></div>
+                <!-- Gradient to ensure text readability -->
+                <div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(9,10,15,0.2) 0%, rgba(9,10,15,0.95) 100%); z-index: 1;"></div>
                 
-                <div style="position: absolute; right: 4px; top: 12px; display: flex; align-items: center; gap: 16px;">
+                <div style="position: absolute; right: 12px; top: 12px; display: flex; align-items: center; gap: 16px; z-index: 3;">
                   <!-- Bell icon with dynamic badge -->
                   <div style="position: relative; cursor: pointer;" onclick="window.app.switchTab('central'); window.app.switchCentralSection('riscos');">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #8c96ab;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ffffff;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     <span id="dash-bell-badge" style="position: absolute; top: -3px; right: -3px; background: var(--color-danger); color: #ffffff; font-size: 8px; font-weight: bold; width: 13px; height: 13px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #0c0e14;">0</span>
                   </div>
                   <!-- Share summary button -->
                   <div style="cursor: pointer;" onclick="window.app.shareObraSummary()" title="Compartilhar Resumo">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #8c96ab;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ffffff;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                   </div>
                   <!-- Menu icon (triggers profile drawer) -->
                   <div style="cursor: pointer;" onclick="window.app.openProfileDrawer()">
@@ -350,10 +354,17 @@
                   </div>
                 </div>
 
-                <img src="icon-512.png" alt="Logo Reformas Sem Erro" style="width: 50px; height: 50px; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(255, 106, 0, 0.3)); border-radius: 12px;">
-                <h1 style="font-family: 'Sora', sans-serif; font-size: 24px; font-weight: 800; color: #ffffff; margin: 0 0 4px 0; letter-spacing: 0.5px;">MÉTODO <span style="color: var(--primary-orange);">3P</span></h1>
-                <p style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: #ff9f0a; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 6px 0;">Planejar. Prevenir. Proteger.</p>
-                <p style="font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #8c96ab; margin: 0; letter-spacing: 0.5px;">Sua reforma, seu sonho, Nosso Método.</p>
+                <div style="z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%;">
+                  <img src="icon-512.png" alt="Logo Reformas Sem Erro" style="width: 50px; height: 50px; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(255, 106, 0, 0.4)); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                  <h1 style="font-family: 'Sora', sans-serif; font-size: 24px; font-weight: 800; color: #ffffff; margin: 0 0 4px 0; letter-spacing: 0.5px;">MÉTODO <span style="color: var(--primary-orange);">3P</span></h1>
+                  <p style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: #ff9f0a; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 10px 0;">Planejar. Prevenir. Proteger.</p>
+                  
+                  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 4px; background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05);">
+                    <span style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: var(--primary-orange);">Sua reforma.</span>
+                    <span style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: #ffffff;">Seu sonho.</span>
+                    <span style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: #ff9f0a;">Nosso método.</span>
+                  </div>
+                </div>
               </div>
               
 
@@ -465,15 +476,7 @@
                 </div>
               </div>
 
-              <!-- BLOCK 5: SLOGAN BANNER & modern building overlay -->
-              <div class="glass-card" style="position: relative; padding: 14px; text-align: left; overflow: hidden; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, rgba(255, 106, 0, 0.05) 0%, rgba(9, 10, 15, 0) 80%); border: 1px solid var(--border-glass); height: 75px; margin-bottom: 14px;">
-                <div style="z-index: 2; flex: 1;">
-                  <h4 style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: var(--primary-orange); margin: 0 0 2px 0;">Sua reforma.</h4>
-                  <h4 style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: #ffffff; margin: 0 0 2px 0;">Seu sonho.</h4>
-                  <h4 style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: #ff9f0a; margin: 0;">Nosso método.</h4>
-                </div>
-                <div style="position: absolute; right: 0; top: 0; width: 50%; height: 100%; opacity: 0.35; background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80') center center / cover no-repeat; z-index: 1; border-radius: 0 12px 12px 0;"></div>
-              </div>
+
 
               <!-- COLLAPSIBLE TECHNICAL HIGHLIGHT DETAILS: Cronograma & Cotações & Checklists -->
               <div class="glass-card" style="padding: 14px; margin-bottom: 12px; text-align: left;">
