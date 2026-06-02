@@ -1,0 +1,22 @@
+{
+  "name": "Reformas Sem Erro (Método 3P)",
+  "short_name": "Reformas3P",
+  "description": "Seu Centro de Comando para reformar sem estresse e sem prejuízo.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0b0d",
+  "theme_color": "#0a0b0d",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

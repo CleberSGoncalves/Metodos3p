@@ -1,0 +1,11 @@
+# Local Netlify folder
+.netlify
+
+# Credentials and secrets
+client_secret*.json
+*.txt
+
+# Dependencies
+node_modules/
+dist/
+client_secret_*.json

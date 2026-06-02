@@ -1,0 +1,13 @@
+{
+  "name": "reformas-sem-erro-app",
+  "version": "1.0.0",
+  "description": "Aplicativo Mobile-First - Método 3P (Reformas Sem Erro)",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 3000"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
