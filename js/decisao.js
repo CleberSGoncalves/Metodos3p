@@ -114,55 +114,39 @@ class DecisionsController {
     // Mapeamento dos links reais do Gamma conforme o usuário forneceu
     const GAMMA_LINKS = {
       cozinha: {
-        planejar: [],
-        prevenir: [
-          { title: 'PDF 7 — Orçamento Detalhado', url: 'https://gamma.app/docs/PDF-7-ROTEIRO-DO-ORCAMENTO-BLINDADO-COZINHA--byrbin9eqpn00pr' },
-          { title: 'PDF 8 — Guia de Contratação', url: 'https://gamma.app/docs/PDF-8-GUIA-DE-CONTRATACAO-ESTRATEGICA-COZINHA--prwbt51zr0b9o31' },
-          { title: 'PDF 9 — Guia Compras Sem Erro', url: 'https://gamma.app/docs/PDF-9-LISTA-DE-COMPRAS-COMPLETA-COZINHA--3msfif5gz9wogxq' }
+        planejar: [
+          { title: 'Protocolo de Decisão — Cozinha', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-COZINHA--yvyrdi7dit8yxd7' }
         ],
-        proteger: [
-          { title: 'PDF 10 — Checklist Final Entrega', url: '#' },
-          { title: 'PDF 11 — Check-out & Garantias', url: '#' },
-          { title: 'PDF 12 — Relatório Final da Obra', url: '#' }
-        ]
+        prevenir: [],
+        proteger: []
       },
       sala: {
-        planejar: [],
-        prevenir: [
-          { title: 'PDF 7 — Orçamento Detalhado', url: 'https://gamma.app/docs/PDF-7-ROTEIRO-DO-ORCAMENTO-BLINDADO-SALA--wsumoyc7398mivm' }
+        planejar: [
+          { title: 'Protocolo de Decisão — Sala', url: 'https://gamma.app/docs/PROTOCOLO-DECISAO-SALA-0xaifmkls6novgn' }
         ],
-        proteger: [
-          { title: 'PDF 10 — Checklist Final Entrega', url: '#' },
-          { title: 'PDF 11 — Check-out & Garantias', url: '#' },
-          { title: 'PDF 12 — Relatório Final da Obra', url: '#' }
-        ]
+        prevenir: [],
+        proteger: []
       },
       quarto: {
-        planejar: [],
+        planejar: [
+          { title: 'Protocolo de Decisão — Quarto', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-QUARTO-ndlbc3vlcqroiy2' }
+        ],
         prevenir: [],
-        proteger: [
-          { title: 'PDF 10 — Checklist Final Entrega', url: '#' },
-          { title: 'PDF 11 — Check-out & Garantias', url: '#' },
-          { title: 'PDF 12 — Relatório Final da Obra', url: '#' }
-        ]
+        proteger: []
       },
       banheiro: {
-        planejar: [],
+        planejar: [
+          { title: 'Protocolo de Decisão — Banheiro', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-BANHEIRO-7ihshc0wsdnwjrl' }
+        ],
         prevenir: [],
-        proteger: [
-          { title: 'PDF 10 — Checklist Final Entrega', url: '#' },
-          { title: 'PDF 11 — Check-out & Garantias', url: '#' },
-          { title: 'PDF 12 — Relatório Final da Obra', url: '#' }
-        ]
+        proteger: []
       },
       area_externa: {
-        planejar: [],
+        planejar: [
+          { title: 'Protocolo de Decisão — Área Externa', url: 'https://gamma.app/docs/PROTOCOLO-DECISAO-AREA-EXTERNA-jlggd1eqc2obftv' }
+        ],
         prevenir: [],
-        proteger: [
-          { title: 'PDF 10 — Checklist Final Entrega', url: '#' },
-          { title: 'PDF 11 — Check-out & Garantias', url: '#' },
-          { title: 'PDF 12 — Relatório Final da Obra', url: '#' }
-        ]
+        proteger: []
       }
     };
 
