@@ -1344,7 +1344,12 @@ class AppOrchestrator {
       if (isDone) {
         completedCount++;
         stepRow.classList.add('completed');
-        actionContainer.innerHTML = `<span class="step-done-badge">✅ Concluído</span>`;
+        actionContainer.innerHTML = `
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+            <span class="step-done-badge">✅ Concluído</span>
+            <button class="btn-step-action" style="background: rgba(255,255,255,0.1); color: #fff; padding: 2px 8px; font-size: 9px;" onclick="window.app.navigateToWizardStep(${stepNum})">Editar ➔</button>
+          </div>
+        `;
       } else {
         stepRow.classList.remove('completed');
         let verb = 'Definir ➔';
