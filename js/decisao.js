@@ -111,43 +111,97 @@ class DecisionsController {
     const listContainer = document.getElementById('protocolos-pdfs-list');
     if (!listContainer) return;
     
-    const library = METODO_3P_DATABASE.library || [];
-    
-    // Filter PDFs by active environment and active phase
-    // Since our DB doesn't have exact phase mapping for all PDFs, we do a basic filter:
-    let filtered = library.filter(pdf => {
-      // Allow if it matches the phase category (planejamento, tecnico, contratos...)
-      // Fake logic just for demo:
-      if (this.activePhase === 'planejar' && pdf.category !== 'planejamento' && pdf.category !== 'contratos') return false;
-      if (this.activePhase === 'prevenir' && pdf.category !== 'tecnico') return false;
-      if (this.activePhase === 'proteger' && pdf.category !== 'tecnico') return false;
-      
-      // If environment is specific (like banheiro), we could filter by tags.
-      // But to avoid empty lists, if the tag doesn't match we include it randomly or if no specific tag.
-      return true;
-    });
+    // Mapeamento dos links reais do Gamma conforme o usuário forneceu
+    const GAMMA_LINKS = {
+      cozinha: {
+        planejar: [],
+        prevenir: [
+          { title: 'PDF 7 — Orçamento Detalhado', url: 'https://gamma.app/docs/PDF-7-ROTEIRO-DO-ORCAMENTO-BLINDADO-COZINHA--byrbin9eqpn00pr' },
+          { title: 'PDF 8 — Guia de Contratação', url: 'https://gamma.app/docs/PDF-8-GUIA-DE-CONTRATACAO-ESTRATEGICA-COZINHA--prwbt51zr0b9o31' },
+          { title: 'PDF 9 — Guia Compras Sem Erro', url: 'https://gamma.app/docs/PDF-9-LISTA-DE-COMPRAS-COMPLETA-COZINHA--3msfif5gz9wogxq' }
+        ],
+        proteger: [
+          { title: 'PDF 10 — Checklist Final Entrega', url: '#' },
+          { title: 'PDF 11 — Check-out & Garantias', url: '#' },
+          { title: 'PDF 12 — Relatório Final da Obra', url: '#' }
+        ]
+      },
+      sala: {
+        planejar: [],
+        prevenir: [
+          { title: 'PDF 7 — Orçamento Detalhado', url: 'https://gamma.app/docs/PDF-7-ROTEIRO-DO-ORCAMENTO-BLINDADO-SALA--wsumoyc7398mivm' }
+        ],
+        proteger: [
+          { title: 'PDF 10 — Checklist Final Entrega', url: '#' },
+          { title: 'PDF 11 — Check-out & Garantias', url: '#' },
+          { title: 'PDF 12 — Relatório Final da Obra', url: '#' }
+        ]
+      },
+      quarto: {
+        planejar: [],
+        prevenir: [],
+        proteger: [
+          { title: 'PDF 10 — Checklist Final Entrega', url: '#' },
+          { title: 'PDF 11 — Check-out & Garantias', url: '#' },
+          { title: 'PDF 12 — Relatório Final da Obra', url: '#' }
+        ]
+      },
+      banheiro: {
+        planejar: [],
+        prevenir: [],
+        proteger: [
+          { title: 'PDF 10 — Checklist Final Entrega', url: '#' },
+          { title: 'PDF 11 — Check-out & Garantias', url: '#' },
+          { title: 'PDF 12 — Relatório Final da Obra', url: '#' }
+        ]
+      },
+      area_externa: {
+        planejar: [],
+        prevenir: [],
+        proteger: [
+          { title: 'PDF 10 — Checklist Final Entrega', url: '#' },
+          { title: 'PDF 11 — Check-out & Garantias', url: '#' },
+          { title: 'PDF 12 — Relatório Final da Obra', url: '#' }
+        ]
+      }
+    };
 
-    // If empty, fallback to some default ones
-    if (filtered.length === 0) {
-      filtered = library.slice(0, 3);
+    const envLinks = GAMMA_LINKS[this.activeEnvironment] || { planejar: [], prevenir: [], proteger: [] };
+    const phaseLinks = envLinks[this.activePhase] || [];
+
+    if (phaseLinks.length === 0) {
+      listContainer.innerHTML = `
+        <div style="text-align: center; padding: 40px 20px; color: #8c96ab;">
+          <div style="font-size: 32px; margin-bottom: 12px; opacity: 0.5;">📭</div>
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 14px; margin-bottom: 8px;">Nenhum protocolo disponível</h4>
+          <p style="font-size: 12px;">Os guias para esta fase e ambiente estão sendo elaborados pela nossa equipe.</p>
+        </div>
+      `;
+      return;
     }
 
-    listContainer.innerHTML = filtered.map(pdf => `
-      <div class="library-item-card" onclick="window.app.conteudosController.openPdf('${pdf.id}')" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px; display: flex; gap: 12px; cursor: pointer; transition: transform 0.2s;">
+    listContainer.innerHTML = phaseLinks.map(pdf => {
+      const isLocked = pdf.url === '#';
+      const clickAction = isLocked 
+        ? `alert('Protocolo em elaboração. Estará disponível em breve!')` 
+        : `window.open('${pdf.url}', '_blank')`;
+        
+      return `
+      <div class="library-item-card" onclick="${clickAction}" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: transform 0.2s; margin-bottom: 8px;">
         <div class="library-item-icon" style="background: rgba(255,106,0,0.1); color: var(--primary-orange); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
           📄
         </div>
         <div style="flex: 1; text-align: left;">
           <h4 style="font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 4px 0;">${pdf.title}</h4>
-          <p style="font-size: 10px; color: var(--text-secondary); line-height: 1.4; margin: 0 0 6px 0;">
-            ${pdf.desc.substring(0, 80)}...
-          </p>
           <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            ${pdf.tags.slice(0,2).map(t => `<span style="font-size: 9px; font-weight: 600; color: #8c96ab; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">#${t}</span>`).join('')}
-            <span style="font-size: 9px; font-weight: 600; color: var(--primary-orange); background: rgba(255,106,0,0.1); padding: 2px 6px; border-radius: 4px;">${pdf.pages} Páginas</span>
+            ${isLocked 
+              ? '<span style="font-size: 9px; font-weight: 600; color: #ff453a; background: rgba(255,69,58,0.1); padding: 2px 6px; border-radius: 4px;">Em Elaboração 🔒</span>'
+              : '<span style="font-size: 9px; font-weight: 600; color: var(--primary-orange); background: rgba(255,106,0,0.1); padding: 2px 6px; border-radius: 4px;">Abrir no Gamma ➔</span>'
+            }
           </div>
         </div>
       </div>
-    `).join('');
+      `;
+    }).join('');
   }
 }
