@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cache-reformas-3p-v3.0.1';
+const CACHE_NAME = 'cache-reformas-3p-v3.0.2';
 
 // Install event - force immediate activation
 self.addEventListener('install', event => {
@@ -19,9 +19,24 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch event - ALWAYS go to the network (Online Only)
+// Fetch event - ALWAYS go to the network and BYPASS browser HTTP cache
 self.addEventListener('fetch', event => {
-  // We provide a basic fetch handler to satisfy PWA install requirements,
-  // but we DO NOT cache anything anymore. The app is strictly online and always updated.
-  event.respondWith(fetch(event.request));
+  // Ignora requisições que não são GET ou não são HTTP
+  if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) return;
+
+  // Cria uma nova requisição com cache: 'no-store' para forçar ida ao servidor
+  const bypassCacheReq = new Request(event.request.url, {
+    method: 'GET',
+    headers: event.request.headers,
+    mode: event.request.mode === 'navigate' ? 'navigate' : 'cors',
+    credentials: event.request.credentials,
+    cache: 'no-store' // Isso força o navegador a ignorar o cache HTTP!
+  });
+
+  event.respondWith(
+    fetch(bypassCacheReq).catch(err => {
+      console.warn('[SW] Falha na rede, impossivel buscar', event.request.url);
+      throw err;
+    })
+  );
 });
