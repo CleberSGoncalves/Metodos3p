@@ -276,7 +276,8 @@ class AppOrchestrator {
       
       const activeView = document.getElementById(`central-sec-${sectionId}`);
       if (activeView) {
-        activeView.style.display = 'block';
+        activeView.style.display = 'flex';
+        activeView.style.flexDirection = 'column';
         activeView.classList.add('active');
       }
       
