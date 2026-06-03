@@ -137,7 +137,11 @@ Responda de forma concisa, evite respostas longas demais. Formate bem usando tó
       this.removeTyping();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erro desconhecido ao falar com o Nando');
+        let errorMsg = 'Erro desconhecido ao falar com o Nando';
+        if (data.error) {
+          errorMsg = typeof data.error === 'string' ? data.error : (data.error.message || JSON.stringify(data.error));
+        }
+        throw new Error(errorMsg);
       }
 
       const botText = data.text;
