@@ -20,6 +20,7 @@ export default async function handler(req, res) {
     const keys = [];
     if (process.env.GEMINI_API_KEY_1) keys.push(process.env.GEMINI_API_KEY_1);
     if (process.env.GEMINI_API_KEY_2) keys.push(process.env.GEMINI_API_KEY_2);
+    if (process.env.GEMINI_API_KEY_3) keys.push(process.env.GEMINI_API_KEY_3);
 
     if (keys.length === 0) {
       return res.status(500).json({ error: "Nenhuma chave de API do Gemini configurada no servidor." });
