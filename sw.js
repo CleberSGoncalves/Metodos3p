@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cache-reformas-3p-v3.0.2';
+const CACHE_NAME = 'cache-reformas-3p-v3.0.5';
 
 // Install event - force immediate activation
 self.addEventListener('install', event => {
@@ -24,19 +24,25 @@ self.addEventListener('fetch', event => {
   // Ignora requisições que não são GET ou não são HTTP
   if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) return;
 
-  // Cria uma nova requisição com cache: 'no-store' para forçar ida ao servidor
-  const bypassCacheReq = new Request(event.request.url, {
-    method: 'GET',
-    headers: event.request.headers,
-    mode: event.request.mode === 'navigate' ? 'navigate' : 'cors',
-    credentials: event.request.credentials,
-    cache: 'no-store' // Isso força o navegador a ignorar o cache HTTP!
-  });
+  // Aplica o bypass de cache APENAS para os arquivos do nosso próprio domínio
+  if (event.request.url.includes(self.location.origin)) {
+    const bypassCacheReq = new Request(event.request.url, {
+      method: 'GET',
+      headers: event.request.headers,
+      mode: event.request.mode === 'navigate' ? 'navigate' : 'same-origin',
+      credentials: event.request.credentials,
+      cache: 'no-store' // Força ida ao servidor para nossos arquivos HTML/JS/CSS
+    });
 
-  event.respondWith(
-    fetch(bypassCacheReq).catch(err => {
-      console.warn('[SW] Falha na rede, impossivel buscar', event.request.url);
-      throw err;
-    })
-  );
+    event.respondWith(
+      fetch(bypassCacheReq).catch(err => {
+        console.warn('[SW] Falha na rede para', event.request.url);
+        throw err;
+      })
+    );
+    return;
+  }
+
+  // Para APIs externas (Google, Hotmart, Unsplash, CDNs), repassa a requisição original intacta!
+  event.respondWith(fetch(event.request));
 });
