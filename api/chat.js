@@ -17,11 +17,13 @@ export default async function handler(req, res) {
   try {
     const { history, systemInstruction } = req.body;
 
-    // Chaves de API configuradas via Vercel Environment Variables
-    const keys = [
-      process.env.GEMINI_API_KEY_1 || "AIzaSyBybuTg6asM-3sJYixnQFbK5kjpzLWuG2I",
-      process.env.GEMINI_API_KEY_2 || "AIzaSyBybuTg6asM-3sJYixnQFbK5kjpzLWuG2I"
-    ];
+    const keys = [];
+    if (process.env.GEMINI_API_KEY_1) keys.push(process.env.GEMINI_API_KEY_1);
+    if (process.env.GEMINI_API_KEY_2) keys.push(process.env.GEMINI_API_KEY_2);
+
+    if (keys.length === 0) {
+      return res.status(500).json({ error: "Nenhuma chave de API do Gemini configurada no servidor." });
+    }
 
     let lastError = null;
 
