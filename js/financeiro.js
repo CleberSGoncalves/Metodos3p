@@ -423,6 +423,10 @@ class FinancialController {
     } else if (subTabId === 'pagamentos') {
       this.updateDashboard();
     }
+
+    if (this.app && this.app.highlightNavButton) {
+      this.app.highlightNavButton('orcamento', subTabId);
+    }
   }
 
   updateDashboard() {
@@ -821,171 +825,232 @@ class FinancialController {
             callbacks: {
               label: (context) => {
                 const val = context.raw || 0;
-                return ` ${context.dataset.label}: ${this.formatCurrency(val)}`;
-              }
-            }
-          }
-        }
-      }
-    });
-  }
-
-  renderDashboardCentral() {
+              renderDashboardCentral() {
     const totalRealSpent = this.getTotalSpent();
     const totalPlanned = this.plannedItems.reduce((sum, item) => sum + item.amount, 0);
     const spentPercent = (totalRealSpent / this.budget) * 100 || 0;
     const physicalProgress = this.app.conteudosController.getOverallPhysicalProgress() || 0;
     const diff = spentPercent - physicalProgress;
-
-    // 1. Orçamento espelhado updates
-    const dashControlAvailable = document.getElementById('dash-control-available');
-    const dashControlSafety = document.getElementById('dash-control-safety');
-    const dashControlMaximum = document.getElementById('dash-control-maximum');
-    const dashBudgetProgressBar = document.getElementById('dash-budget-progress-bar');
-    const dashProgressPercent = document.getElementById('dash-progress-percent');
-    const dashProgressFill = document.getElementById('dash-progress-fill');
-
-    // New Centro de Controle Dynamic Rows
-    const dashControlPaid = document.getElementById('dash-control-paid');
-    const dashControlRemaining = document.getElementById('dash-control-remaining');
-    const dashFinancialProgressPct = document.getElementById('dash-financial-progress-pct');
-    const dashFinancialProgressBar = document.getElementById('dash-financial-progress-bar');
-
     const paidTotal = this.getPaidTotal();
     const unpaidTotal = this.getToPayTotal();
-    const remainingToPay = totalPlanned + unpaidTotal;
-
-    if (dashControlAvailable) dashControlAvailable.textContent = this.formatCurrency(this.budget);
-    if (dashControlSafety) dashControlSafety.textContent = this.formatCurrency(this.investment * 0.10);
-    if (dashControlMaximum) dashControlMaximum.textContent = this.formatCurrency(this.investment);
     
-    if (dashControlPaid) dashControlPaid.textContent = this.formatCurrency(paidTotal);
-    if (dashControlRemaining) dashControlRemaining.textContent = this.formatCurrency(remainingToPay);
-    
-    const financialProgressPct = this.investment > 0 ? (paidTotal / this.investment) * 100 : 0;
-    if (dashFinancialProgressPct) dashFinancialProgressPct.textContent = `${financialProgressPct.toFixed(0)}%`;
-    if (dashFinancialProgressBar) {
-      dashFinancialProgressBar.style.width = `${Math.min(financialProgressPct, 100)}%`;
-    }
-    
-    if (dashProgressPercent) dashProgressPercent.textContent = `${spentPercent.toFixed(0)}%`;
-    if (dashProgressFill) {
-      dashProgressFill.style.width = `${Math.min(spentPercent, 100)}%`;
-      if (totalRealSpent > this.budget) {
-        dashProgressFill.style.background = "var(--color-danger)";
-      } else {
-        dashProgressFill.style.background = "linear-gradient(to right, #32d74b 0%, #ff9f0a 60%, #ff453a 100%)";
-      }
-    }
-
-    const dashBudgetMax = document.getElementById('dash-budget-max');
-    const dashBudgetSpent = document.getElementById('dash-budget-spent');
-    const dashTotalPlanned = document.getElementById('dash-total-planned');
-    const dashBudgetMargin = document.getElementById('dash-budget-margin');
-
-    if (dashBudgetMax) dashBudgetMax.textContent = this.formatCurrency(this.budget);
-    if (dashBudgetSpent) {
-      dashBudgetSpent.textContent = this.formatCurrency(totalRealSpent);
-      if (totalRealSpent > this.budget) {
-        dashBudgetSpent.style.color = "var(--color-danger)";
-      } else {
-        dashBudgetSpent.style.color = "var(--primary-orange)";
-      }
-    }
-    if (dashTotalPlanned) dashTotalPlanned.textContent = this.formatCurrency(totalPlanned);
-    if (dashBudgetMargin) dashBudgetMargin.textContent = this.formatCurrency(this.investment * 0.10);
-    if (dashBudgetProgressBar) {
-      dashBudgetProgressBar.style.width = `${Math.min(spentPercent, 100)}%`;
-      if (totalRealSpent > this.budget) {
-        dashBudgetProgressBar.style.background = "var(--color-danger)";
-      } else {
-        dashBudgetProgressBar.style.background = "var(--primary-gradient)";
-      }
-    }
-
-    // 2. Descompasso updates (respeitando configurações)
-    const dashPBarFinance = document.getElementById('dash-p-bar-finance');
-    const dashPPercentFinance = document.getElementById('dash-p-percent-finance');
-    const dashPBarPhysical = document.getElementById('dash-p-bar-physical');
-    const dashPPercentPhysical = document.getElementById('dash-p-percent-physical');
-    const dashDescompassoBadge = document.getElementById('dash-descompasso-badge');
-
-    if (dashPBarFinance) dashPBarFinance.style.width = `${Math.min(spentPercent, 100)}%`;
-    if (dashPPercentFinance) dashPPercentFinance.textContent = `${spentPercent.toFixed(0)}%`;
-    if (dashPBarPhysical) dashPBarPhysical.style.width = `${physicalProgress.toFixed(0)}%`;
-    if (dashPPercentPhysical) dashPPercentPhysical.textContent = `${physicalProgress.toFixed(0)}%`;
-
+    // 1. Check if descompasso is active/enabled
     const isDescompassoEnabled = localStorage.getItem('reformas_3p_pref_descompasso') !== 'false';
-    if (dashDescompassoBadge) {
-      if (isDescompassoEnabled) {
-        if (diff > 15) {
-          dashDescompassoBadge.textContent = "🚨 Perigo de Prejuízo!";
-          dashDescompassoBadge.className = "stats-badge danger";
-        } else if (diff > 5) {
-          dashDescompassoBadge.textContent = "⚠️ Atenção / Desvio";
-          dashDescompassoBadge.className = "stats-badge warn";
-        } else {
-          dashDescompassoBadge.textContent = "✅ Sob Controle";
-          dashDescompassoBadge.className = "stats-badge";
-        }
+    
+    // 2. Status Pill Badge (dash-status-pill)
+    const statusPill = document.getElementById('dash-status-pill');
+    if (statusPill) {
+      if (!isDescompassoEnabled) {
+        statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #8c96ab; display: inline-block;"></span> INATIVO`;
+        statusPill.style.background = "rgba(255, 255, 255, 0.05)";
+        statusPill.style.color = "var(--text-muted)";
+        statusPill.style.borderColor = "rgba(255, 255, 255, 0.1)";
+      } else if (diff > 15) {
+        statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #ff453a; display: inline-block;"></span> RISCO`;
+        statusPill.style.background = "rgba(255, 69, 58, 0.1)";
+        statusPill.style.color = "#ff453a";
+        statusPill.style.borderColor = "rgba(255, 69, 58, 0.2)";
+      } else if (diff > 5 || totalRealSpent > this.budget) {
+        statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #ff9f0a; display: inline-block;"></span> ATENÇÃO`;
+        statusPill.style.background = "rgba(255, 159, 10, 0.1)";
+        statusPill.style.color = "#ff9f0a";
+        statusPill.style.borderColor = "rgba(255, 159, 10, 0.2)";
       } else {
-        dashDescompassoBadge.textContent = "Monitoramento Inativo";
-        dashDescompassoBadge.className = "stats-badge muted";
-        dashDescompassoBadge.style.background = "rgba(255,255,255,0.05)";
-        dashDescompassoBadge.style.color = "var(--text-muted)";
+        statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #32d74b; display: inline-block;"></span> NO CONTROLE`;
+        statusPill.style.background = "rgba(50, 215, 75, 0.1)";
+        statusPill.style.color = "#32d74b";
+        statusPill.style.borderColor = "rgba(50, 215, 75, 0.2)";
       }
     }
 
-    // 3. Cronograma updates (mirrored Passo 4)
-    const dashCronoEnd = document.getElementById('dash-crono-end');
-    const dashCronoDays = document.getElementById('dash-crono-days');
+    // 3. Metrics columns
+    // Total do Orçamento (90% of investment)
+    const metricBudget = document.getElementById('dash-metric-budget');
+    const metricBudgetSub = document.getElementById('dash-metric-budget-sub');
+    const metricBudgetBar = document.getElementById('dash-metric-budget-bar');
     
-    // Ensure cronograma is computed to read the latest predicted date
+    if (metricBudget) metricBudget.textContent = this.formatCurrency(this.budget);
+    if (metricBudgetSub) {
+      metricBudgetSub.textContent = `EXECUTADO ${this.formatCurrency(totalRealSpent)} (${spentPercent.toFixed(0)}%)`;
+    }
+    if (metricBudgetBar) {
+      metricBudgetBar.style.width = `${Math.min(spentPercent, 100)}%`;
+      metricBudgetBar.style.background = totalRealSpent > this.budget ? '#ff453a' : '#32d74b';
+    }
+
+    // Total Pago
+    const metricPaid = document.getElementById('dash-metric-paid');
+    const metricPaidSub = document.getElementById('dash-metric-paid-sub');
+    const metricPaidBar = document.getElementById('dash-metric-paid-bar');
+    const toPayAmount = Math.max(0, totalRealSpent - paidTotal);
+    
+    if (metricPaid) metricPaid.textContent = this.formatCurrency(paidTotal);
+    if (metricPaidSub) {
+      metricPaidSub.textContent = `A PAGAR ${this.formatCurrency(toPayAmount)}`;
+    }
+    if (metricPaidBar) {
+      const paidPct = totalRealSpent > 0 ? (paidTotal / totalRealSpent) * 100 : 0;
+      metricPaidBar.style.width = `${Math.min(paidPct, 100)}%`;
+    }
+
+    // Margem de Segurança (10% of investment)
+    const metricSafety = document.getElementById('dash-metric-safety');
+    const metricSafetySub = document.getElementById('dash-metric-safety-sub');
+    const metricSafetyBar = document.getElementById('dash-metric-safety-bar');
+    
+    const safetyMargin = this.investment * 0.10;
+    const consumedMargin = Math.max(0, totalRealSpent - this.budget);
+    const availableMargin = Math.max(0, safetyMargin - consumedMargin);
+    const marginPercent = safetyMargin > 0 ? (availableMargin / safetyMargin) * 100 : 100;
+    
+    if (metricSafety) metricSafety.textContent = this.formatCurrency(safetyMargin);
+    if (metricSafetySub) {
+      metricSafetySub.textContent = `DISPONÍVEL ${this.formatCurrency(availableMargin)} (${marginPercent.toFixed(0)}%)`;
+    }
+    if (metricSafetyBar) {
+      metricSafetyBar.style.width = `${Math.min(marginPercent, 100)}%`;
+      metricSafetyBar.style.background = marginPercent < 20 ? '#ff453a' : '#ff9f0a';
+    }
+
+    // Previsão de Término
+    const metricCrono = document.getElementById('dash-metric-crono');
+    const metricCronoSub = document.getElementById('dash-metric-crono-sub');
+    const metricCronoBar = document.getElementById('dash-metric-crono-bar');
+    
     this.app.conteudosController.updateCronograma();
     const activeCronoEnd = document.getElementById('crono-display-enddate');
-    const activeCronoDays = document.getElementById('crono-display-duration');
     
-    if (dashCronoEnd) {
-      dashCronoEnd.textContent = activeCronoEnd ? activeCronoEnd.textContent : "Defina a data inicial";
+    if (metricCrono) {
+      metricCrono.textContent = activeCronoEnd && activeCronoEnd.textContent ? activeCronoEnd.textContent : "--/--/----";
     }
-    if (dashCronoDays) {
-      dashCronoDays.textContent = activeCronoDays ? activeCronoDays.textContent : "0 dias";
+    if (metricCronoSub) {
+      metricCronoSub.textContent = `CONCLUSÃO ${physicalProgress.toFixed(0)}%`;
+    }
+    if (metricCronoBar) {
+      metricCronoBar.style.width = `${Math.min(physicalProgress, 100)}%`;
     }
 
-    // 4. Cotações updates (mirrored Passo 5)
+    // 4. Dynamic Steps Checklist progress
     const s1Price = parseFloat(document.getElementById('quote-s1-price')?.value) || 0;
-    const s1Risk = parseInt(document.getElementById('quote-s1-risk')?.value) || 0;
-    const s1Name = document.getElementById('quote-s1-name')?.value || "Fornecedor A";
     const s2Price = parseFloat(document.getElementById('quote-s2-price')?.value) || 0;
-    const s2Risk = parseInt(document.getElementById('quote-s2-risk')?.value) || 0;
-    const s2Name = document.getElementById('quote-s2-name')?.value || "Fornecedor B";
     const s3Price = parseFloat(document.getElementById('quote-s3-price')?.value) || 0;
-    const s3Risk = parseInt(document.getElementById('quote-s3-risk')?.value) || 0;
-    const s3Name = document.getElementById('quote-s3-name')?.value || "Fornecedor C";
-    
-    const suppliers = [];
-    if (s1Price > 0) suppliers.push({ name: s1Name, price: s1Price, risk: s1Risk });
-    if (s2Price > 0) suppliers.push({ name: s2Name, price: s2Price, risk: s2Risk });
-    if (s3Price > 0) suppliers.push({ name: s3Name, price: s3Price, risk: s3Risk });
-    
-    let quoteText = "Nenhuma cotação cadastrada";
-    if (suppliers.length > 0) {
-      suppliers.forEach(s => s.adjustedCost = s.price * (1 + s.risk / 100));
-      suppliers.sort((a, b) => a.adjustedCost - b.adjustedCost);
-      const recom = suppliers[0];
-      quoteText = `🏆 ${recom.name} (${this.formatCurrency(recom.price)})`;
+    const isStep5Done = s1Price > 0 || s2Price > 0 || s3Price > 0 || (localStorage.getItem('reformas_3p_quotes_completed') === 'true');
+
+    const stepItems = document.querySelectorAll('.dash-steps-row .dash-step-item');
+    if (stepItems.length === 5) {
+      const isStep1Active = true;
+      const isStep2Active = this.investment > 0;
+      const isStep3Active = totalPlanned > 0;
+      const isStep4Active = this.expenses.length > 0;
+      const isStep5Active = isStep5Done;
+
+      const states = [isStep1Active, isStep2Active, isStep3Active, isStep4Active, isStep5Active];
+      
+      stepItems.forEach((item, idx) => {
+        const wrap = item.querySelector('.step-icon-wrap');
+        const title = item.querySelector('.step-title');
+        const active = states[idx];
+        
+        if (active) {
+          item.classList.add('active');
+          if (wrap) {
+            wrap.style.borderColor = '#ff6a00';
+            wrap.style.color = '#ff9f0a';
+            wrap.style.boxShadow = '0 0 10px rgba(255,106,0,0.3)';
+          }
+          if (title) title.style.color = '#ff9f0a';
+        } else {
+          item.classList.remove('active');
+          if (wrap) {
+            wrap.style.borderColor = 'rgba(255,255,255,0.08)';
+            wrap.style.color = 'var(--text-muted)';
+            wrap.style.boxShadow = 'none';
+          }
+          if (title) title.style.color = 'var(--text-primary)';
+        }
+      });
     }
-    const dashQuotesRecom = document.getElementById('dash-quotes-recom');
-    if (dashQuotesRecom) {
-      dashQuotesRecom.textContent = quoteText;
-      if (suppliers.length > 0) {
-        dashQuotesRecom.style.color = "var(--color-success)";
+
+    // 5. Visão Rápida Indicators
+    // Card 1: Economia 3P
+    const dashQuickSavings = document.getElementById('dash-quick-savings');
+    if (dashQuickSavings) {
+      const prices = [s1Price, s2Price, s3Price].filter(p => p > 0);
+      let savings = 2850.00; // Mockup default
+      if (prices.length > 1) {
+        savings = Math.max(...prices) - Math.min(...prices);
+      }
+      dashQuickSavings.textContent = this.formatCurrency(savings);
+    }
+
+    // Card 2: Risco de Prejuízo
+    const dashQuickRisk = document.getElementById('dash-quick-risk');
+    const dashQuickRiskPin = document.getElementById('dash-quick-risk-pin');
+    if (dashQuickRisk) {
+      if (!isDescompassoEnabled) {
+        dashQuickRisk.textContent = "INATIVO";
+        dashQuickRisk.style.color = "var(--text-muted)";
+        if (dashQuickRiskPin) dashQuickRiskPin.style.left = "50%";
+      } else if (diff > 15) {
+        dashQuickRisk.textContent = "ALTO";
+        dashQuickRisk.style.color = "#ff453a";
+        if (dashQuickRiskPin) dashQuickRiskPin.style.left = "85%";
+      } else if (diff > 5) {
+        dashQuickRisk.textContent = "MÉDIO";
+        dashQuickRisk.style.color = "#ff9f0a";
+        if (dashQuickRiskPin) dashQuickRiskPin.style.left = "50%";
       } else {
-        dashQuotesRecom.style.color = "var(--text-secondary)";
+        dashQuickRisk.textContent = "BAIXO";
+        dashQuickRisk.style.color = "#32d74b";
+        if (dashQuickRiskPin) dashQuickRiskPin.style.left = "15%";
       }
     }
 
-    // 4.5. Alertas Inteligentes do Painel de Controle (Método 3P)
+    // Card 3: Desvio Orçamento
+    const dashQuickDeviation = document.getElementById('dash-quick-deviation');
+    const dashQuickDeviationSub = document.getElementById('dash-quick-deviation-sub');
+    if (dashQuickDeviation) {
+      const deviation = totalPlanned > 0 ? ((totalRealSpent - totalPlanned) / totalPlanned) * 100 : 0;
+      if (deviation > 0) {
+        dashQuickDeviation.textContent = `+${deviation.toFixed(1)}%`;
+        dashQuickDeviation.style.color = "#ff453a";
+        if (dashQuickDeviationSub) dashQuickDeviationSub.textContent = "Acima do planejado";
+      } else if (deviation < 0) {
+        dashQuickDeviation.textContent = `${deviation.toFixed(1)}%`;
+        dashQuickDeviation.style.color = "#32d74b";
+        if (dashQuickDeviationSub) dashQuickDeviationSub.textContent = "Abaixo do planejado";
+      } else {
+        dashQuickDeviation.textContent = "0.0%";
+        dashQuickDeviation.style.color = "#ffffff";
+        if (dashQuickDeviationSub) dashQuickDeviationSub.textContent = "Dentro do planejado";
+      }
+    }
+
+    // Card 4: Próxima Etapa
+    const dashQuickNext = document.getElementById('dash-quick-next');
+    const dashQuickNextSub = document.getElementById('dash-quick-next-sub');
+    if (dashQuickNext) {
+      const hasFinishedSetup = localStorage.getItem('reformas_3p_onboarding_finished') === 'true';
+      if (!hasFinishedSetup) {
+        dashQuickNext.textContent = "CONFIGURAR";
+        if (dashQuickNextSub) dashQuickNextSub.textContent = "Definir verba inicial";
+      } else if (totalPlanned === 0) {
+        dashQuickNext.textContent = "ORÇAMENTO";
+        if (dashQuickNextSub) dashQuickNextSub.textContent = "Planejar os seus custos";
+      } else if (this.expenses.length === 0) {
+        dashQuickNext.textContent = "PAGAMENTOS";
+        if (dashQuickNextSub) dashQuickNextSub.textContent = "Registrar gastos reais";
+      } else if (physicalProgress < 100) {
+        dashQuickNext.textContent = "CHECKLISTS";
+        if (dashQuickNextSub) dashQuickNextSub.textContent = "Concluir serviços";
+      } else {
+        dashQuickNext.textContent = "CONCLUÍDO";
+        if (dashQuickNextSub) dashQuickNextSub.textContent = "Tudo em ordem!";
+      }
+    }
+
+    // 6. Alertas Inteligentes do Painel de Controle (Método 3P)
+    let bellWarningsCount = 0;
     const alertsContainer = document.getElementById('dash-intelligent-alerts');
     if (alertsContainer) {
       let alertsHtml = '';
@@ -997,17 +1062,18 @@ class FinancialController {
             <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(50, 215, 75, 0.1); color: #32d74b; font-size: 11px; font-weight: bold; flex-shrink: 0;">✓</div>
             <div style="display: flex; flex-direction: column;">
               <span style="font-size: 12px; font-weight: 600; color: #ffffff;">Orçamento sob controle</span>
-              <span style="font-size: 10px; color: #8c96ab;">${this.formatCurrency(this.budget - totalRealSpent)} ainda disponíveis no teto de 90%.</span>
+              <span style="font-size: 10px; color: #8c96ab;">${this.formatCurrency(this.budget - totalRealSpent)} ainda disponíveis no teto do planejado.</span>
             </div>
           </div>
         `;
       } else {
+        bellWarningsCount++;
         alertsHtml += `
           <div style="display: flex; align-items: center; gap: 10px;">
             <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 69, 58, 0.1); color: #ff453a; font-size: 11px; font-weight: bold; flex-shrink: 0;">🚨</div>
             <div style="display: flex; flex-direction: column;">
               <span style="font-size: 12px; font-weight: 600; color: #ff453a;">Limite do orçamento excedido!</span>
-              <span style="font-size: 10px; color: #8c96ab;">Estourou em ${this.formatCurrency(totalRealSpent - this.budget)}! Use a margem de segurança de 10%.</span>
+              <span style="font-size: 10px; color: #8c96ab;">Estourou em ${this.formatCurrency(totalRealSpent - this.budget)}! Utilizando a margem de segurança.</span>
             </div>
           </div>
         `;
@@ -1025,6 +1091,7 @@ class FinancialController {
           </div>
         `;
       } else if (totalPlanned > 0 && totalRealSpent > totalPlanned) {
+        bellWarningsCount++;
         alertsHtml += `
           <div style="display: flex; align-items: center; gap: 10px;">
             <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 159, 10, 0.1); color: #ff9f0a; font-size: 11px; font-weight: bold; flex-shrink: 0;">⚠️</div>
@@ -1047,7 +1114,6 @@ class FinancialController {
       }
 
       // Alert C: Descompasso Física-Financeiro (Avanço físico vs financeiro)
-      const isDescompassoEnabled = localStorage.getItem('reformas_3p_pref_descompasso') !== 'false';
       if (!isDescompassoEnabled) {
         alertsHtml += `
           <div style="display: flex; align-items: center; gap: 10px;">
@@ -1059,16 +1125,18 @@ class FinancialController {
           </div>
         `;
       } else if (diff > 15) {
+        bellWarningsCount++;
         alertsHtml += `
           <div style="display: flex; align-items: center; gap: 10px;">
             <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 69, 58, 0.1); color: #ff453a; font-size: 11px; font-weight: bold; flex-shrink: 0;">🚨</div>
             <div style="display: flex; flex-direction: column;">
               <span style="font-size: 12px; font-weight: 600; color: #ff453a;">Risco de Prejuízo Alto!</span>
-              <span style="font-size: 10px; color: #8c96ab;">Gasto (${spentPercent.toFixed(0)}%) muito à frente da obra física entregue (${physicalProgress.toFixed(0)}%). Desvio de ${diff.toFixed(0)}%!</span>
+              <span style="font-size: 10px; color: #8c96ab;">Gasto (${spentPercent.toFixed(0)}%) muito à frente da obra entregue (${physicalProgress.toFixed(0)}%). Desvio de ${diff.toFixed(0)}%!</span>
             </div>
           </div>
         `;
       } else if (diff > 5) {
+        bellWarningsCount++;
         alertsHtml += `
           <div style="display: flex; align-items: center; gap: 10px;">
             <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 159, 10, 0.1); color: #ff9f0a; font-size: 11px; font-weight: bold; flex-shrink: 0;">⚠️</div>
@@ -1106,6 +1174,7 @@ class FinancialController {
         if (limit > 0) {
           const pct = (sum / limit) * 100;
           if (pct >= 90) {
+            bellWarningsCount++;
             const isOverflow = pct >= 100;
             const statusColor = isOverflow ? "#ff453a" : "#ff9f0a";
             const icon = isOverflow ? "🚨" : "⚠️";
@@ -1116,7 +1185,7 @@ class FinancialController {
                 <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 159, 10, 0.05); color: ${statusColor}; font-size: 12px; font-weight: bold; flex-shrink: 0;">${icon}</div>
                 <div style="display: flex; flex-direction: column;">
                   <span style="font-size: 12px; font-weight: 600; color: ${statusColor};">${title}</span>
-                  <span style="font-size: 10px; color: #8c96ab; line-height: 1.3;">Gasto: ${this.formatCurrency(sum)} (${pct.toFixed(0)}% de ${this.formatCurrency(limit)}). Risco de falta de fluxo de caixa, o que causará atraso sequencial nas fases do seu <b>Cronograma</b> (Passo 4).</span>
+                  <span style="font-size: 10px; color: #8c96ab; line-height: 1.3;">Gasto: ${this.formatCurrency(sum)} (${pct.toFixed(0)}% de ${this.formatCurrency(limit)}). Risco de falta de fluxo de caixa, o que causará atraso sequencial nas fases do seu <b>Cronograma</b>.</span>
                 </div>
               </div>
             `;
@@ -1127,42 +1196,25 @@ class FinancialController {
       alertsContainer.innerHTML = alertsHtml;
     }
 
-    // 5. Escaneamento de Riscos (mirrored original tab-riscos alerts, respeitando preferências)
+    // 7. Critical Risks scan (Escaneamento de Riscos)
     const activeEnvs = this.app.selectedEnvironments;
     const tasksProgress = this.app.conteudosController.tasksProgress || {};
     const criticalRisks = this.app.conteudosController.criticalRisks || [];
     const activeRisks = criticalRisks.filter(risk => activeEnvs.includes(risk.env) && !tasksProgress[risk.id]);
-    
-    const risksBadgeEl = document.getElementById('dash-risks-badge');
-    const risksHeadlineEl = document.getElementById('dash-risks-headline');
     const isRisksEnabled = localStorage.getItem('reformas_3p_pref_overruns') !== 'false';
 
-    if (risksBadgeEl) {
-      if (isRisksEnabled) {
-        risksBadgeEl.textContent = `${activeRisks.length} ${activeRisks.length === 1 ? 'Risco' : 'Riscos'}`;
-        if (activeRisks.length > 0) {
-          risksBadgeEl.className = "stats-badge danger";
-          if (risksHeadlineEl) {
-            risksHeadlineEl.innerHTML = `⚠️ <b>Risco Crítico:</b> ${activeRisks[0].title} pendente! ${activeRisks[0].consequence}`;
-          }
-        } else {
-          risksBadgeEl.className = "stats-badge safe";
-          if (risksHeadlineEl) {
-            risksHeadlineEl.textContent = "Sua obra está protegida! Nenhuma tarefa crítica de segurança está pendente nos checklists.";
-          }
-        }
-      } else {
-        risksBadgeEl.textContent = "Desativado";
-        risksBadgeEl.className = "stats-badge muted";
-        risksBadgeEl.style.background = "rgba(255,255,255,0.05)";
-        risksBadgeEl.style.color = "var(--text-muted)";
-        if (risksHeadlineEl) {
-          risksHeadlineEl.textContent = "Os alertas de risco foram desativados nas configurações do perfil.";
-        }
-      }
+    if (isRisksEnabled && activeRisks.length > 0) {
+      bellWarningsCount += activeRisks.length;
     }
 
-    // 6. Progresso Físico por Ambientes
+    // 8. Notification Bell Badge
+    const bellBadge = document.getElementById('dash-bell-badge');
+    if (bellBadge) {
+      bellBadge.textContent = bellWarningsCount;
+      bellBadge.style.display = bellWarningsCount > 0 ? 'flex' : 'none';
+    }
+
+    // 9. Progresso Físico por Ambientes
     const dashOverallPhysicalPercent = document.getElementById('dash-overall-physical-percent');
     if (dashOverallPhysicalPercent) {
       dashOverallPhysicalPercent.textContent = `${physicalProgress.toFixed(0)}%`;
@@ -1170,9 +1222,7 @@ class FinancialController {
 
     const envListEl = document.getElementById('dash-environments-progress-list');
     if (envListEl) {
-      const allEnvIds = ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'];
-      
-      envListEl.innerHTML = allEnvIds.map(envId => {
+      envListEl.innerHTML = ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'].map(envId => {
         if (!activeEnvs.includes(envId)) return '';
         const envData = METODO_3P_DATABASE.checklists[envId];
         const progress = this.app.conteudosController.getEnvironmentProgress(envId);

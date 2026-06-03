@@ -187,4 +187,102 @@ class DecisionsController {
       `;
     }).join('');
   }
+
+  compareQuotes() {
+    const s1Name = document.getElementById('quote-s1-name')?.value || "Fornecedor A";
+    const s1Price = parseFloat(document.getElementById('quote-s1-price')?.value) || 0;
+    const s1Risk = parseInt(document.getElementById('quote-s1-risk')?.value) || 0;
+
+    const s2Name = document.getElementById('quote-s2-name')?.value || "Fornecedor B";
+    const s2Price = parseFloat(document.getElementById('quote-s2-price')?.value) || 0;
+    const s2Risk = parseInt(document.getElementById('quote-s2-risk')?.value) || 0;
+
+    const s3Name = document.getElementById('quote-s3-name')?.value || "Fornecedor C";
+    const s3Price = parseFloat(document.getElementById('quote-s3-price')?.value) || 0;
+    const s3Risk = parseInt(document.getElementById('quote-s3-risk')?.value) || 0;
+
+    const suppliers = [];
+    if (s1Price > 0) suppliers.push({ name: s1Name, price: s1Price, risk: s1Risk, cardId: 's1' });
+    if (s2Price > 0) suppliers.push({ name: s2Name, price: s2Price, risk: s2Risk, cardId: 's2' });
+    if (s3Price > 0) suppliers.push({ name: s3Name, price: s3Price, risk: s3Risk, cardId: 's3' });
+
+    if (suppliers.length === 0) {
+      alert("Por favor, preencha o valor de pelo menos um fornecedor para comparar.");
+      return;
+    }
+
+    // Calculate adjusted cost
+    suppliers.forEach(s => {
+      s.adjustedCost = s.price * (1 + s.risk / 100);
+    });
+
+    // Sort by adjusted cost (lowest is best)
+    suppliers.sort((a, b) => a.adjustedCost - b.adjustedCost);
+
+    // Render results
+    const resultBox = document.getElementById('quotes-result-box');
+    const cardsContainer = document.getElementById('quotes-cards-container');
+
+    if (resultBox && cardsContainer) {
+      cardsContainer.innerHTML = suppliers.map((s, idx) => {
+        const isRecommended = idx === 0;
+        const ribbon = isRecommended ? `<div class="recommended-ribbon">RECOMENDADO ⭐</div>` : '';
+        const cardClass = isRecommended ? 'supplier-comparative-card recommended' : 'supplier-comparative-card';
+        
+        let riskClass = 'safe';
+        let riskLabel = 'Seguro (0%)';
+        if (s.risk === 15) {
+          riskClass = 'alert';
+          riskLabel = 'Atenção (15%)';
+        } else if (s.risk === 40) {
+          riskClass = 'danger';
+          riskLabel = 'Perigo (40%)';
+        }
+
+        const riskConsequence = s.risk === 0 
+          ? 'Fornecedor seguro. Baixo risco de atrasos ou retrabalho.'
+          : (s.risk === 15 
+            ? 'Risco moderado. Monitore as entregas de perto para evitar atrasos.' 
+            : 'Risco alto! Perigo elevado de paralisação e prejuízos no canteiro.');
+
+        return `
+          <div class="${cardClass}">
+            ${ribbon}
+            <div class="sup-comp-name">${s.name}</div>
+            
+            <div class="sup-comp-stat">
+              <span>Preço Nominal:</span>
+              <span class="sup-comp-val">${this.app.financeiroController.formatCurrency(s.price)}</span>
+            </div>
+            <div class="sup-comp-stat">
+              <span>Nível de Risco:</span>
+              <span class="sup-comp-val ${riskClass}">${riskLabel}</span>
+            </div>
+            <div class="sup-comp-stat" style="border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 8px; margin-top: 4px;">
+              <strong>Custo Ajustado:</strong>
+              <strong class="sup-comp-val ${isRecommended ? 'safe' : ''}">${this.app.financeiroController.formatCurrency(s.adjustedCost)}</strong>
+            </div>
+            
+            <div class="sup-comp-warning-text">
+              ${riskConsequence}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      resultBox.style.display = 'block';
+      
+      // Save state to localStorage to persist Step 5 done status
+      localStorage.setItem('reformas_3p_quotes_completed', 'true');
+      localStorage.setItem('reformas_3p_quotes_saved', JSON.stringify(suppliers));
+
+      // Scroll to result box smoothly
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Update dashboard to reflect quotation changes and metrics immediately
+      if (this.app.financeiroController) {
+        this.app.financeiroController.renderDashboardCentral();
+      }
+    }
+  }
 }

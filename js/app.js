@@ -200,21 +200,12 @@ class AppOrchestrator {
     const views = document.querySelectorAll('.tab-view');
     views.forEach(v => v.classList.remove('active'));
     
-    // 2. Remove active state from nav buttons
-    const navItems = document.querySelectorAll('.app-navigation-bar .nav-item');
-    navItems.forEach(item => item.classList.remove('active'));
-    
-    // 3. Show requested screen
+    // 2. Show requested screen
     const targetView = document.getElementById(`tab-${tabId}`);
     if (targetView) targetView.classList.add('active');
     
-    // 4. Set active navigation tab bar button
-    if (tabButtonEl) {
-      tabButtonEl.classList.add('active');
-    } else {
-      const matchedBtn = Array.from(navItems).find(btn => btn.getAttribute('onclick').includes(`'${tabId}'`));
-      if (matchedBtn) matchedBtn.classList.add('active');
-    }
+    // 3. Highlight navigation button
+    this.highlightNavButton(tabId);
     
     // Close checklist detail and protocols detail if switching away from central, resetting to portal
     if (tabId !== 'central') {
@@ -274,6 +265,7 @@ class AppOrchestrator {
   }
 
   switchCentralSection(sectionId) {
+    this.activeCentralSection = sectionId;
     const portalHome = document.getElementById('central-portal-home');
     const phaseSwitcher = document.getElementById('central-phase-switcher');
     
@@ -308,6 +300,35 @@ class AppOrchestrator {
       } else if (sectionId === 'riscos') {
         this.conteudosController.renderRiskScanner();
       }
+    }
+    
+    // Highlight correct navigation button
+    this.highlightNavButton('central', null, sectionId);
+  }
+
+  highlightNavButton(tabId, subTabId = null, sectionId = null) {
+    const navItems = document.querySelectorAll('.app-navigation-bar .nav-item');
+    navItems.forEach(item => item.classList.remove('active'));
+
+    let targetId = '';
+    if (tabId === 'painel') {
+      targetId = 'nav-btn-painel';
+    } else if (tabId === 'orcamento') {
+      const sub = subTabId || (this.financeiroController ? this.financeiroController.activeSubTab : 'detalhado');
+      if (sub === 'projeto') targetId = 'nav-btn-projeto';
+      else if (sub === 'pagamentos') targetId = 'nav-btn-pagamentos';
+      else targetId = 'nav-btn-orcamento';
+    } else if (tabId === 'cotacoes') {
+      targetId = 'nav-btn-fornecedores';
+    } else if (tabId === 'central') {
+      const sec = sectionId || this.activeCentralSection || 'portal';
+      if (sec === 'decisoes') targetId = 'nav-btn-protocolos';
+      else targetId = 'nav-btn-apoio';
+    }
+
+    if (targetId) {
+      const btn = document.getElementById(targetId);
+      if (btn) btn.classList.add('active');
     }
   }
 
