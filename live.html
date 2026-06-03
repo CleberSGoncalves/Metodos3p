@@ -1731,11 +1731,19 @@
     // Register PWA service worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=3.0.21').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=3.0.24').then(reg => {
           console.log('ServiceWorker registered successfully.', reg.scope);
+          reg.update();
         }).catch(err => {
           console.log('ServiceWorker registration failed: ', err);
         });
+      });
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
       });
     }
 
