@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cache-reformas-3p-v3.0.5';
+const CACHE_NAME = 'cache-reformas-3p-v3.0.6';
 
 // Install event - force immediate activation
 self.addEventListener('install', event => {

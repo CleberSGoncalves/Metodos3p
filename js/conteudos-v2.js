@@ -884,10 +884,7 @@ class ContentsController {
           title: "Dilemas de Contratação",
           subtitle: "Diária ou Empreitada? Móveis Modulados?",
           icon: "🤝",
-          action: () => {
-            this.app.switchCentralSection('decisoes');
-            this.app.decisoesController.switchTool('decision-tree');
-          }
+          action: () => alert("Os Protocolos de Decisão (Árvores) estão sendo atualizados para o novo formato PDF e serão disponibilizados em breve!")
         }
       ],
       prevenir: [
@@ -895,19 +892,13 @@ class ContentsController {
           title: "Guia de Impermeabilização",
           subtitle: "Blinde áreas úmidas contra infiltrações",
           icon: "🚿",
-          action: () => {
-            this.app.switchCentralSection('decisoes');
-            this.app.decisoesController.switchTool('waterproofing');
-          }
+          action: () => alert("O Guia Completo de Impermeabilização em PDF interativo será liberado na sua conta em breve!")
         },
         {
           title: "Matriz de Risco do Fornecedor",
           subtitle: "Calcule a segurança antes de contratar",
           icon: "⚖️",
-          action: () => {
-            this.app.switchCentralSection('decisoes');
-            this.app.decisoesController.switchTool('risk-matrix');
-          }
+          action: () => alert("A Ferramenta da Matriz de Risco do Fornecedor está passando por atualizações e será relançada em formato de protocolo interativo!")
         },
         {
           title: "Diário Visual da Obra",
@@ -1051,22 +1042,7 @@ class ContentsController {
   }
 
   openEnvironmentProtocol(envId) {
-    if (envId === 'cozinha') {
-      this.app.switchCentralSection('decisoes');
-      this.app.decisoesController.switchTool('waterproofing');
-      this.app.decisoesController.switchWaterproofingArea('area-cozinha');
-    } else if (envId === 'banheiro') {
-      this.app.switchCentralSection('decisoes');
-      this.app.decisoesController.switchTool('waterproofing');
-      this.app.decisoesController.switchWaterproofingArea('area-banheiro');
-    } else if (envId === 'area_externa') {
-      this.app.switchCentralSection('decisoes');
-      this.app.decisoesController.switchTool('waterproofing');
-      this.app.decisoesController.switchWaterproofingArea('area-cozinha'); // Cozinha mapped to area_externa / Laje in DB
-    } else if (envId === 'quarto' || envId === 'sala') {
-      this.app.switchCentralSection('decisoes');
-      this.app.decisoesController.switchTool('decision-tree');
-      this.app.decisoesController.startDecisionTreeQuiz('moveis-marcenaria');
-    }
+    this.app.switchCentralSection('decisoes');
+    this.app.decisoesController.openEnvironment(envId);
   }
 }

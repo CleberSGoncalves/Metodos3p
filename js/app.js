@@ -1424,8 +1424,7 @@ class AppOrchestrator {
       this.financeiroController.switchSubTab(targetSubTab);
     } else if (targetTab === 'central') {
       this.switchCentralSection('decisoes');
-      this.decisoesController.switchTool('risk-matrix');
-      focusInputId = 'risk-name';
+      alert('A Matriz de Risco está passando por atualizações e será liberada em formato de protocolo interativo em breve!');
     }
     
     if (focusInputId) {

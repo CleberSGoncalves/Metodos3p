@@ -785,7 +785,7 @@
               </div>
               
               <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
-                <button class="btn btn-primary" onclick="window.app.switchTab('central'); window.app.switchCentralSection('decisoes'); window.app.decisoesController.switchTool('risk-matrix'); setTimeout(() => { const el = document.getElementById('risk-name'); if (el) { el.focus(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('wizard-focus-attention'); setTimeout(() => el.classList.remove('wizard-focus-attention'), 3000); } }, 200);" style="width: auto; padding: 10px 20px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                <button class="btn btn-primary" onclick="alert('A Matriz de Risco está passando por atualizações e será liberada em formato de protocolo interativo em breve!');" style="width: auto; padding: 10px 20px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
                   Próximo Passo (Matriz de Risco) ➔
                 </button>
               </div>
@@ -943,7 +943,7 @@
                   <button class="btn btn-secondary btn-mini" onclick="window.app.conteudosController.backToPortalHome()" style="width: auto; display: inline-flex; padding: 4px 8px; font-size: 10px;">⬅ Voltar ao Portal</button>
                   <h3 style="font-size: 12px; font-weight: 700; color: #fff; margin: 0;">Checklists por Ambientes</h3>
                 </div>
-                <div class="environments-progress-grid" id="environments-cards-grid" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <div class="environments-progress-grid" id="environments-cards-grid" style="display: flex; flex-direction: column; gap: 10px; width: 100%; padding-bottom: 120px;">
                   <!-- Injected dynamically -->
                 </div>
                 
@@ -1012,7 +1012,7 @@
                 </div>
                 
                 <!-- Grid de Ambientes para Protocolos -->
-                <div class="environments-progress-grid" id="protocolos-environments-grid" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <div class="environments-progress-grid" id="protocolos-environments-grid" style="display: flex; flex-direction: column; gap: 10px; width: 100%; padding-bottom: 120px;">
                   <!-- Injected dynamically by js/decisao.js -->
                 </div>
                 

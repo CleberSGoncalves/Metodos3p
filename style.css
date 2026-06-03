@@ -493,6 +493,10 @@ label {
   outline: none;
 }
 
+.form-control.currency-input {
+  padding-left: 42px !important;
+}
+
 .form-control:focus {
   border-color: var(--primary-orange);
   background: rgba(255, 255, 255, 0.08);
@@ -4387,7 +4391,8 @@ label {
     min-height: 40px;
   }
   
-  .currency-input {
+  .form-control.currency-input,
+  input[type="number"].currency-input {
     padding-left: 42px !important;
   }
   
