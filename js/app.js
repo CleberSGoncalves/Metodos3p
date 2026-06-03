@@ -204,7 +204,11 @@ class AppOrchestrator {
     const targetView = document.getElementById(`tab-${tabId}`);
     if (targetView) targetView.classList.add('active');
     
-    // 3. Highlight navigation button
+    // 3. Scroll to top of viewport
+    const viewport = document.querySelector('.app-viewport-content');
+    if (viewport) viewport.scrollTop = 0;
+    
+    // 4. Highlight navigation button
     this.highlightNavButton(tabId);
     
     // Close checklist detail and protocols detail if switching away from central, resetting to portal

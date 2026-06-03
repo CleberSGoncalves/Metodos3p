@@ -930,7 +930,23 @@ class FinancialController {
     const activeCronoEnd = document.getElementById('crono-display-enddate');
     
     if (metricCrono) {
-      metricCrono.textContent = activeCronoEnd && activeCronoEnd.textContent ? activeCronoEnd.textContent : "--/--/----";
+      const rawText = activeCronoEnd && activeCronoEnd.textContent ? activeCronoEnd.textContent : '';
+      if (rawText && rawText !== '--/--/----') {
+        // Convert "18 de julho de 2026" → "18/Jul/26"
+        try {
+          const parts = rawText.split(' ');
+          const day = parts[0];
+          const monthMap = { janeiro:'Jan', fevereiro:'Fev', março:'Mar', abril:'Abr', maio:'Mai', junho:'Jun', julho:'Jul', agosto:'Ago', setembro:'Set', outubro:'Out', novembro:'Nov', dezembro:'Dez' };
+          const monthWord = parts[2] ? parts[2].toLowerCase() : '';
+          const month = monthMap[monthWord] || parts[2];
+          const year = parts[4] ? parts[4].slice(2) : '';
+          metricCrono.textContent = `${day}/${month}/${year}`;
+        } catch(e) {
+          metricCrono.textContent = rawText;
+        }
+      } else {
+        metricCrono.textContent = '--/--/----';
+      }
     }
     if (metricCronoSub) {
       metricCronoSub.textContent = `CONCLUSÃO ${physicalProgress.toFixed(0)}%`;

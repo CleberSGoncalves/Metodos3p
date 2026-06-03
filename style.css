@@ -2594,6 +2594,93 @@ label {
   to { opacity: 1; transform: scale(1); }
 }
 
+/* ============================================================
+   DASHBOARD CENTRAL — RESPONSIVE LAYOUT FIXES
+   ============================================================ */
+
+/* Metrics grid: 2x2 on mobile, 4 columns on larger screens */
+.dash-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 12px;
+}
+
+/* Each metric column: prevent value from overflowing */
+.metric-col {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.metric-col strong {
+  font-size: 13px !important;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metric-col span {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Quick grid: 2x2 on mobile */
+.dash-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 12px;
+}
+
+/* Steps row: prevent step label text overflow */
+.dash-step-item .step-title {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 60px;
+  line-height: 1.1;
+  font-size: 8px !important;
+}
+
+.dash-step-item .step-desc {
+  display: none !important;
+}
+
+/* Wide buttons (Protocolos / Central Apoio): stack vertically on very small screens */
+.dash-wide-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 380px) {
+  .dash-wide-buttons {
+    grid-template-columns: 1fr;
+  }
+  .dash-metrics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (min-width: 600px) {
+  .dash-metrics-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+  .dash-quick-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+  .metric-col strong {
+    font-size: 14px !important;
+  }
+  .dash-step-item .step-title {
+    font-size: 9px !important;
+    max-width: 70px;
+  }
+  .dash-step-item .step-desc {
+    display: block !important;
+  }
+}
+
 /* ==========================================================================
    GUIDED WORKFLOW STEPS SUB-TABS & UTILITIES
    ========================================================================== */
