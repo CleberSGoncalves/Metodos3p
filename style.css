@@ -4800,30 +4800,35 @@ label {
 /* Override Nando bg */
 .nando-chat-window { background: #0f0f11 !important; border: 1px solid rgba(255,255,255,0.05) !important; }
 
-/* =========================================== */
-/* FIX: SCROLL INTERNO DOS GRIDS DE AMBIENTES  */
-/* =========================================== */
+/* ================================================== */
+/* FIX DEFINITIVO: SCROLL INTERNO GRIDS DE AMBIENTES  */
+/* ================================================== */
 
-/* Garante que a tab Central 3P ocupe o espaço disponível sem overflow */
 #tab-central {
   flex: 1;
   min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Garante que as sub-views de ambientes e protocolos rolem internamente */
+/* Seções de sub-views internas recebem altura calculada:
+   100dvh - header(60px) - search(52px) - back-header(48px) - bottom-nav(70px) - gaps(60px) */
 #central-sec-checklists,
 #central-sec-decisoes,
 #central-sec-biblioteca {
-  flex: 1;
-  min-height: 0;
+  height: calc(100dvh - 290px);
+  max-height: calc(100dvh - 290px);
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 80px;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* Os grids internos devem ser block para empilhar os cards verticalmente */
+/* Os grids internos: block para empilhar os cards verticalmente */
 #environments-cards-grid,
 #protocolos-environments-grid {
   display: block !important;
   width: 100%;
+  padding-bottom: 20px;
 }
