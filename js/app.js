@@ -879,13 +879,28 @@ class AppOrchestrator {
   // ==========================================================================
   // AUTENTICAÇÃO REAL COM GOOGLE SIGN-IN (GOOGLE IDENTITY SERVICES)
   // ==========================================================================
-  initGoogleAuth() {
+  initGoogleAuth(retries = 0) {
     console.log("Initializing Google Identity Services Auth...");
     
     // Check if the GSI library has loaded successfully
     if (typeof google === 'undefined' || !google.accounts || !google.accounts.id) {
       console.warn("Google Identity Services SDK not loaded yet. Retrying in 1s...");
-      setTimeout(() => this.initGoogleAuth(), 1000);
+      
+      if (retries > 4) {
+        // Provavelmente bloqueado por AdBlock (Brave, Opera, etc)
+        const container = document.getElementById("gsi-google-btn-container");
+        if (container) {
+          container.innerHTML = `
+            <div style="padding: 12px; background: rgba(255,69,58,0.1); border: 1px solid rgba(255,69,58,0.3); border-radius: 12px; font-size: 11px; color: #ff453a; text-align: center; width: 100%;">
+              ⚠️ <b>Bloqueador de Anúncios Detectado</b><br>
+              Seu navegador está bloqueando o script de login seguro do Google. Por favor, <b>desative o bloqueador (escudo)</b> para este site ou acesse pelo <b>Google Chrome</b> para continuar.
+            </div>
+          `;
+        }
+        return;
+      }
+      
+      setTimeout(() => this.initGoogleAuth(retries + 1), 1000);
       return;
     }
     
