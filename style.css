@@ -4807,7 +4807,6 @@ label {
 
 /* Tab central flui com a altura natural na viewport */
 #tab-central {
-  display: flex;
   flex-direction: column;
   gap: 12px;
   width: 100%;
@@ -4823,7 +4822,6 @@ label {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
