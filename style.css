@@ -2601,6 +2601,8 @@ label {
   display: none;
   flex-direction: column;
   gap: 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .sub-view.active {

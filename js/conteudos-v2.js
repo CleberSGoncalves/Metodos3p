@@ -459,7 +459,7 @@ class ContentsController {
   closeEnvironmentDetail() {
     this.activeEnvironment = null;
     
-    document.getElementById('environments-cards-grid').style.display = 'flex';
+    document.getElementById('environments-cards-grid').style.display = 'block';
     document.getElementById('env-detail-area').style.display = 'none';
     
     this.renderEnvironmentCards();
