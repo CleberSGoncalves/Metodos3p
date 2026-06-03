@@ -51,7 +51,7 @@
   <!-- Chart.js CDN for beautiful, interactive, animated financial charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
-  <link rel="stylesheet" href="style.css?v=3.0.22">
+  <link rel="stylesheet" href="style.css?v=3.0.23">
   <link rel="manifest" href="manifest.json?v=1.0.7">
   <!-- Google Sign-In SDK (Google Identity Services) -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -357,30 +357,24 @@
              <!-- =============== TAB 0: PAINEL CENTRAL (O COMANDO) =============== -->
              <div id="tab-painel" class="tab-view active">
               
-              <!-- STATUS DA OBRA CARD -->
-              <div class="status-obra-card glass-card" style="position: relative; overflow: hidden; padding: 20px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid rgba(50, 215, 75, 0.25); background: linear-gradient(135deg, rgba(9, 10, 15, 0.85) 0%, rgba(15, 18, 26, 0.95) 100%); box-shadow: 0 8px 32px rgba(50, 215, 75, 0.08); margin-bottom: 16px; border-radius: 16px; min-height: 110px;">
-                <!-- Left text side -->
-                <div style="flex: 1; z-index: 2; text-align: left; display: flex; align-items: center; gap: 16px;">
-                  <!-- Dynamic Status Icon -->
-                  <div id="dash-status-icon-container" style="width: 48px; height: 48px; border-radius: 50%; background: rgba(50, 215, 75, 0.12); border: 2px solid #32d74b; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 15px rgba(50, 215, 75, 0.25);">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  </div>
-                  <div style="display: flex; flex-direction: column; gap: 2px;">
-                    <span style="font-size: 10px; font-weight: 700; color: #32d74b; text-transform: uppercase; letter-spacing: 0.8px;">STATUS DA OBRA</span>
-                    <h2 id="dash-status-title" style="font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 800; color: #32d74b; margin: 0; letter-spacing: 0.5px; line-height: 1.1;">NO CONTROLE</h2>
-                    <p id="dash-status-desc" style="font-size: 12px; color: #8c96ab; margin: 2px 0 0 0;">Tudo dentro do planejado.</p>
-                  </div>
+              <!-- CENTRO DE CONTROLE DA REFORMA (With Integrated pill status) -->
+              <div style="margin-bottom: 16px; text-align: left; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--border-glass); padding-bottom: 12px;">
+                <div>
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0;">CENTRO DE CONTROLE DA REFORMA</h3>
+                  <p id="dash-status-desc" style="font-size: 11px; color: #8c96ab; margin: 2px 0 0 0;">Tudo dentro do planejado.</p>
                 </div>
                 
-                <!-- Right wireframe house image -->
-                <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 45%; height: 100%; z-index: 1; display: flex; align-items: center; justify-content: flex-end;">
-                  <img src="house_wireframe.png" alt="Construção" style="height: 100%; width: 100%; object-fit: cover; opacity: 0.75; mix-blend-mode: screen; pointer-events: none; filter: brightness(1.25);">
+                <!-- Status Pill Badge linked to JS -->
+                <div class="status-obra-card" style="display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; border: 1.5px solid #32d74b; background: rgba(50, 215, 75, 0.08); color: #32d74b; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; transition: all 0.3s ease;">
+                  <span id="dash-status-icon-container" style="display: inline-flex; align-items: center; justify-content: center; width: auto; height: auto; background: transparent; border: none; box-shadow: none;">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </span>
+                  <span id="dash-status-title" style="text-transform: uppercase;">NO CONTROLE</span>
                 </div>
               </div>
 
-              <!-- CENTRO DE CONTROLE 3P -->
-              <div style="margin-bottom: 16px; text-align: left;">
-                <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0;">CENTRO DE CONTROLE <span style="color: #ff9f0a;">3P</span></h3>
+              <!-- METRICS GRID CONTAINER -->
+              <div style="margin-bottom: 16px; width: 100%;">
                 <div class="dash-control-grid">
                   <!-- Card 1: Orçamento Máximo -->
                   <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(50, 215, 75, 0.2);">
@@ -1721,7 +1715,7 @@
   <script src="js/conteudos-v2.js?v=3.0.11"></script>
   <script src="js/paywall.js?v=2.0.4"></script>
   <script src="js/chat.js?v=2.0.0"></script>
-  <script src="js/app.js?v=3.0.22"></script>
+  <script src="js/app.js?v=3.0.23"></script>
   
   <script>
     // System simulated clock update

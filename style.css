@@ -5077,6 +5077,24 @@ label {
   white-space: nowrap;
 }
 
+/* Dynamic status badge styles based on border color */
+.status-obra-card[style*="255, 69, 58"] {
+  background: rgba(255, 69, 58, 0.08) !important;
+  color: #ff453a !important;
+}
+.status-obra-card[style*="255, 159, 10"] {
+  background: rgba(255, 159, 10, 0.08) !important;
+  color: #ff9f0a !important;
+}
+.status-obra-card[style*="50, 215, 75"] {
+  background: rgba(50, 215, 75, 0.08) !important;
+  color: #32d74b !important;
+}
+.status-obra-card[style*="255, 255, 255"] {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #8c96ab !important;
+}
+
 /* Responsive Overrides for Mobile screens (< 768px) */
 @media (max-width: 768px) {
   /* Fix vertical spacing */
@@ -5087,10 +5105,12 @@ label {
     margin-bottom: 0 !important;
   }
   
-  /* Status card vertical compacting */
+  /* Integrated Status Pill adjustments */
   .status-obra-card {
     min-height: auto !important;
-    padding: 12px 14px !important;
+    padding: 4px 10px !important;
+    border-radius: 20px !important;
+    font-size: 10px !important;
   }
   
   /* Compact titles and descriptions inside dashboard cards */
@@ -5121,51 +5141,73 @@ label {
     margin-top: 4px !important;
   }
   
-  /* Horizontal 4-Column Scroll Layout */
+  /* 4-Column Side-by-Side Grid Layout (No horizontal scroll) */
   .dash-control-grid {
-    display: flex !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    -webkit-overflow-scrolling: touch !important;
-    gap: 8px !important;
-    padding-bottom: 6px !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 6px !important;
     width: 100% !important;
-    scrollbar-width: none !important;
-  }
-  .dash-control-grid::-webkit-scrollbar {
-    display: none !important;
+    overflow-x: visible !important;
   }
   
   .dash-control-card {
-    flex: 0 0 135px !important;
-    scroll-snap-align: start !important;
-    padding: 10px 8px !important;
-    gap: 8px !important;
-    border-radius: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 8px 6px !important;
+    gap: 6px !important;
+    border-radius: 8px !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    text-align: left !important;
   }
   
   .dash-control-icon-box {
-    width: 30px !important;
-    height: 30px !important;
-    border-radius: 8px !important;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 6px !important;
   }
   
   .dash-control-icon-box svg {
-    width: 16px !important;
-    height: 16px !important;
+    width: 12px !important;
+    height: 12px !important;
+  }
+  
+  .dash-control-info {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1px !important;
   }
   
   .dash-control-info span {
-    font-size: 7px !important;
-    letter-spacing: 0.2px !important;
+    font-size: 6.5px !important;
+    line-height: 1.1 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    height: 16px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    letter-spacing: 0px !important;
   }
   
   .dash-control-info strong {
-    font-size: 11px !important;
+    font-size: 8.5px !important;
+    letter-spacing: -0.2px !important;
+    white-space: normal !important;
+    word-break: break-all !important;
+    line-height: 1.1 !important;
   }
   
   .dash-control-info .pct-sub {
-    font-size: 8px !important;
+    font-size: 7px !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+    height: auto !important;
+    display: block !important;
+    margin-top: 1px !important;
   }
 }
 
@@ -5175,37 +5217,37 @@ label {
     gap: 10px !important;
   }
   
-  .status-obra-card {
-    padding: 10px 12px !important;
-  }
-  
   .dash-control-grid {
-    gap: 6px !important;
-    padding-bottom: 4px !important;
+    gap: 4px !important;
   }
   
   .dash-control-card {
-    flex: 0 0 120px !important;
-    padding: 8px 6px !important;
-    gap: 6px !important;
+    padding: 6px 4px !important;
+    gap: 4px !important;
   }
   
   .dash-control-icon-box {
-    width: 26px !important;
-    height: 26px !important;
-    border-radius: 6px !important;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 5px !important;
   }
   
   .dash-control-icon-box svg {
-    width: 12px !important;
-    height: 12px !important;
+    width: 10px !important;
+    height: 10px !important;
   }
   
   .dash-control-info span {
     font-size: 6px !important;
+    height: 14px !important;
   }
   
   .dash-control-info strong {
-    font-size: 10px !important;
+    font-size: 8px !important;
+    letter-spacing: -0.3px !important;
+  }
+  
+  .dash-control-info .pct-sub {
+    font-size: 6.5px !important;
   }
 }
