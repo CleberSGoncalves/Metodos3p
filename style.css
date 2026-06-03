@@ -4805,13 +4805,13 @@ label {
 /* FIX DEFINITIVO: LAYOUT FULL HEIGHT DOS AMBIENTES   */
 /* ================================================== */
 
-/* Tab central ocupa todo espaço disponível na flex chain */
+/* Tab central flui com a altura natural na viewport */
 #tab-central {
-  flex: 1;
-  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
+  height: auto;
 }
 
 /* Sub-views NÃO scrollam internamente — o pai (.app-viewport-content) scrola.
