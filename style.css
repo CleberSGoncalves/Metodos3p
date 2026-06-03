@@ -4900,13 +4900,13 @@ label {
 }
 
 /* Sub-views com scroll interno otimizado e área vertical expandida */
-#central-sec-checklists,
-#central-sec-decisoes,
-#central-sec-biblioteca,
-#central-sec-riscos,
-#subview-projeto,
-#subview-detalhado,
-#subview-pagamentos {
+#central-sec-checklists.active,
+#central-sec-decisoes.active,
+#central-sec-biblioteca.active,
+#central-sec-riscos.active,
+#subview-projeto.active,
+#subview-detalhado.active,
+#subview-pagamentos.active {
   height: calc(100dvh - 270px);
   max-height: calc(100dvh - 270px);
   overflow-y: auto;
