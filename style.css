@@ -2688,8 +2688,6 @@ label {
   display: none;
   flex-direction: column;
   gap: 16px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .sub-view.active {
@@ -4903,7 +4901,8 @@ label {
 /* Sub-views com scroll interno otimizado e área vertical expandida */
 #central-sec-checklists,
 #central-sec-decisoes,
-#central-sec-biblioteca {
+#central-sec-biblioteca,
+#central-sec-riscos {
   height: calc(100dvh - 270px);
   max-height: calc(100dvh - 270px);
   overflow-y: auto;
