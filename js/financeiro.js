@@ -825,7 +825,16 @@ class FinancialController {
             callbacks: {
               label: (context) => {
                 const val = context.raw || 0;
-              renderDashboardCentral() {
+                return ` ${context.dataset.label}: ${this.formatCurrency(val)}`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  renderDashboardCentral() {
     const totalRealSpent = this.getTotalSpent();
     const totalPlanned = this.plannedItems.reduce((sum, item) => sum + item.amount, 0);
     const spentPercent = (totalRealSpent / this.budget) * 100 || 0;
