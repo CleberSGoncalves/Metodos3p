@@ -5145,7 +5145,7 @@ label {
   .dash-control-grid {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
-    gap: 6px !important;
+    gap: 4px !important; /* Reduced from 6px to 4px */
     width: 100% !important;
     overflow-x: visible !important;
   }
@@ -5154,7 +5154,7 @@ label {
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    padding: 8px 6px !important;
+    padding: 8px 4px !important; /* Reduced padding from 8px 6px to 8px 4px */
     gap: 6px !important;
     border-radius: 8px !important;
     min-width: 0 !important;
@@ -5194,10 +5194,9 @@ label {
   }
   
   .dash-control-info strong {
-    font-size: 8.5px !important;
-    letter-spacing: -0.2px !important;
-    white-space: normal !important;
-    word-break: break-all !important;
+    font-size: 8.2px !important; /* Slightly smaller size */
+    letter-spacing: -0.3px !important; /* Slightly tighter spacing */
+    white-space: nowrap !important; /* Prevent wrapping of last digit/symbol */
     line-height: 1.1 !important;
   }
   
@@ -5218,11 +5217,11 @@ label {
   }
   
   .dash-control-grid {
-    gap: 4px !important;
+    gap: 3px !important; /* Reduced from 4px to 3px */
   }
   
   .dash-control-card {
-    padding: 6px 4px !important;
+    padding: 6px 3px !important; /* Reduced from 6px 4px to 6px 3px */
     gap: 4px !important;
   }
   
@@ -5243,8 +5242,9 @@ label {
   }
   
   .dash-control-info strong {
-    font-size: 8px !important;
+    font-size: 7.5px !important; /* Slightly smaller size */
     letter-spacing: -0.3px !important;
+    white-space: nowrap !important; /* Prevent wrapping */
   }
   
   .dash-control-info .pct-sub {
