@@ -15,6 +15,7 @@ class AppOrchestrator {
     this.decisoesController = new DecisionsController(this);
     this.conteudosController = new ContentsController(this);
     this.paywallController = new PaywallController(this);
+    this.chatController = new ChatController(this);
     
     // PWA deferred install prompt
     this.deferredPrompt = null;

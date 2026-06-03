@@ -1624,6 +1624,41 @@
     </div>
   </div>
 
+  <!-- NANDO VIRTUAL AGENT UI -->
+  <div class="nando-fab" id="nando-fab">
+    <div class="nando-fab-avatar">
+      <img src="nando.png" alt="Nando">
+    </div>
+    <div class="nando-fab-badge">1</div>
+  </div>
+
+  <div class="nando-chat-window" id="nando-chat-window">
+    <div class="nando-header">
+      <div class="nando-header-info">
+        <div class="nando-header-avatar">
+          <img src="nando.png" alt="Nando">
+        </div>
+        <div>
+          <h3 style="margin: 0; font-size: 15px; font-weight: 700;">Nando (Consultor 3P)</h3>
+          <p style="margin: 0; font-size: 10px; color: rgba(255,255,255,0.7);">Online agora</p>
+        </div>
+      </div>
+      <button class="nando-close-btn" id="nando-close-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="nando-messages" id="nando-messages">
+      <!-- Messages injected here -->
+    </div>
+    <div class="nando-input-area">
+      <input type="text" id="nando-input" placeholder="Tire sua dúvida sobre a obra..." autocomplete="off">
+      <button id="nando-send-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </div>
+  </div>
+  <!-- END NANDO UI -->
+
   <!-- Main JavaScript modules -->
   <script src="js/supabase.js?v=2.0.4"></script>
   <script src="js/database.js?v=2.0.4"></script>
@@ -1631,6 +1666,7 @@
   <script src="js/protocolos.js?v=3.0.1"></script>
   <script src="js/conteudos-v2.js?v=3.0.0"></script>
   <script src="js/paywall.js?v=2.0.4"></script>
+  <script src="js/chat.js?v=1.0.0"></script>
   <script src="js/app.js?v=2.0.4"></script>
   
   <script>
