@@ -216,9 +216,11 @@ class AppOrchestrator {
       if (matchedBtn) matchedBtn.classList.add('active');
     }
     
-    // Close checklist detail if switching away from central
+    // Close checklist detail and protocols detail if switching away from central, resetting to portal
     if (tabId !== 'central') {
       this.conteudosController.closeEnvironmentDetail();
+      this.decisoesController.closeEnvironmentProtocols();
+      this.switchCentralSection('portal');
     }
     
     // Dynamic updates on tab click

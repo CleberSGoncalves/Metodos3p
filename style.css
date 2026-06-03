@@ -4814,15 +4814,17 @@ label {
   height: auto;
 }
 
-/* Sub-views NÃO scrollam internamente — o pai (.app-viewport-content) scrola.
-   Elas apenas exibem todo o conteúdo na altura natural. */
+/* Sub-views com scroll interno otimizado e área vertical expandida */
 #central-sec-checklists,
 #central-sec-decisoes,
 #central-sec-biblioteca {
+  height: calc(100dvh - 270px);
+  max-height: calc(100dvh - 270px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
-  height: auto;
-  overflow: visible;
 }

@@ -51,7 +51,7 @@
   <!-- Chart.js CDN for beautiful, interactive, animated financial charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
-  <link rel="stylesheet" href="style.css?v=3.0.8">
+  <link rel="stylesheet" href="style.css?v=3.0.9">
   <link rel="manifest" href="manifest.json?v=1.0.7">
   <!-- Google Sign-In SDK (Google Identity Services) -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -1667,7 +1667,7 @@
   <script src="js/conteudos-v2.js?v=3.0.7"></script>
   <script src="js/paywall.js?v=2.0.4"></script>
   <script src="js/chat.js?v=1.0.0"></script>
-  <script src="js/app.js?v=2.0.7"></script>
+  <script src="js/app.js?v=2.0.8"></script>
   
   <script>
     // System simulated clock update
@@ -1684,7 +1684,7 @@
     // Register PWA service worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=3.0.8').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=3.0.10').then(reg => {
           console.log('ServiceWorker registered successfully.', reg.scope);
         }).catch(err => {
           console.log('ServiceWorker registration failed: ', err);
