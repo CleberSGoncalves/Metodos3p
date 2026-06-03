@@ -218,9 +218,25 @@ class AppOrchestrator {
     
     // Close checklist detail and protocols detail if switching away from central, resetting to portal
     if (tabId !== 'central') {
-      this.conteudosController.closeEnvironmentDetail();
-      this.decisoesController.closeEnvironmentProtocols();
-      this.switchCentralSection('portal');
+      try {
+        if (this.conteudosController) {
+          this.conteudosController.closeEnvironmentDetail();
+        }
+      } catch (e) {
+        console.warn("Could not close environment detail:", e);
+      }
+      try {
+        if (this.decisoesController) {
+          this.decisoesController.closeEnvironmentProtocols();
+        }
+      } catch (e) {
+        console.warn("Could not close environment protocols:", e);
+      }
+      try {
+        this.switchCentralSection('portal');
+      } catch (e) {
+        console.warn("Could not reset central section to portal:", e);
+      }
     }
     
     // Dynamic updates on tab click

@@ -85,6 +85,7 @@ class DecisionsController {
   }
 
   closeEnvironmentProtocols() {
+    if (!this.activeEnvironment) return;
     this.activeEnvironment = null;
     document.getElementById('protocolos-environments-grid').style.display = '';
     document.getElementById('protocolos-env-detail-area').style.display = 'none';

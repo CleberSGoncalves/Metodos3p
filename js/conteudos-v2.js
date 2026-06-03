@@ -457,6 +457,7 @@ class ContentsController {
   }
 
   closeEnvironmentDetail() {
+    if (!this.activeEnvironment) return;
     this.activeEnvironment = null;
     
     document.getElementById('environments-cards-grid').style.display = '';
