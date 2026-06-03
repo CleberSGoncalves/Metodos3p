@@ -51,7 +51,7 @@
   <!-- Chart.js CDN for beautiful, interactive, animated financial charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
-  <link rel="stylesheet" href="style.css?v=3.0.19">
+  <link rel="stylesheet" href="style.css?v=3.0.20">
   <link rel="manifest" href="manifest.json?v=1.0.7">
   <!-- Google Sign-In SDK (Google Identity Services) -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -380,51 +380,51 @@
                <!-- CENTRO DE CONTROLE 3P -->
                <div style="margin-bottom: 16px; text-align: left;">
                  <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0;">CENTRO DE CONTROLE <span style="color: #ff9f0a;">3P</span></h3>
-                 <div class="dash-control-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                 <div class="dash-control-grid">
                    <!-- Card 1: Orçamento Máximo -->
-                   <div class="glass-card" style="padding: 16px; background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(50, 215, 75, 0.2); border-radius: 12px; display: flex; align-items: center; gap: 14px; text-align: left;">
-                     <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(50, 215, 75, 0.08); border: 1px solid rgba(50, 215, 75, 0.2); display: flex; align-items: center; justify-content: center; color: #32d74b; flex-shrink: 0; box-shadow: 0 0 8px rgba(50, 215, 75, 0.15);">
+                   <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(50, 215, 75, 0.2);">
+                     <div class="dash-control-icon-box" style="background: rgba(50, 215, 75, 0.08); border: 1px solid rgba(50, 215, 75, 0.2); color: #32d74b; box-shadow: 0 0 8px rgba(50, 215, 75, 0.15);">
                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><path d="M16 8h6v8h-6z"></path><circle cx="19" cy="12" r="1"></circle></svg>
                      </div>
-                     <div style="display: flex; flex-direction: column; gap: 2px;">
-                       <span style="font-size: 8px; color: #8c96ab; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">ORÇAMENTO MÁXIMO</span>
-                       <strong id="dash-metric-budget" style="font-size: 16px; font-weight: 800; color: #32d74b; font-family: 'Sora', sans-serif;">R$ 0,00</strong>
+                     <div class="dash-control-info">
+                       <span>ORÇAMENTO MÁXIMO</span>
+                       <strong id="dash-metric-budget" style="color: #32d74b;">R$ 0,00</strong>
                      </div>
                    </div>
                    
                    <!-- Card 2: Executado -->
-                   <div class="glass-card" style="padding: 16px; background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(100, 210, 255, 0.2); border-radius: 12px; display: flex; align-items: center; gap: 14px; text-align: left;">
-                     <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(100, 210, 255, 0.08); border: 1px solid rgba(100, 210, 255, 0.2); display: flex; align-items: center; justify-content: center; color: #64d2ff; flex-shrink: 0; box-shadow: 0 0 8px rgba(100, 210, 255, 0.15);">
+                   <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(100, 210, 255, 0.2);">
+                     <div class="dash-control-icon-box" style="background: rgba(100, 210, 255, 0.08); border: 1px solid rgba(100, 210, 255, 0.2); color: #64d2ff; box-shadow: 0 0 8px rgba(100, 210, 255, 0.15);">
                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                      </div>
-                     <div style="display: flex; flex-direction: column; gap: 2px;">
-                       <span style="font-size: 8px; color: #8c96ab; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">EXECUTADO</span>
-                       <strong id="dash-metric-executed" style="font-size: 16px; font-weight: 800; color: #64d2ff; font-family: 'Sora', sans-serif;">R$ 0,00</strong>
-                       <span id="dash-metric-executed-pct" style="font-size: 9px; color: #8c96ab;">0% do total</span>
+                     <div class="dash-control-info">
+                       <span>EXECUTADO</span>
+                       <strong id="dash-metric-executed" style="color: #64d2ff;">R$ 0,00</strong>
+                       <span id="dash-metric-executed-pct" class="pct-sub">0% do total</span>
                      </div>
                    </div>
                    
                    <!-- Card 3: Falta Pagar -->
-                   <div class="glass-card" style="padding: 16px; background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(191, 90, 242, 0.2); border-radius: 12px; display: flex; align-items: center; gap: 14px; text-align: left;">
-                     <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(191, 90, 242, 0.08); border: 1px solid rgba(191, 90, 242, 0.2); display: flex; align-items: center; justify-content: center; color: #bf5af2; flex-shrink: 0; box-shadow: 0 0 8px rgba(191, 90, 242, 0.15);">
+                   <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(191, 90, 242, 0.2);">
+                     <div class="dash-control-icon-box" style="background: rgba(191, 90, 242, 0.08); border: 1px solid rgba(191, 90, 242, 0.2); color: #bf5af2; box-shadow: 0 0 8px rgba(191, 90, 242, 0.15);">
                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 3 5 5-5 5M7 21l-5-5 5-5M2 16h20M22 8H2"></path></svg>
                      </div>
-                     <div style="display: flex; flex-direction: column; gap: 2px;">
-                       <span style="font-size: 8px; color: #8c96ab; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">FALTA PAGAR</span>
-                       <strong id="dash-metric-topay" style="font-size: 16px; font-weight: 800; color: #bf5af2; font-family: 'Sora', sans-serif;">R$ 0,00</strong>
-                       <span id="dash-metric-topay-pct" style="font-size: 9px; color: #8c96ab;">0% do total</span>
+                     <div class="dash-control-info">
+                       <span>FALTA PAGAR</span>
+                       <strong id="dash-metric-topay" style="color: #bf5af2;">R$ 0,00</strong>
+                       <span id="dash-metric-topay-pct" class="pct-sub">0% do total</span>
                      </div>
                    </div>
                    
                    <!-- Card 4: Conclusão Física -->
-                   <div class="glass-card" style="padding: 16px; background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(255, 159, 10, 0.2); border-radius: 12px; display: flex; align-items: center; gap: 14px; text-align: left;">
-                     <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(255, 159, 10, 0.08); border: 1px solid rgba(255, 159, 10, 0.2); display: flex; align-items: center; justify-content: center; color: #ff9f0a; flex-shrink: 0; box-shadow: 0 0 8px rgba(255, 159, 10, 0.15);">
+                   <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(255, 159, 10, 0.2);">
+                     <div class="dash-control-icon-box" style="background: rgba(255, 159, 10, 0.08); border: 1px solid rgba(255, 159, 10, 0.2); color: #ff9f0a; box-shadow: 0 0 8px rgba(255, 159, 10, 0.15);">
                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="m19 9-5 5-4-4-3 3"></path></svg>
                      </div>
-                     <div style="display: flex; flex-direction: column; gap: 2px;">
-                       <span style="font-size: 8px; color: #8c96ab; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">CONCLUSÃO FÍSICA</span>
-                       <strong id="dash-metric-physical" style="font-size: 16px; font-weight: 800; color: #ff9f0a; font-family: 'Sora', sans-serif;">0%</strong>
-                       <span id="dash-metric-physical-sub" style="font-size: 9px; color: #8c96ab;">da obra</span>
+                     <div class="dash-control-info">
+                       <span>CONCLUSÃO FÍSICA</span>
+                       <strong id="dash-metric-physical" style="color: #ff9f0a;">0%</strong>
+                       <span id="dash-metric-physical-sub" class="pct-sub">da obra</span>
                      </div>
                    </div>
                  </div>
@@ -1736,7 +1736,7 @@
     // Register PWA service worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=3.0.20').then(reg => {
+        navigator.serviceWorker.register('sw.js?v=3.0.21').then(reg => {
           console.log('ServiceWorker registered successfully.', reg.scope);
         }).catch(err => {
           console.log('ServiceWorker registration failed: ', err);

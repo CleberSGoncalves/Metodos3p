@@ -5012,3 +5012,135 @@ label {
   }
 }
 
+/* ==========================================================================
+   CENTRO DE CONTROLE 3P - Horizontal 4-Column Layout
+   ========================================================================== */
+.dash-control-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.dash-control-card {
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-control-card:hover {
+  transform: translateY(-2px);
+}
+
+.dash-control-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dash-control-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.dash-control-info span {
+  font-size: 8px;
+  color: #8c96ab;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-control-info strong {
+  font-size: 16px;
+  font-weight: 800;
+  font-family: 'Sora', sans-serif;
+  white-space: nowrap;
+}
+
+.dash-control-info .pct-sub {
+  font-size: 9px;
+  color: #8c96ab;
+  white-space: nowrap;
+}
+
+/* Responsive Overrides for Mobile screens (< 768px) */
+@media (max-width: 768px) {
+  .dash-control-grid {
+    gap: 8px;
+  }
+  
+  .dash-control-card {
+    padding: 10px 8px !important;
+    gap: 8px !important;
+    border-radius: 10px !important;
+  }
+  
+  .dash-control-icon-box {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 8px !important;
+  }
+  
+  .dash-control-icon-box svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  
+  .dash-control-info span {
+    font-size: 7px !important;
+    letter-spacing: 0.2px !important;
+  }
+  
+  .dash-control-info strong {
+    font-size: 11px !important;
+  }
+  
+  .dash-control-info .pct-sub {
+    font-size: 8px !important;
+  }
+}
+
+/* Extreme Mobile Screens (< 380px) */
+@media (max-width: 380px) {
+  .dash-control-grid {
+    gap: 6px;
+  }
+  
+  .dash-control-card {
+    padding: 8px 6px !important;
+    gap: 6px !important;
+  }
+  
+  .dash-control-icon-box {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 6px !important;
+  }
+  
+  .dash-control-icon-box svg {
+    width: 12px !important;
+    height: 12px !important;
+  }
+  
+  .dash-control-info span {
+    font-size: 6px !important;
+  }
+  
+  .dash-control-info strong {
+    font-size: 10px !important;
+  }
+}
