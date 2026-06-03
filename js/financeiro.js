@@ -843,429 +843,296 @@ class FinancialController {
     const paidTotal = this.getPaidTotal();
     const unpaidTotal = this.getToPayTotal();
     
-    // 1. Check if descompasso is active/enabled
     const isDescompassoEnabled = localStorage.getItem('reformas_3p_pref_descompasso') !== 'false';
     
-    // 2. Status Pill Badge (dash-status-pill)
-    const statusPill = document.getElementById('dash-status-pill');
-    if (statusPill) {
-      if (!isDescompassoEnabled) {
+    // ==========================================
+    // 1. DYNAMIC STATUS CARD & HEADER
+    // ==========================================
+    const statusCard = document.querySelector('.status-obra-card');
+    const statusTitle = document.getElementById('dash-status-title');
+    const statusDesc = document.getElementById('dash-status-desc');
+    const statusIconContainer = document.getElementById('dash-status-icon-container');
+    const statusPill = document.getElementById('dash-status-pill'); // compatibility
+    
+    // Dynamic Status Greeting in Header
+    const headerGreetingName = document.getElementById('header-user-name');
+    if (headerGreetingName) {
+      headerGreetingName.textContent = this.app.name || "Cleber";
+    }
+    
+    let statusText = "NO CONTROLE";
+    let statusColor = "#32d74b";
+    
+    if (!isDescompassoEnabled) {
+      statusText = "INATIVO";
+      statusColor = "#8c96ab";
+      if (statusTitle) statusTitle.textContent = "INATIVO";
+      if (statusTitle) statusTitle.style.color = "#8c96ab";
+      if (statusCard) {
+        statusCard.style.borderColor = "rgba(255, 255, 255, 0.1)";
+        statusCard.style.boxShadow = "none";
+      }
+      if (statusDesc) statusDesc.textContent = "Análise de descompasso física-financeira desativada.";
+      if (statusIconContainer) {
+        statusIconContainer.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8c96ab" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>`;
+        statusIconContainer.style.background = "rgba(255, 255, 255, 0.05)";
+        statusIconContainer.style.borderColor = "#8c96ab";
+      }
+      if (statusPill) {
         statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #8c96ab; display: inline-block;"></span> INATIVO`;
-        statusPill.style.background = "rgba(255, 255, 255, 0.05)";
-        statusPill.style.color = "var(--text-muted)";
-        statusPill.style.borderColor = "rgba(255, 255, 255, 0.1)";
-      } else if (diff > 15) {
+      }
+    } else if (diff > 15) {
+      statusText = "RISCO";
+      statusColor = "#ff453a";
+      if (statusTitle) statusTitle.textContent = "RISCO";
+      if (statusTitle) statusTitle.style.color = "#ff453a";
+      if (statusCard) {
+        statusCard.style.borderColor = "rgba(255, 69, 58, 0.4)";
+        statusCard.style.boxShadow = "0 8px 32px rgba(255, 69, 58, 0.06)";
+      }
+      if (statusDesc) statusDesc.textContent = "Gasto financeiro muito acima do avanço físico!";
+      if (statusIconContainer) {
+        statusIconContainer.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff453a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`;
+        statusIconContainer.style.background = "rgba(255, 69, 58, 0.12)";
+        statusIconContainer.style.borderColor = "#ff453a";
+      }
+      if (statusPill) {
         statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #ff453a; display: inline-block;"></span> RISCO`;
-        statusPill.style.background = "rgba(255, 69, 58, 0.1)";
-        statusPill.style.color = "#ff453a";
-        statusPill.style.borderColor = "rgba(255, 69, 58, 0.2)";
-      } else if (diff > 5 || totalRealSpent > this.budget) {
+      }
+    } else if (diff > 5 || totalRealSpent > this.budget) {
+      statusText = "ATENÇÃO";
+      statusColor = "#ff9f0a";
+      if (statusTitle) statusTitle.textContent = "ATENÇÃO";
+      if (statusTitle) statusTitle.style.color = "#ff9f0a";
+      if (statusCard) {
+        statusCard.style.borderColor = "rgba(255, 159, 10, 0.4)";
+        statusCard.style.boxShadow = "0 8px 32px rgba(255, 159, 10, 0.06)";
+      }
+      if (statusDesc) statusDesc.textContent = "Pequeno descompasso identificado na obra.";
+      if (statusIconContainer) {
+        statusIconContainer.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
+        statusIconContainer.style.background = "rgba(255, 159, 10, 0.12)";
+        statusIconContainer.style.borderColor = "#ff9f0a";
+      }
+      if (statusPill) {
         statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #ff9f0a; display: inline-block;"></span> ATENÇÃO`;
-        statusPill.style.background = "rgba(255, 159, 10, 0.1)";
-        statusPill.style.color = "#ff9f0a";
-        statusPill.style.borderColor = "rgba(255, 159, 10, 0.2)";
-      } else {
+      }
+    } else {
+      statusText = "NO CONTROLE";
+      statusColor = "#32d74b";
+      if (statusTitle) statusTitle.textContent = "NO CONTROLE";
+      if (statusTitle) statusTitle.style.color = "#32d74b";
+      if (statusCard) {
+        statusCard.style.borderColor = "rgba(50, 215, 75, 0.25)";
+        statusCard.style.boxShadow = "0 8px 32px rgba(50, 215, 75, 0.05)";
+      }
+      if (statusDesc) statusDesc.textContent = "Tudo dentro do planejado.";
+      if (statusIconContainer) {
+        statusIconContainer.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        statusIconContainer.style.background = "rgba(50, 215, 75, 0.12)";
+        statusIconContainer.style.borderColor = "#32d74b";
+      }
+      if (statusPill) {
         statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #32d74b; display: inline-block;"></span> NO CONTROLE`;
-        statusPill.style.background = "rgba(50, 215, 75, 0.1)";
-        statusPill.style.color = "#32d74b";
-        statusPill.style.borderColor = "rgba(50, 215, 75, 0.2)";
       }
     }
 
-    // 3. Metrics columns
-    // Total do Orçamento (90% of investment)
+    // ==========================================
+    // 2. CENTRO DE CONTROLE 3P METRICS CARD GRID
+    // ==========================================
     const metricBudget = document.getElementById('dash-metric-budget');
-    const metricBudgetSub = document.getElementById('dash-metric-budget-sub');
-    const metricBudgetBar = document.getElementById('dash-metric-budget-bar');
+    const metricExecuted = document.getElementById('dash-metric-executed');
+    const metricExecutedPct = document.getElementById('dash-metric-executed-pct');
+    const metricToPay = document.getElementById('dash-metric-topay');
+    const metricToPayPct = document.getElementById('dash-metric-topay-pct');
+    const metricPhysical = document.getElementById('dash-metric-physical');
     
-    if (metricBudget) metricBudget.textContent = this.formatCurrency(this.budget);
-    if (metricBudgetSub) {
-      metricBudgetSub.textContent = `EXECUTADO ${this.formatCurrency(totalRealSpent)} (${spentPercent.toFixed(0)}%)`;
+    if (metricBudget) {
+      metricBudget.textContent = this.formatCurrency(this.budget);
     }
-    if (metricBudgetBar) {
-      metricBudgetBar.style.width = `${Math.min(spentPercent, 100)}%`;
-      metricBudgetBar.style.background = totalRealSpent > this.budget ? '#ff453a' : '#32d74b';
+    if (metricExecuted) {
+      metricExecuted.textContent = this.formatCurrency(totalRealSpent);
+    }
+    if (metricExecutedPct) {
+      metricExecutedPct.textContent = `${spentPercent.toFixed(1)}% do total`;
+    }
+    if (metricToPay) {
+      metricToPay.textContent = this.formatCurrency(unpaidTotal);
+    }
+    if (metricToPayPct) {
+      const topayPct = this.budget > 0 ? (unpaidTotal / this.budget) * 100 : 0;
+      metricToPayPct.textContent = `${topayPct.toFixed(1)}% do total`;
+    }
+    if (metricPhysical) {
+      metricPhysical.textContent = `${physicalProgress.toFixed(0)}%`;
     }
 
-    // Total Pago
-    const metricPaid = document.getElementById('dash-metric-paid');
-    const metricPaidSub = document.getElementById('dash-metric-paid-sub');
-    const metricPaidBar = document.getElementById('dash-metric-paid-bar');
-    const toPayAmount = Math.max(0, totalRealSpent - paidTotal);
-    
-    if (metricPaid) metricPaid.textContent = this.formatCurrency(paidTotal);
-    if (metricPaidSub) {
-      metricPaidSub.textContent = `A PAGAR ${this.formatCurrency(toPayAmount)}`;
+    // ==========================================
+    // 3. TERMÔMETRO 3P SLIDER & TOOLTIP BUBBLE
+    // ==========================================
+    const thermDescPct = document.getElementById('thermometer-desc-pct');
+    const thermDesc = document.getElementById('thermometer-desc');
+    const thermBubble = document.getElementById('thermometer-bubble');
+    const thermPinContainer = document.getElementById('thermometer-pin-container');
+    const thermBarMarker = document.getElementById('thermometer-bar-marker');
+
+    if (thermDescPct) thermDescPct.textContent = `${spentPercent.toFixed(1)}%`;
+    if (thermDesc) {
+      thermDesc.innerHTML = `Você utilizou <strong style="color: #ffffff;">${spentPercent.toFixed(1)}%</strong> do orçamento máximo.`;
     }
-    if (metricPaidBar) {
+    if (thermBubble) {
+      thermBubble.textContent = `${spentPercent.toFixed(1)}%`;
+    }
+    if (thermPinContainer) {
+      const displayPct = Math.min(Math.max(spentPercent, 0), 100);
+      thermPinContainer.style.left = `${displayPct}%`;
+      if (thermBarMarker) thermBarMarker.style.left = `${displayPct}%`;
+    }
+
+    // ==========================================
+    // 4. DYNAMIC RECOMMENDED ACTION CARD
+    // ==========================================
+    const actionTitle = document.getElementById('dash-action-title');
+    const actionDesc = document.getElementById('dash-action-desc');
+    const actionBtn = document.getElementById('dash-action-btn');
+    const hasFinishedSetup = localStorage.getItem('reformas_3p_onboarding_finished') === 'true';
+
+    if (actionTitle && actionDesc && actionBtn) {
+      if (!hasFinishedSetup || this.investment <= 0) {
+        actionTitle.textContent = "Estipular verba da reforma";
+        actionDesc.textContent = "Insira seu investimento total disponível e defina sua margem de segurança de 10%.";
+        actionBtn.setAttribute('onclick', "window.app.switchTab('orcamento'); window.app.financeiroController.switchSubTab('projeto');");
+      } else if (totalPlanned === 0) {
+        actionTitle.textContent = "Planejar orçamento detalhado";
+        actionDesc.textContent = "Cadastre materiais e mão de obra no Passo 2 do Planejamento para blindar seu orçamento.";
+        actionBtn.setAttribute('onclick', "window.app.switchTab('orcamento'); window.app.financeiroController.switchSubTab('detalhado');");
+      } else if (this.expenses.length === 0) {
+        actionTitle.textContent = "Lançar seu primeiro gasto real";
+        actionDesc.textContent = "Registre o sinal ou materiais já pagos no Passo 3 do Financeiro para gerenciar o caixa.";
+        actionBtn.setAttribute('onclick', "window.app.switchTab('orcamento'); window.app.financeiroController.switchSubTab('pagamentos');");
+      } else if (physicalProgress < 100) {
+        actionTitle.textContent = "Aplicar Checklists por Ambiente";
+        actionDesc.textContent = "Conclua e confira os checklists técnicos para prevenir retrabalhos hidráulicos e elétricos.";
+        actionBtn.setAttribute('onclick', "window.app.switchTab('central'); window.app.switchCentralSection('checklists');");
+      } else {
+        actionTitle.textContent = "Revisar Manuais e Guias 3P";
+        actionDesc.textContent = "Acesse a Biblioteca Offline para garantir a conformidade final da sua entrega de chaves.";
+        actionBtn.setAttribute('onclick', "window.app.switchTab('central'); window.app.switchCentralSection('biblioteca');");
+      }
+    }
+
+    // ==========================================
+    // 5. 3P PHASES DYNAMIC PROGRESS BARS
+    // ==========================================
+    const planejarProgress = this.app.conteudosController.getPhaseProgress('planejar') || 0;
+    const prevenirProgress = this.app.conteudosController.getPhaseProgress('prevenir') || 0;
+    const protegerProgress = this.app.conteudosController.getPhaseProgress('proteger') || 0;
+
+    const p1PercentEl = document.getElementById('phase-p1-percent');
+    const p1BarEl = document.getElementById('phase-p1-bar');
+    const p2PercentEl = document.getElementById('phase-p2-percent');
+    const p2BarEl = document.getElementById('phase-p2-bar');
+    const p3PercentEl = document.getElementById('phase-p3-percent');
+    const p3BarEl = document.getElementById('phase-p3-bar');
+
+    if (p1PercentEl) p1PercentEl.textContent = `${planejarProgress.toFixed(0)}%`;
+    if (p1BarEl) p1BarEl.style.width = `${planejarProgress}%`;
+    if (p2PercentEl) p2PercentEl.textContent = `${prevenirProgress.toFixed(0)}%`;
+    if (p2BarEl) p2BarEl.style.width = `${prevenirProgress}%`;
+    if (p3PercentEl) p3PercentEl.textContent = `${protegerProgress.toFixed(0)}%`;
+    if (p3BarEl) p3BarEl.style.width = `${protegerProgress}%`;
+
+    // ==========================================
+    // 6. MAIN DYNAMIC ALERT BOX (DESCOMPASSO)
+    // ==========================================
+    const mainAlertBox = document.getElementById('dash-main-alert-box');
+    const alertTitle = document.getElementById('dash-alert-title');
+    const alertDesc = document.getElementById('dash-alert-desc');
+    let bellWarningsCount = 0;
+
+    if (mainAlertBox) {
+      if (isDescompassoEnabled && diff > 15) {
+        mainAlertBox.style.display = 'flex';
+        bellWarningsCount++;
+        if (alertTitle) alertTitle.textContent = "Avanço físico muito abaixo do esperado";
+        if (alertDesc) {
+          alertDesc.innerHTML = `Você pagou <strong style="color: #ffffff;">${spentPercent.toFixed(0)}%</strong> da reforma, mas a conclusão física é de apenas <strong style="color: #ffffff;">${physicalProgress.toFixed(0)}%</strong>. Desvio crítico de <span style="color: #ff453a; font-weight: 700;">${diff.toFixed(0)}%</span>!`;
+        }
+      } else if (isDescompassoEnabled && diff > 5) {
+        mainAlertBox.style.display = 'flex';
+        bellWarningsCount++;
+        if (alertTitle) alertTitle.textContent = "Descompasso leve identificado";
+        if (alertDesc) {
+          alertDesc.innerHTML = `Você pagou <strong style="color: #ffffff;">${spentPercent.toFixed(0)}%</strong> da reforma, mas a conclusão física é de <strong style="color: #ffffff;">${physicalProgress.toFixed(0)}%</strong>. Monitore as entregas físicas.`;
+        }
+      } else if (isDescompassoEnabled && totalRealSpent > this.budget) {
+        mainAlertBox.style.display = 'flex';
+        bellWarningsCount++;
+        if (alertTitle) alertTitle.textContent = "Limite máximo do orçamento excedido";
+        if (alertDesc) {
+          alertDesc.innerHTML = `Suas despesas ultrapassaram o teto máximo estipulado de <strong style="color: #ffffff;">${this.formatCurrency(this.budget)}</strong> em <span style="color: #ff453a; font-weight: 700;">${this.formatCurrency(totalRealSpent - this.budget)}</span>.`;
+        }
+      } else {
+        mainAlertBox.style.display = 'none';
+      }
+    }
+
+    // ==========================================
+    // 7. COMPATIBILITY UPDATES FOR HIDDEN ELEMENTS
+    // ==========================================
+    const compPaid = document.getElementById('dash-metric-paid');
+    const compPaidSub = document.getElementById('dash-metric-paid-sub');
+    const compPaidBar = document.getElementById('dash-metric-paid-bar');
+    const compSafety = document.getElementById('dash-metric-safety');
+    const compSafetySub = document.getElementById('dash-metric-safety-sub');
+    const compSafetyBar = document.getElementById('dash-metric-safety-bar');
+    const compCrono = document.getElementById('dash-metric-crono');
+    const compCronoSub = document.getElementById('dash-metric-crono-sub');
+    const compCronoBar = document.getElementById('dash-metric-crono-bar');
+    const compAlerts = document.getElementById('dash-intelligent-alerts');
+
+    if (compPaid) compPaid.textContent = this.formatCurrency(paidTotal);
+    if (compPaidSub) compPaidSub.textContent = `A PAGAR ${this.formatCurrency(unpaidTotal)}`;
+    if (compPaidBar) {
       const paidPct = totalRealSpent > 0 ? (paidTotal / totalRealSpent) * 100 : 0;
-      metricPaidBar.style.width = `${Math.min(paidPct, 100)}%`;
+      compPaidBar.style.width = `${Math.min(paidPct, 100)}%`;
     }
 
-    // Margem de Segurança (10% of investment)
-    const metricSafety = document.getElementById('dash-metric-safety');
-    const metricSafetySub = document.getElementById('dash-metric-safety-sub');
-    const metricSafetyBar = document.getElementById('dash-metric-safety-bar');
-    
     const safetyMargin = this.investment * 0.10;
     const consumedMargin = Math.max(0, totalRealSpent - this.budget);
     const availableMargin = Math.max(0, safetyMargin - consumedMargin);
     const marginPercent = safetyMargin > 0 ? (availableMargin / safetyMargin) * 100 : 100;
-    
-    if (metricSafety) metricSafety.textContent = this.formatCurrency(safetyMargin);
-    if (metricSafetySub) {
-      metricSafetySub.textContent = `DISPONÍVEL ${this.formatCurrency(availableMargin)} (${marginPercent.toFixed(0)}%)`;
-    }
-    if (metricSafetyBar) {
-      metricSafetyBar.style.width = `${Math.min(marginPercent, 100)}%`;
-      metricSafetyBar.style.background = marginPercent < 20 ? '#ff453a' : '#ff9f0a';
-    }
+    if (compSafety) compSafety.textContent = this.formatCurrency(safetyMargin);
+    if (compSafetySub) compSafetySub.textContent = `DISPONÍVEL ${this.formatCurrency(availableMargin)} (${marginPercent.toFixed(0)}%)`;
+    if (compSafetyBar) compSafetyBar.style.width = `${Math.min(marginPercent, 100)}%`;
 
-    // Previsão de Término
-    const metricCrono = document.getElementById('dash-metric-crono');
-    const metricCronoSub = document.getElementById('dash-metric-crono-sub');
-    const metricCronoBar = document.getElementById('dash-metric-crono-bar');
-    
     this.app.conteudosController.updateCronograma();
     const activeCronoEnd = document.getElementById('crono-display-enddate');
+    if (compCrono && activeCronoEnd) {
+      compCrono.textContent = activeCronoEnd.textContent || '--/--/----';
+    }
+    if (compCronoSub) compCronoSub.textContent = `CONCLUSÃO ${physicalProgress.toFixed(0)}%`;
+    if (compCronoBar) compCronoBar.style.width = `${Math.min(physicalProgress, 100)}%`;
+
+    // Warnings counts
+    if (totalRealSpent > this.budget) bellWarningsCount++;
+    if (this.expenses.length > 0 && totalRealSpent > totalPlanned) bellWarningsCount++;
     
-    if (metricCrono) {
-      const rawText = activeCronoEnd && activeCronoEnd.textContent ? activeCronoEnd.textContent : '';
-      if (rawText && rawText !== '--/--/----') {
-        // Convert "18 de julho de 2026" → "18/Jul/26"
-        try {
-          const parts = rawText.split(' ');
-          const day = parts[0];
-          const monthMap = { janeiro:'Jan', fevereiro:'Fev', março:'Mar', abril:'Abr', maio:'Mai', junho:'Jun', julho:'Jul', agosto:'Ago', setembro:'Set', outubro:'Out', novembro:'Nov', dezembro:'Dez' };
-          const monthWord = parts[2] ? parts[2].toLowerCase() : '';
-          const month = monthMap[monthWord] || parts[2];
-          const year = parts[4] ? parts[4].slice(2) : '';
-          metricCrono.textContent = `${day}/${month}/${year}`;
-        } catch(e) {
-          metricCrono.textContent = rawText;
-        }
-      } else {
-        metricCrono.textContent = '--/--/----';
-      }
-    }
-    if (metricCronoSub) {
-      metricCronoSub.textContent = `CONCLUSÃO ${physicalProgress.toFixed(0)}%`;
-    }
-    if (metricCronoBar) {
-      metricCronoBar.style.width = `${Math.min(physicalProgress, 100)}%`;
-    }
-
-    // 4. Dynamic Steps Checklist progress
-    const s1Price = parseFloat(document.getElementById('quote-s1-price')?.value) || 0;
-    const s2Price = parseFloat(document.getElementById('quote-s2-price')?.value) || 0;
-    const s3Price = parseFloat(document.getElementById('quote-s3-price')?.value) || 0;
-    const isStep5Done = s1Price > 0 || s2Price > 0 || s3Price > 0 || (localStorage.getItem('reformas_3p_quotes_completed') === 'true');
-
-    const stepItems = document.querySelectorAll('.dash-steps-row .dash-step-item');
-    if (stepItems.length === 5) {
-      const isStep1Active = true;
-      const isStep2Active = this.investment > 0;
-      const isStep3Active = totalPlanned > 0;
-      const isStep4Active = this.expenses.length > 0;
-      const isStep5Active = isStep5Done;
-
-      const states = [isStep1Active, isStep2Active, isStep3Active, isStep4Active, isStep5Active];
-      
-      stepItems.forEach((item, idx) => {
-        const wrap = item.querySelector('.step-icon-wrap');
-        const title = item.querySelector('.step-title');
-        const active = states[idx];
-        
-        if (active) {
-          item.classList.add('active');
-          if (wrap) {
-            wrap.style.borderColor = '#ff6a00';
-            wrap.style.color = '#ff9f0a';
-            wrap.style.boxShadow = '0 0 10px rgba(255,106,0,0.3)';
-          }
-          if (title) title.style.color = '#ff9f0a';
-        } else {
-          item.classList.remove('active');
-          if (wrap) {
-            wrap.style.borderColor = 'rgba(255,255,255,0.08)';
-            wrap.style.color = 'var(--text-muted)';
-            wrap.style.boxShadow = 'none';
-          }
-          if (title) title.style.color = 'var(--text-primary)';
-        }
-      });
-    }
-
-    // 5. Visão Rápida Indicators
-    // Card 1: Economia 3P
-    const dashQuickSavings = document.getElementById('dash-quick-savings');
-    if (dashQuickSavings) {
-      const prices = [s1Price, s2Price, s3Price].filter(p => p > 0);
-      let savings = 2850.00; // Mockup default
-      if (prices.length > 1) {
-        savings = Math.max(...prices) - Math.min(...prices);
-      }
-      dashQuickSavings.textContent = this.formatCurrency(savings);
-    }
-
-    // Card 2: Risco de Prejuízo
-    const dashQuickRisk = document.getElementById('dash-quick-risk');
-    const dashQuickRiskPin = document.getElementById('dash-quick-risk-pin');
-    if (dashQuickRisk) {
-      if (!isDescompassoEnabled) {
-        dashQuickRisk.textContent = "INATIVO";
-        dashQuickRisk.style.color = "var(--text-muted)";
-        if (dashQuickRiskPin) dashQuickRiskPin.style.left = "50%";
-      } else if (diff > 15) {
-        dashQuickRisk.textContent = "ALTO";
-        dashQuickRisk.style.color = "#ff453a";
-        if (dashQuickRiskPin) dashQuickRiskPin.style.left = "85%";
-      } else if (diff > 5) {
-        dashQuickRisk.textContent = "MÉDIO";
-        dashQuickRisk.style.color = "#ff9f0a";
-        if (dashQuickRiskPin) dashQuickRiskPin.style.left = "50%";
-      } else {
-        dashQuickRisk.textContent = "BAIXO";
-        dashQuickRisk.style.color = "#32d74b";
-        if (dashQuickRiskPin) dashQuickRiskPin.style.left = "15%";
-      }
-    }
-
-    // Card 3: Desvio Orçamento
-    const dashQuickDeviation = document.getElementById('dash-quick-deviation');
-    const dashQuickDeviationSub = document.getElementById('dash-quick-deviation-sub');
-    if (dashQuickDeviation) {
-      const deviation = totalPlanned > 0 ? ((totalRealSpent - totalPlanned) / totalPlanned) * 100 : 0;
-      if (deviation > 0) {
-        dashQuickDeviation.textContent = `+${deviation.toFixed(1)}%`;
-        dashQuickDeviation.style.color = "#ff453a";
-        if (dashQuickDeviationSub) dashQuickDeviationSub.textContent = "Acima do planejado";
-      } else if (deviation < 0) {
-        dashQuickDeviation.textContent = `${deviation.toFixed(1)}%`;
-        dashQuickDeviation.style.color = "#32d74b";
-        if (dashQuickDeviationSub) dashQuickDeviationSub.textContent = "Abaixo do planejado";
-      } else {
-        dashQuickDeviation.textContent = "0.0%";
-        dashQuickDeviation.style.color = "#ffffff";
-        if (dashQuickDeviationSub) dashQuickDeviationSub.textContent = "Dentro do planejado";
-      }
-    }
-
-    // Card 4: Próxima Etapa
-    const dashQuickNext = document.getElementById('dash-quick-next');
-    const dashQuickNextSub = document.getElementById('dash-quick-next-sub');
-    if (dashQuickNext) {
-      const hasFinishedSetup = localStorage.getItem('reformas_3p_onboarding_finished') === 'true';
-      if (!hasFinishedSetup) {
-        dashQuickNext.textContent = "CONFIGURAR";
-        if (dashQuickNextSub) dashQuickNextSub.textContent = "Definir verba inicial";
-      } else if (totalPlanned === 0) {
-        dashQuickNext.textContent = "ORÇAMENTO";
-        if (dashQuickNextSub) dashQuickNextSub.textContent = "Planejar os seus custos";
-      } else if (this.expenses.length === 0) {
-        dashQuickNext.textContent = "PAGAMENTOS";
-        if (dashQuickNextSub) dashQuickNextSub.textContent = "Registrar gastos reais";
-      } else if (physicalProgress < 100) {
-        dashQuickNext.textContent = "CHECKLISTS";
-        if (dashQuickNextSub) dashQuickNextSub.textContent = "Concluir serviços";
-      } else {
-        dashQuickNext.textContent = "CONCLUÍDO";
-        if (dashQuickNextSub) dashQuickNextSub.textContent = "Tudo em ordem!";
-      }
-    }
-
-    // 6. Alertas Inteligentes do Painel de Controle (Método 3P)
-    let bellWarningsCount = 0;
-    const alertsContainer = document.getElementById('dash-intelligent-alerts');
-    if (alertsContainer) {
-      let alertsHtml = '';
-
-      // Alert A: Orçamento Máximo
-      if (totalRealSpent <= this.budget) {
-        alertsHtml += `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(50, 215, 75, 0.1); color: #32d74b; font-size: 11px; font-weight: bold; flex-shrink: 0;">✓</div>
-            <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 12px; font-weight: 600; color: #ffffff;">Orçamento sob controle</span>
-              <span style="font-size: 10px; color: #8c96ab;">${this.formatCurrency(this.budget - totalRealSpent)} ainda disponíveis no teto do planejado.</span>
-            </div>
-          </div>
-        `;
-      } else {
-        bellWarningsCount++;
-        alertsHtml += `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 69, 58, 0.1); color: #ff453a; font-size: 11px; font-weight: bold; flex-shrink: 0;">🚨</div>
-            <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 12px; font-weight: 600; color: #ff453a;">Limite do orçamento excedido!</span>
-              <span style="font-size: 10px; color: #8c96ab;">Estourou em ${this.formatCurrency(totalRealSpent - this.budget)}! Utilizando a margem de segurança.</span>
-            </div>
-          </div>
-        `;
-      }
-
-      // Alert B: Organização de Pagamentos vs Planejamento
-      if (this.expenses.length === 0) {
-        alertsHtml += `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.05); color: #8c96ab; font-size: 11px; font-weight: bold; flex-shrink: 0;">🗓️</div>
-            <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 12px; font-weight: 600; color: #ffffff;">Nenhum pagamento real</span>
-              <span style="font-size: 10px; color: #8c96ab;">Registre despesas no Passo 3 para monitorar o caixa real.</span>
-            </div>
-          </div>
-        `;
-      } else if (totalPlanned > 0 && totalRealSpent > totalPlanned) {
-        bellWarningsCount++;
-        alertsHtml += `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 159, 10, 0.1); color: #ff9f0a; font-size: 11px; font-weight: bold; flex-shrink: 0;">⚠️</div>
-            <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 12px; font-weight: 600; color: #ff9f0a;">Atenção com próximas despesas</span>
-              <span style="font-size: 10px; color: #8c96ab;">Gasto real superou o planejado inicialmente em ${this.formatCurrency(totalRealSpent - totalPlanned)}.</span>
-            </div>
-          </div>
-        `;
-      } else {
-        alertsHtml += `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(50, 215, 75, 0.1); color: #32d74b; font-size: 11px; font-weight: bold; flex-shrink: 0;">✓</div>
-            <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 12px; font-weight: 600; color: #ffffff;">Pagamentos organizados</span>
-              <span style="font-size: 10px; color: #8c96ab;">${this.expenses.length} lançamentos efetuados dentro do limite do projeto.</span>
-            </div>
-          </div>
-        `;
-      }
-
-      // Alert C: Descompasso Física-Financeiro (Avanço físico vs financeiro)
-      if (!isDescompassoEnabled) {
-        alertsHtml += `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.05); color: #8c96ab; font-size: 11px; font-weight: bold; flex-shrink: 0;">⏸</div>
-            <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">Descompasso desativado</span>
-              <span style="font-size: 10px; color: #8c96ab;">Ative a análise física-financeira nas preferências do perfil.</span>
-            </div>
-          </div>
-        `;
-      } else if (diff > 15) {
-        bellWarningsCount++;
-        alertsHtml += `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 69, 58, 0.1); color: #ff453a; font-size: 11px; font-weight: bold; flex-shrink: 0;">🚨</div>
-            <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 12px; font-weight: 600; color: #ff453a;">Risco de Prejuízo Alto!</span>
-              <span style="font-size: 10px; color: #8c96ab;">Gasto (${spentPercent.toFixed(0)}%) muito à frente da obra entregue (${physicalProgress.toFixed(0)}%). Desvio de ${diff.toFixed(0)}%!</span>
-            </div>
-          </div>
-        `;
-      } else if (diff > 5) {
-        bellWarningsCount++;
-        alertsHtml += `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 159, 10, 0.1); color: #ff9f0a; font-size: 11px; font-weight: bold; flex-shrink: 0;">⚠️</div>
-            <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 12px; font-weight: 600; color: #ff9f0a;">Atenção: Descompasso leve</span>
-              <span style="font-size: 10px; color: #8c96ab;">Desvio de ${diff.toFixed(0)}% entre avanço financeiro e físico. Monitore as entregas.</span>
-            </div>
-          </div>
-        `;
-      } else {
-        alertsHtml += `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(50, 215, 75, 0.1); color: #32d74b; font-size: 11px; font-weight: bold; flex-shrink: 0;">✓</div>
-            <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 12px; font-weight: 600; color: #ffffff;">Tudo sob controle!</span>
-              <span style="font-size: 10px; color: #8c96ab;">Avanço financeiro (${spentPercent.toFixed(0)}%) alinhado ao físico (${physicalProgress.toFixed(0)}%).</span>
-            </div>
-          </div>
-        `;
-      }
-
-      // Alert D: Alertas de Categoria e Risco de Cronograma
-      const categories = ['material', 'mao_de_obra', 'acabamento', 'decoracao', 'emergencias'];
-      const categoryNames = {
-        material: "Materiais Básicos",
-        mao_de_obra: "Mão de Obra",
-        acabamento: "Acabamentos",
-        decoracao: "Decoração",
-        emergencias: "Emergências/Contingência"
-      };
-      
-      categories.forEach(cat => {
-        const sum = this.getCategorySum(cat);
-        const limit = this.categoryBudgets[cat] || 0;
-        if (limit > 0) {
-          const pct = (sum / limit) * 100;
-          if (pct >= 90) {
-            bellWarningsCount++;
-            const isOverflow = pct >= 100;
-            const statusColor = isOverflow ? "#ff453a" : "#ff9f0a";
-            const icon = isOverflow ? "🚨" : "⚠️";
-            const title = isOverflow ? `Estouro em ${categoryNames[cat]}!` : `Limite em ${categoryNames[cat]} quase atingido`;
-            
-            alertsHtml += `
-              <div style="display: flex; align-items: center; gap: 10px; border-left: 3px solid ${statusColor}; padding-left: 8px; margin-top: 4px;">
-                <div style="width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 159, 10, 0.05); color: ${statusColor}; font-size: 12px; font-weight: bold; flex-shrink: 0;">${icon}</div>
-                <div style="display: flex; flex-direction: column;">
-                  <span style="font-size: 12px; font-weight: 600; color: ${statusColor};">${title}</span>
-                  <span style="font-size: 10px; color: #8c96ab; line-height: 1.3;">Gasto: ${this.formatCurrency(sum)} (${pct.toFixed(0)}% de ${this.formatCurrency(limit)}). Risco de falta de fluxo de caixa, o que causará atraso sequencial nas fases do seu <b>Cronograma</b>.</span>
-                </div>
-              </div>
-            `;
-          }
-        }
-      });
-
-      alertsContainer.innerHTML = alertsHtml;
-    }
-
-    // 7. Critical Risks scan (Escaneamento de Riscos)
-    const activeEnvs = this.app.selectedEnvironments;
+    // Scan risks
+    const activeEnvs = this.app.selectedEnvironments || [];
     const tasksProgress = this.app.conteudosController.tasksProgress || {};
     const criticalRisks = this.app.conteudosController.criticalRisks || [];
     const activeRisks = criticalRisks.filter(risk => activeEnvs.includes(risk.env) && !tasksProgress[risk.id]);
     const isRisksEnabled = localStorage.getItem('reformas_3p_pref_overruns') !== 'false';
-
     if (isRisksEnabled && activeRisks.length > 0) {
       bellWarningsCount += activeRisks.length;
     }
-
-    // 8. Notification Bell Badge
+    
+    // Update dynamic bell badge count
     const bellBadge = document.getElementById('dash-bell-badge');
     if (bellBadge) {
       bellBadge.textContent = bellWarningsCount;
       bellBadge.style.display = bellWarningsCount > 0 ? 'flex' : 'none';
-    }
-
-    // 9. Progresso Físico por Ambientes
-    const dashOverallPhysicalPercent = document.getElementById('dash-overall-physical-percent');
-    if (dashOverallPhysicalPercent) {
-      dashOverallPhysicalPercent.textContent = `${physicalProgress.toFixed(0)}%`;
-    }
-
-    const envListEl = document.getElementById('dash-environments-progress-list');
-    if (envListEl) {
-      envListEl.innerHTML = ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'].map(envId => {
-        if (!activeEnvs.includes(envId)) return '';
-        const envData = METODO_3P_DATABASE.checklists[envId];
-        const progress = this.app.conteudosController.getEnvironmentProgress(envId);
-        const isLocked = this.app.paywallController.isEnvironmentLocked(envId);
-        const lockText = isLocked ? ' 🔒' : '';
-        
-        return `
-          <div style="margin-bottom: 2px;">
-            <div style="display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 2px;">
-              <span style="font-weight: 500;">${envData.emoji} ${envData.name}${lockText}</span>
-              <span style="font-weight: 700; color: var(--color-success);">${progress.toFixed(0)}%</span>
-            </div>
-            <div class="progress-bar-container mini" style="height: 4px; background: rgba(255,255,255,0.05); margin-bottom: 4px;">
-              <div class="progress-bar" style="width: ${progress}%; background: var(--color-success); height: 100%;"></div>
-            </div>
-          </div>
-        `;
-      }).join('');
     }
   }
 

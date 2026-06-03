@@ -11,6 +11,7 @@ class DecisionsController {
 
   init() {
     this.renderEnvironmentsGrid();
+    this.loadSavedQuotes();
   }
 
   // Renders the list of environments in the "Protocolos" section
@@ -188,7 +189,7 @@ class DecisionsController {
     }).join('');
   }
 
-  compareQuotes() {
+  compareQuotes(avoidScroll = false) {
     const s1Name = document.getElementById('quote-s1-name')?.value || "Fornecedor A";
     const s1Price = parseFloat(document.getElementById('quote-s1-price')?.value) || 0;
     const s1Risk = parseInt(document.getElementById('quote-s1-risk')?.value) || 0;
@@ -276,13 +277,65 @@ class DecisionsController {
       localStorage.setItem('reformas_3p_quotes_completed', 'true');
       localStorage.setItem('reformas_3p_quotes_saved', JSON.stringify(suppliers));
 
+      // Save raw input values so we can reload the input form exactly as the user typed
+      const rawQuotesData = {
+        itemName: document.getElementById('quote-item-name')?.value || "",
+        s1: {
+          name: document.getElementById('quote-s1-name')?.value || "",
+          price: document.getElementById('quote-s1-price')?.value || "",
+          risk: document.getElementById('quote-s1-risk')?.value || "0"
+        },
+        s2: {
+          name: document.getElementById('quote-s2-name')?.value || "",
+          price: document.getElementById('quote-s2-price')?.value || "",
+          risk: document.getElementById('quote-s2-risk')?.value || "0"
+        },
+        s3: {
+          name: document.getElementById('quote-s3-name')?.value || "",
+          price: document.getElementById('quote-s3-price')?.value || "",
+          risk: document.getElementById('quote-s3-risk')?.value || "0"
+        }
+      };
+      localStorage.setItem('reformas_3p_raw_quotes_data', JSON.stringify(rawQuotesData));
+
       // Scroll to result box smoothly
-      resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (!avoidScroll) {
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
 
       // Update dashboard to reflect quotation changes and metrics immediately
       if (this.app.financeiroController) {
         this.app.financeiroController.renderDashboardCentral();
       }
+    }
+  }
+
+  loadSavedQuotes() {
+    try {
+      const rawDataStr = localStorage.getItem('reformas_3p_raw_quotes_data');
+      if (rawDataStr) {
+        const rawData = JSON.parse(rawDataStr);
+        
+        const itemInput = document.getElementById('quote-item-name');
+        if (itemInput && rawData.itemName) itemInput.value = rawData.itemName;
+        
+        ['s1', 's2', 's3'].forEach(key => {
+          const nameInput = document.getElementById(`quote-${key}-name`);
+          const priceInput = document.getElementById(`quote-${key}-price`);
+          const riskInput = document.getElementById(`quote-${key}-risk`);
+          
+          if (nameInput && rawData[key]?.name !== undefined) nameInput.value = rawData[key].name;
+          if (priceInput && rawData[key]?.price !== undefined) priceInput.value = rawData[key].price;
+          if (riskInput && rawData[key]?.risk !== undefined) riskInput.value = rawData[key].risk;
+        });
+      }
+      
+      const completed = localStorage.getItem('reformas_3p_quotes_completed');
+      if (completed === 'true') {
+        this.compareQuotes(true); // pass true to avoid scroll on auto-load
+      }
+    } catch (e) {
+      console.warn("Error loading saved quotes:", e);
     }
   }
 }

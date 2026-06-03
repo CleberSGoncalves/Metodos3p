@@ -241,6 +241,8 @@ class AppOrchestrator {
       this.financeiroController.updateDashboard();
     } else if (tabId === 'cronograma') {
       this.conteudosController.updateCronograma();
+    } else if (tabId === 'cotacoes') {
+      this.decisoesController.loadSavedQuotes();
     } else if (tabId === 'central') {
       this.switchCentralSection('portal');
     }
@@ -318,16 +320,18 @@ class AppOrchestrator {
     if (tabId === 'painel') {
       targetId = 'nav-btn-painel';
     } else if (tabId === 'orcamento') {
-      const sub = subTabId || (this.financeiroController ? this.financeiroController.activeSubTab : 'detalhado');
-      if (sub === 'projeto') targetId = 'nav-btn-projeto';
-      else if (sub === 'pagamentos') targetId = 'nav-btn-pagamentos';
-      else targetId = 'nav-btn-orcamento';
-    } else if (tabId === 'cotacoes') {
-      targetId = 'nav-btn-fornecedores';
+      targetId = 'nav-btn-planejar';
     } else if (tabId === 'central') {
       const sec = sectionId || this.activeCentralSection || 'portal';
-      if (sec === 'decisoes') targetId = 'nav-btn-protocolos';
-      else targetId = 'nav-btn-apoio';
+      if (sec === 'checklists') {
+        targetId = 'nav-btn-prevenir';
+      } else if (sec === 'decisoes') {
+        targetId = 'nav-btn-proteger';
+      } else {
+        targetId = 'nav-btn-central';
+      }
+    } else if (tabId === 'cotacoes') {
+      targetId = 'nav-btn-central';
     }
 
     if (targetId) {

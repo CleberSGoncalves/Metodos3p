@@ -164,6 +164,29 @@ class ContentsController {
     return (completedCount / allTasks.length) * 100;
   }
 
+  getPhaseProgress(phase) {
+    const activeEnvironments = (this.app.selectedEnvironments && this.app.selectedEnvironments.length > 0)
+      ? this.app.selectedEnvironments
+      : ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'];
+      
+    let totalTasks = 0;
+    let completedTasks = 0;
+    
+    activeEnvironments.forEach(envId => {
+      const envData = METODO_3P_DATABASE.checklists[envId];
+      if (envData && envData[phase]) {
+        envData[phase].forEach(task => {
+          totalTasks++;
+          if (this.tasksProgress[task.id]) {
+            completedTasks++;
+          }
+        });
+      }
+    });
+    
+    return totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+  }
+
   // ==========================================================================
   // PASSO 4: CRONOGRAMA SEQUENCIAL (GANTT STYLE)
   // ==========================================================================
