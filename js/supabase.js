@@ -276,6 +276,10 @@ class SupabaseClient {
     return results && results.length > 0 ? results[0] : null;
   }
 
+  async loadAllObras() {
+    return await this._get('obras', 'order=created_at.desc');
+  }
+
   // ==========================================================================
   // DESPESAS REAIS
   // ==========================================================================

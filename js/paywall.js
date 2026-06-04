@@ -44,7 +44,14 @@ class PaywallController {
     this.updatePaywallUI();
   }
 
+  isAdminUser() {
+    const adminEmails = ['carlasf.executive@gmail.com', 'binhole@gmail.com'];
+    const currentEmail = this.app.userEmail || localStorage.getItem('reformas_3p_user_email');
+    return currentEmail && adminEmails.includes(currentEmail.toLowerCase().trim());
+  }
+
   isEnvironmentLocked(envId) {
+    if (this.isAdminUser()) return false; // Admin bypass
     if (this.userTier === 'full_house') return false; // Full access
     
     if (this.userTier === 'one_room') {
@@ -57,6 +64,7 @@ class PaywallController {
   }
 
   isPdfLocked(pdfId, category) {
+    if (this.isAdminUser()) return false; // Admin bypass
     if (this.userTier === 'full_house') return false; // Full access
     
     // Free tier: basic PDFs are free to read (IDs pdf-1 to pdf-4, and pdf-doc), others locked
@@ -329,10 +337,32 @@ class PaywallController {
   updatePaywallUI() {
     const tierDisplay = document.getElementById('header-tier-display');
     const tierLabel = document.getElementById('tier-name-label');
-    const tierDot = tierDisplay.querySelector('.tier-dot');
+    const tierDot = tierDisplay ? tierDisplay.querySelector('.tier-dot') : null;
     
     const sellPanel = document.getElementById('premium-sell-panel');
     const activePanel = document.getElementById('premium-active-panel');
+    const adminActivePanel = document.getElementById('admin-active-panel');
+    
+    // Check admin first
+    if (this.isAdminUser()) {
+      if (tierLabel) tierLabel.textContent = "Administrador 🛠️";
+      if (tierDot) {
+        tierDot.className = "tier-dot premium";
+        tierDot.style.background = "#007fff";
+      }
+      if (sellPanel) sellPanel.style.display = 'none';
+      if (activePanel) activePanel.style.display = 'none';
+      if (adminActivePanel) adminActivePanel.style.display = 'block';
+
+      const adminBtn = document.getElementById('admin-floating-btn');
+      if (adminBtn) adminBtn.style.display = 'flex';
+
+      return;
+    }
+    
+    if (adminActivePanel) adminActivePanel.style.display = 'none';
+    const adminBtn = document.getElementById('admin-floating-btn');
+    if (adminBtn) adminBtn.style.display = 'none';
     
     if (this.userTier === 'full_house') {
       if (tierLabel) tierLabel.textContent = "Casa Completa 👑";

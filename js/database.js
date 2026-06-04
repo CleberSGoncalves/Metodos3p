@@ -743,3 +743,17 @@ for (let i = 9; i <= 60; i++) {
     <div class="tip-box">💡 <b>Conselho do Especialista Método 3P:</b> Use a barra de 'Descompasso de Obra' do app para verificar se o dinheiro pago corresponde exatamente à entrega física deste item na sua reforma.</div>`
   });
 }
+
+// Support manual custom links added by Administrator
+const savedCustomPdfs = localStorage.getItem('reformas_3p_custom_pdfs');
+if (savedCustomPdfs) {
+  try {
+    const list = JSON.parse(savedCustomPdfs);
+    list.forEach(pdf => {
+      METODO_3P_DATABASE.library.push(pdf);
+    });
+  } catch (e) {
+    console.error("Error loading custom pdfs:", e);
+  }
+}
+

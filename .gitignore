@@ -9,3 +9,4 @@ client_secret*.json
 node_modules/
 dist/
 client_secret_*.json
+.vercel

@@ -684,6 +684,15 @@ class ContentsController {
       return;
     }
     
+    // Support direct custom link URL added by Admin
+    if (pdf.url) {
+      this.app.triggerPushNotification("📖 ABRINDO LINK EXTERNO", `Redirecionando para o link cadastrado...`, "success");
+      setTimeout(() => {
+        window.open(pdf.url, '_blank');
+      }, 400);
+      return;
+    }
+
     // Otherwise, redirect to Gama App!
     const gamaLinks = {
       'pdf-1': 'https://gama.app/shared/reformas-sem-erro-pdf-1',

@@ -443,6 +443,164 @@ class AppOrchestrator {
     this.paywallController.purchaseSelectedTier();
   }
 
+  openAdminDashboard() {
+    if (!this.paywallController.isAdminUser()) {
+      this.triggerPushNotification("🚫 ACESSO NEGADO", "Apenas administradores podem acessar esta área.", "danger");
+      return;
+    }
+    const overlay = document.getElementById('drawer-admin-overlay');
+    if (overlay) overlay.classList.add('active');
+    this.refreshAdminUsersList();
+  }
+
+  closeAdminDashboard() {
+    const overlay = document.getElementById('drawer-admin-overlay');
+    if (overlay) overlay.classList.remove('active');
+  }
+
+  async refreshAdminUsersList() {
+    const container = document.getElementById('admin-users-list-container');
+    if (!container) return;
+    container.innerHTML = '<div style="font-size: 11px; color: #8c96ab; text-align: center; padding: 20px;">Carregando banco de dados Supabase...</div>';
+
+    try {
+      if (!supabaseDB || !supabaseDB.isConfigured) {
+        container.innerHTML = '<div style="font-size: 11px; color: #ff453a; text-align: center; padding: 20px;">Supabase não configurado.</div>';
+        return;
+      }
+      const list = await supabaseDB.loadAllObras();
+      if (!list || list.length === 0) {
+        container.innerHTML = '<div style="font-size: 11px; color: #8c96ab; text-align: center; padding: 20px;">Nenhum usuário cadastrado.</div>';
+        return;
+      }
+
+      // Count stats
+      let total = list.length;
+      let fullHouse = 0;
+      let oneRoom = 0;
+
+      container.innerHTML = list.map(user => {
+        const email = user.user_email || 'N/A';
+        const name = user.user_name || 'Usuário sem nome';
+        const tier = user.user_tier || 'free';
+        const unlocked = Array.isArray(user.unlocked_rooms) ? user.unlocked_rooms : [];
+        
+        let tierLabel = 'Grátis 🚧';
+        let tierStyle = 'color: #8c96ab; background: rgba(255,255,255,0.05);';
+        
+        if (tier === 'full_house') {
+          fullHouse++;
+          tierLabel = 'Casa Completa 👑';
+          tierStyle = 'color: #26d07c; background: rgba(38,208,124,0.1); border: 1px solid rgba(38,208,124,0.2);';
+        } else if (tier === 'one_room' || unlocked.length > 0) {
+          oneRoom++;
+          tierLabel = `Parcial (${unlocked.length}) 🔓`;
+          tierStyle = 'color: #ff9f0a; background: rgba(255,159,10,0.1); border: 1px solid rgba(255,159,10,0.2);';
+        }
+
+        const formattedRooms = unlocked.map(r => {
+          const names = {
+            cozinha: 'Cozinha',
+            banheiro: 'Banheiro',
+            sala: 'Sala',
+            quarto: 'Quarto',
+            area_externa: 'Área Externa'
+          };
+          return names[r] || r;
+        }).join(', ') || 'Nenhum';
+
+        return `
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 8px; padding: 10px; font-size: 11px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="color: #fff; font-size: 12px;">${name}</strong>
+              <span style="font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 700; ${tierStyle}">${tierLabel}</span>
+            </div>
+            <div style="color: #8c96ab; word-break: break-all;">📧 ${email}</div>
+            <div style="color: #8c96ab; font-size: 10px;">🔑 Ambientes liberados: <span style="color: #fff;">${formattedRooms}</span></div>
+          </div>
+        `;
+      }).join('');
+
+      const totalEl = document.getElementById('admin-stat-total-users');
+      const fullHouseEl = document.getElementById('admin-stat-full-house');
+      const oneRoomEl = document.getElementById('admin-stat-one-room');
+
+      if (totalEl) totalEl.textContent = total.toString();
+      if (fullHouseEl) fullHouseEl.textContent = fullHouse.toString();
+      if (oneRoomEl) oneRoomEl.textContent = oneRoom.toString();
+
+    } catch (e) {
+      console.error(e);
+      container.innerHTML = '<div style="font-size: 11px; color: #ff453a; text-align: center; padding: 20px;">Erro ao carregar usuários.</div>';
+    }
+  }
+
+  addCustomPdfByAdmin() {
+    if (!this.paywallController.isAdminUser()) {
+      this.triggerPushNotification("🚫 ACESSO NEGADO", "Apenas administradores podem cadastrar PDFs.", "danger");
+      return;
+    }
+
+    const titleEl = document.getElementById('admin-pdf-title');
+    const descEl = document.getElementById('admin-pdf-desc');
+    const urlEl = document.getElementById('admin-pdf-url');
+    const catEl = document.getElementById('admin-pdf-cat');
+    const pagesEl = document.getElementById('admin-pdf-pages');
+
+    if (!titleEl || !descEl || !urlEl || !catEl || !pagesEl) return;
+
+    const title = titleEl.value.trim();
+    const desc = descEl.value.trim();
+    const url = urlEl.value.trim();
+    const category = catEl.value;
+    const pages = parseInt(pagesEl.value) || 1;
+
+    if (!title || !desc || !url) {
+      alert("Por favor, preencha Título, Descrição e URL do PDF.");
+      return;
+    }
+
+    const newPdf = {
+      id: `pdf-custom-${Date.now()}`,
+      title: title,
+      desc: desc,
+      url: url,
+      category: category,
+      pages: pages,
+      tags: ["custom", category, "admin"]
+    };
+
+    // Load existing custom PDFs
+    let customPdfs = [];
+    const saved = localStorage.getItem('reformas_3p_custom_pdfs');
+    if (saved) {
+      try {
+        customPdfs = JSON.parse(saved);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    customPdfs.push(newPdf);
+    localStorage.setItem('reformas_3p_custom_pdfs', JSON.stringify(customPdfs));
+
+    // Also push to active memory database
+    if (typeof METODO_3P_DATABASE !== 'undefined' && METODO_3P_DATABASE.library) {
+      METODO_3P_DATABASE.library.push(newPdf);
+    }
+
+    // Clear fields
+    titleEl.value = '';
+    descEl.value = '';
+    urlEl.value = '';
+    pagesEl.value = '';
+
+    this.triggerPushNotification("➕ GUIA SALVO", "Guia com link manual publicado com sucesso na biblioteca!", "success");
+
+    // Re-render library grid
+    this.conteudosController.renderPdfGrid();
+  }
+
   // ==========================================================================
   // PROFILE STATISTICS DATA MANAGEMENT
   // ==========================================================================
@@ -1024,7 +1182,9 @@ class AppOrchestrator {
       if (supabaseDB && supabaseDB.isConfigured) {
         supabaseDB.loginWithGoogleIdToken(idToken).then(() => {
           this.syncFromSupabase(userProfile.email).then(() => {
-            // Avançar onboarding após sincronizar
+            this.paywallController.updatePaywallUI(); // update admin pill/panels
+            this.conteudosController.renderEnvironmentCards(); // rerender locked/unlocked
+            this.conteudosController.renderPdfGrid();
             this.triggerPushNotification(
               "🔐 AUTENTICADO COM SUCESSO!",
               `Bem-vindo, ${userProfile.name}! Dados sincronizados com a nuvem.`,
@@ -1035,6 +1195,9 @@ class AppOrchestrator {
         });
       } else {
         // Sem Supabase, avançar normalmente
+        this.paywallController.updatePaywallUI();
+        this.conteudosController.renderEnvironmentCards();
+        this.conteudosController.renderPdfGrid();
         this.triggerPushNotification(
           "🔐 AUTENTICADO COM SUCESSO!",
           `Bem-vindo, ${userProfile.name}! Sua conta foi vinculada.`,

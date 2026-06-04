@@ -7,7 +7,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- Build: v3.0.24 -->
+  <!-- Build: v3.0.25 -->
   <title>Reformas Sem Erro - Método 3P</title>
   
   <!-- Global JavaScript Error Catcher Overlay for debugging -->
@@ -1289,6 +1289,14 @@
               <h3 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #fff; text-align: center; margin-top: 6px;">Você é Premium (Casa Completa)!</h3>
               <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; text-align: center; margin-top: 4px;">Todas as ferramentas, ambientes, árvore de decisão e mais de 60 PDFs estão 100% livres de restrições.</p>
             </div>
+
+            <!-- Admin Active Panel (Shown if user is Administrator) -->
+            <div class="glass-card premium-active-card" id="admin-active-panel" style="display: none; background: rgba(0, 127, 255, 0.08); border: 1.5px solid #007fff; border-radius: 16px; padding: 14px; margin-bottom: 16px; text-align: center;">
+              <div style="font-size: 24px; text-align: center;">🛠️</div>
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #fff; text-align: center; margin-top: 6px;">Acesso Administrador Ativo!</h3>
+              <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; text-align: center; margin-top: 4px; margin-bottom: 8px;">Você possui bypass completo de paywall e acesso às ferramentas administrativas flutuantes de monitoramento.</p>
+              <button onclick="window.app.openAdminDashboard()" style="background: #007fff; color: #fff; font-weight: 700; border: none; border-radius: 8px; padding: 8px 12px; font-size: 11px; cursor: pointer; font-family: inherit;">Abrir Painel Admin</button>
+            </div>
             
             <!-- ⚙️ Configurações & Acompanhamento de Obra -->
             <div class="glass-card" style="margin-bottom: 16px; padding: 14px; text-align: left;">
@@ -1784,6 +1792,84 @@
         text.textContent = 'Offline';
       }
     }
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+  </script>
+
+  <!-- ==================== FLOATING ADMIN BUTTON & MODAL ==================== -->
+  <div id="admin-floating-btn" style="display: none; position: absolute; bottom: 84px; right: 16px; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #0055ff 0%, #0088ff 100%); border: 1.5px solid rgba(255,255,255,0.15); box-shadow: 0 4px 15px rgba(0, 111, 255, 0.4); z-index: 99; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; transition: all 0.3s ease;" onclick="window.app.openAdminDashboard()">
+    🛠️
+  </div>
+
+  <!-- ADMIN DASHBOARD OVERLAY -->
+  <div class="drawer-overlay" id="drawer-admin-overlay" onclick="window.app.closeAdminDashboard()" style="z-index: 200;">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="background: #0f121a; border-left: 1px solid rgba(255,255,255,0.08);">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px;">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #0088ff;">🛠️ Painel de Controle Admin</h3>
+          <p style="margin: 3px 0 0 0; font-size: 11px; color: #8c96ab;">Visualização global de cadastros, compras e inclusão de PDFs</p>
+        </div>
+        <button class="btn-close-drawer" onclick="window.app.closeAdminDashboard()">✖</button>
+      </div>
+
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+        
+        <!-- Add Custom Link Section -->
+        <div class="glass-card" style="padding: 14px; text-align: left; background: rgba(0, 127, 255, 0.03); border: 1px solid rgba(0, 127, 255, 0.15);">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 10px 0;">➕ Cadastrar Novo PDF com Link Manual</h4>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <input type="text" id="admin-pdf-title" class="form-control" placeholder="Título do Guia (Ex: 61. Guia Técnico de Pias)" style="padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff;">
+            <input type="text" id="admin-pdf-desc" class="form-control" placeholder="Descrição curta do conteúdo" style="padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff;">
+            <input type="text" id="admin-pdf-url" class="form-control" placeholder="URL do Link Manual (Ex: https://gama.app/... ou drive.google.com/...)" style="padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff;">
+            
+            <div style="display: flex; gap: 8px;">
+              <select id="admin-pdf-cat" class="form-control" style="flex: 1; padding: 10px; font-size: 12px; background: rgba(12,14,20,0.95); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff; height: 38px;">
+                <option value="tecnico">Técnico (Reboco, Impermeabilização)</option>
+                <option value="planejamento">Planejamento (Layout, Layouts)</option>
+                <option value="financeiro">Financeiro (Custos, Orçamento)</option>
+                <option value="contratos">Contratos (Minutas, Leis)</option>
+                <option value="materiais">Materiais (Pisos, Cimento)</option>
+              </select>
+              <input type="number" id="admin-pdf-pages" class="form-control" placeholder="Págs" style="width: 70px; padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff; text-align: center;">
+            </div>
+
+            <button onclick="window.app.addCustomPdfByAdmin()" style="width: 100%; background: #007fff; color: #fff; font-weight: 700; border: none; border-radius: 8px; padding: 10px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 4px;">Salvar e Publicar Guia</button>
+          </div>
+        </div>
+
+        <!-- Users and Purchases Section -->
+        <div class="glass-card" style="padding: 14px; text-align: left; flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0;">👥 Usuários Cadastrados & Compras</h4>
+            <button onclick="window.app.refreshAdminUsersList()" style="background: transparent; border: none; color: #0088ff; font-size: 11px; cursor: pointer; font-weight: 700;">🔄 Atualizar</button>
+          </div>
+
+          <!-- Statistics Summary Row -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); border-radius: 8px; padding: 6px; text-align: center;">
+              <div style="font-size: 10px; color: #8c96ab;">Total Contas</div>
+              <strong id="admin-stat-total-users" style="font-size: 14px; color: #fff;">0</strong>
+            </div>
+            <div style="background: rgba(38,208,124,0.05); border: 1px solid rgba(38,208,124,0.15); border-radius: 8px; padding: 6px; text-align: center;">
+              <div style="font-size: 10px; color: #8c96ab;">Casa Completa</div>
+              <strong id="admin-stat-full-house" style="font-size: 14px; color: #26d07c;">0</strong>
+            </div>
+            <div style="background: rgba(255,159,10,0.05); border: 1px solid rgba(255,159,10,0.15); border-radius: 8px; padding: 6px; text-align: center;">
+              <div style="font-size: 10px; color: #8c96ab;">Acesso Parcial</div>
+              <strong id="admin-stat-one-room" style="font-size: 14px; color: #ff9f0a;">0</strong>
+            </div>
+          </div>
+
+          <!-- User Grid List Scrollable -->
+          <div id="admin-users-list-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; max-height: 250px; padding-right: 4px; scrollbar-width: thin;">
+            <div style="font-size: 11px; color: #8c96ab; text-align: center; padding: 20px;">Carregando banco de dados Supabase...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     window.addEventListener('online', updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
     updateOnlineStatus();
