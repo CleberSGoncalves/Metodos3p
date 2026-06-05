@@ -1021,8 +1021,9 @@ class FinancialController {
       }
     }
 
+
     // ==========================================
-    // 5. 3P PHASES DYNAMIC PROGRESS BARS
+    // 5. 3P PHASES DYNAMIC PROGRESS BARS & TAB METRICS
     // ==========================================
     const planejarProgress = this.app.conteudosController.getPhaseProgress('planejar') || 0;
     const prevenirProgress = this.app.conteudosController.getPhaseProgress('prevenir') || 0;
@@ -1041,6 +1042,73 @@ class FinancialController {
     if (p2BarEl) p2BarEl.style.width = `${prevenirProgress}%`;
     if (p3PercentEl) p3PercentEl.textContent = `${protegerProgress.toFixed(0)}%`;
     if (p3BarEl) p3BarEl.style.width = `${protegerProgress}%`;
+
+    // Phase Circles & Labels
+    const planCircle = document.getElementById('planejar-phase-circle');
+    const planPct = document.getElementById('planejar-phase-pct');
+    if (planPct) planPct.textContent = `${planejarProgress.toFixed(0)}%`;
+    if (planCircle) {
+      const offset = 100 - planejarProgress;
+      planCircle.style.strokeDashoffset = offset;
+    }
+    
+    const prevCircle = document.getElementById('prevenir-phase-circle');
+    const prevPct = document.getElementById('prevenir-phase-pct');
+    if (prevPct) prevPct.textContent = `${prevenirProgress.toFixed(0)}%`;
+    if (prevCircle) {
+      const offset = 100 - prevenirProgress;
+      prevCircle.style.strokeDashoffset = offset;
+    }
+    
+    const protCircle = document.getElementById('proteger-phase-circle');
+    const protPct = document.getElementById('proteger-phase-pct');
+    if (protPct) protPct.textContent = `${protegerProgress.toFixed(0)}%`;
+    if (protCircle) {
+      const offset = 100 - protegerProgress;
+      protCircle.style.strokeDashoffset = offset;
+    }
+    
+    // Planejar tab values
+    const p1TotalVerba = document.getElementById('planejar-total-verba');
+    const p1MargemVerba = document.getElementById('planejar-margem-verba');
+    const p1DisponivelVerba = document.getElementById('planejar-disponivel-verba');
+    const p1PrevistoVerba = document.getElementById('planejar-previsto-verba');
+    const p1PrevistoVerbaPct = document.getElementById('planejar-previsto-verba-pct');
+    
+    if (p1TotalVerba) p1TotalVerba.textContent = this.formatCurrency(this.investment);
+    if (p1MargemVerba) p1MargemVerba.textContent = this.formatCurrency(this.investment * 0.1);
+    if (p1DisponivelVerba) p1DisponivelVerba.textContent = this.formatCurrency(this.budget);
+    if (p1PrevistoVerba) p1PrevistoVerba.textContent = this.formatCurrency(totalPlanned);
+    if (p1PrevistoVerbaPct) {
+      const pctMax = this.investment > 0 ? (totalPlanned / this.investment) * 100 : 0;
+      p1PrevistoVerbaPct.textContent = `${pctMax.toFixed(0)}% do máximo`;
+    }
+    
+    // Prevenir tab values
+    const p2Disponivel = document.getElementById('prevenir-disponivel');
+    const p2Previsto = document.getElementById('prevenir-previsto');
+    const p2PrevistoPct = document.getElementById('prevenir-previsto-pct');
+    const p2Pago = document.getElementById('prevenir-pago');
+    const p2PagoPct = document.getElementById('prevenir-pago-pct');
+    const p2Saldo = document.getElementById('prevenir-saldo');
+    const p2SaldoPct = document.getElementById('prevenir-saldo-pct');
+    
+    if (p2Disponivel) p2Disponivel.textContent = this.formatCurrency(this.budget);
+    if (p2Previsto) p2Previsto.textContent = this.formatCurrency(totalPlanned);
+    if (p2PrevistoPct) {
+      const pctDisp = this.budget > 0 ? (totalPlanned / this.budget) * 100 : 0;
+      p2PrevistoPct.textContent = `${pctDisp.toFixed(0)}% do disponível`;
+    }
+    if (p2Pago) p2Pago.textContent = this.formatCurrency(paidTotal);
+    if (p2PagoPct) {
+      const pctPago = totalPlanned > 0 ? (paidTotal / totalPlanned) * 100 : 0;
+      p2PagoPct.textContent = `${pctPago.toFixed(0)}% do previsto`;
+    }
+    if (p2Saldo) p2Saldo.textContent = this.formatCurrency(unpaidTotal);
+    if (p2SaldoPct) {
+      const pctSaldo = totalPlanned > 0 ? (unpaidTotal / totalPlanned) * 100 : 0;
+      p2SaldoPct.textContent = `${pctSaldo.toFixed(0)}% do previsto`;
+    }
 
     // ==========================================
     // 6. MAIN DYNAMIC ALERT BOX (DESCOMPASSO)
@@ -1145,7 +1213,7 @@ class FinancialController {
   }
 
   addPriorityItem() {
-    const input = document.getElementById('dash-priority-input');
+    const input = document.getElementById('planejar-priority-input') || document.getElementById('dash-priority-input');
     const text = input ? input.value.trim() : '';
     if (!text) return;
     
@@ -1189,7 +1257,7 @@ class FinancialController {
   }
 
   renderPriorityItems() {
-    const container = document.getElementById('dash-priority-list');
+    const container = document.getElementById('planejar-priority-list') || document.getElementById('dash-priority-list');
     if (!container) return;
     
     if (!this.priorityItems || this.priorityItems.length === 0) {
@@ -1206,5 +1274,203 @@ class FinancialController {
         <button onclick="window.app.financeiroController.deletePriorityItem('${item.id}')" style="background: none; border: none; color: #ff453a; font-size: 10px; cursor: pointer; padding: 2px 4px; opacity: 0.6; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">✕</button>
       </div>
     `).join('');
+  }
+
+  addQuickPriority(text) {
+    if (this.priorityItems.some(item => item.text.toLowerCase() === text.toLowerCase())) {
+      alert(`O item "${text}" já está na sua lista de prioridades!`);
+      return;
+    }
+    const newItem = {
+      id: 'prio_' + Date.now(),
+      text: text,
+      checked: false
+    };
+    this.priorityItems.push(newItem);
+    this.savePriorityItems();
+    this.renderPriorityItems();
+    if (this.app.syncPriorityItemsToSupabase) {
+      this.app.syncPriorityItemsToSupabase();
+    }
+  }
+
+  renderPrevenirTab() {
+    this.renderOrcamentoBlindadoTable();
+    this.renderContratacaoTable();
+    this.renderComprasSemErroTable();
+  }
+
+  switchPrevenirStep(stepNum, scroll = false) {
+    this.activePrevenirStep = stepNum;
+    
+    // Highlight timeline nodes
+    for (let i = 1; i <= 3; i++) {
+      const node = document.getElementById(`prevenir-node-${i}`);
+      if (node) {
+        if (i < stepNum) {
+          node.className = "timeline-step-node completed active";
+        } else if (i === stepNum) {
+          node.className = "timeline-step-node active";
+        } else {
+          node.className = "timeline-step-node";
+        }
+      }
+    }
+    
+    // Update timeline line fill width
+    const fill = document.getElementById('prevenir-timeline-line-fill');
+    if (fill) {
+      const widthPct = (stepNum - 1) * 50; // 0%, 50%, 100%
+      fill.style.width = `${widthPct}%`;
+    }
+    
+    // Smooth scroll to the specific content section if requested by user click
+    if (scroll) {
+      const content = document.getElementById(`prevenir-step-content-${stepNum}`);
+      if (content) {
+        content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+
+  renderOrcamentoBlindadoTable() {
+    const tbody = document.getElementById('prevenir-orcamento-table-body');
+    if (!tbody) return;
+    
+    if (this.plannedItems.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #8c96ab; font-size: 11px;">Nenhum item planejado ainda. Adicione itens clicando em "Adicionar item".</td></tr>`;
+      return;
+    }
+    
+    tbody.innerHTML = this.plannedItems.map(item => {
+      const typeLabel = item.category === 'material' ? '🧱 Material' : '👷 Serviço';
+      const deleteBtn = `<button class="btn btn-secondary btn-mini" style="padding: 2px 6px; color: var(--color-danger); border: none; background: rgba(255, 59, 48, 0.05); cursor: pointer;" onclick="window.app.financeiroController.deletePlannedItem('${item.id}'); window.app.financeiroController.renderOrcamentoBlindadoTable();">✕</button>`;
+      
+      return `
+        <tr>
+          <td><strong>${item.description}</strong></td>
+          <td>Geral</td>
+          <td>1</td>
+          <td style="color: #32d74b; font-weight: 700;">${this.formatCurrency(item.amount)}</td>
+          <td>-</td>
+          <td>-</td>
+          <td>${typeLabel} ${deleteBtn}</td>
+        </tr>
+      `;
+    }).join('');
+    
+    const totalEl = document.getElementById('prevenir-orcamento-total');
+    if (totalEl) totalEl.textContent = this.formatCurrency(this.getPlannedTotal());
+  }
+
+  renderContratacaoTable() {
+    const tbody = document.getElementById('prevenir-contratacao-table-body');
+    if (!tbody) return;
+    
+    const savedQuotesStr = localStorage.getItem('reformas_3p_quotes_saved');
+    const rawQuotesDataStr = localStorage.getItem('reformas_3p_raw_quotes_data');
+    
+    if (!savedQuotesStr) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #8c96ab; font-size: 11px;">Nenhuma cotação realizada ainda. Use a fase Decidir para comparar fornecedores!</td></tr>`;
+      return;
+    }
+    
+    try {
+      const suppliers = JSON.parse(savedQuotesStr);
+      const rawData = rawQuotesDataStr ? JSON.parse(rawQuotesDataStr) : {};
+      const serviceName = rawData.itemName || "Serviço Geral";
+      
+      tbody.innerHTML = suppliers.map((sup, index) => {
+        const status = index === 0 
+          ? '<span style="color: #32d74b; font-weight: 700;">Recomendado ⭐</span>' 
+          : '<span style="color: #8c96ab;">Comparado</span>';
+        
+        let riskLabel = 'Baixo (0%)';
+        let riskColor = '#32d74b';
+        if (sup.risk === 15) {
+          riskLabel = 'Médio (15%)';
+          riskColor = '#ff9f0a';
+        } else if (sup.risk === 40) {
+          riskLabel = 'Alto (40%)';
+          riskColor = '#ff453a';
+        }
+        
+        return `
+          <tr>
+            <td><strong>${sup.name}</strong></td>
+            <td>${serviceName}</td>
+            <td style="color: #fff; font-weight: 700;">${this.formatCurrency(sup.price)}</td>
+            <td>-</td>
+            <td style="color: ${riskColor}; font-weight: 600;">${riskLabel}</td>
+            <td>${status}</td>
+          </tr>
+        `;
+      }).join('');
+    } catch (e) {
+      console.error("Error rendering contratação table:", e);
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #ff453a; font-size: 11px;">Erro ao carregar cotações.</td></tr>`;
+    }
+  }
+
+  renderComprasSemErroTable() {
+    const tbody = document.getElementById('prevenir-compras-table-body');
+    if (!tbody) return;
+    
+    if (this.expenses.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #8c96ab; font-size: 11px;">Nenhuma compra ou pagamento registrado ainda.</td></tr>`;
+      return;
+    }
+    
+    tbody.innerHTML = this.expenses.map(exp => {
+      let formattedDate = exp.date;
+      try {
+        const d = new Date(exp.date + 'T00:00:00');
+        formattedDate = d.toLocaleDateString('pt-BR');
+      } catch (e) {}
+      
+      const isPaid = exp.status === 'pago';
+      const statusBadge = isPaid
+        ? `<span class="stats-badge" style="background: rgba(38,208,124,0.1); color: var(--color-success); border: 1px solid rgba(38,208,124,0.2); font-size: 9px; padding: 2px 6px; cursor: pointer;" onclick="window.app.financeiroController.toggleExpenseStatus('${exp.id}'); window.app.financeiroController.renderComprasSemErroTable();">Pago</span>`
+        : `<span class="stats-badge" style="background: rgba(255,159,10,0.1); color: var(--color-warning); border: 1px solid rgba(255,159,10,0.2); font-size: 9px; padding: 2px 6px; cursor: pointer;" onclick="window.app.financeiroController.toggleExpenseStatus('${exp.id}'); window.app.financeiroController.renderComprasSemErroTable();">A Pagar</span>`;
+      
+      const isDelivered = !!exp.delivered;
+      const deliveryBadge = isDelivered
+        ? `<span class="stats-badge" style="background: rgba(0,136,255,0.1); color: #0088ff; border: 1px solid rgba(0,136,255,0.2); font-size: 9px; padding: 2px 6px; cursor: pointer;" onclick="window.app.financeiroController.toggleExpenseDelivery('${exp.id}')">Recebido ✓</span>`
+        : `<span class="stats-badge" style="background: rgba(255,255,255,0.05); color: #8c96ab; border: 1px solid rgba(255,255,255,0.1); font-size: 9px; padding: 2px 6px; cursor: pointer;" onclick="window.app.financeiroController.toggleExpenseDelivery('${exp.id}')">Pendente ⏱️</span>`;
+        
+      const deleteBtn = `<button class="btn btn-secondary btn-mini" style="padding: 2px 6px; color: var(--color-danger); border: none; background: rgba(255, 59, 48, 0.05); cursor: pointer;" onclick="window.app.financeiroController.deleteExpense('${exp.id}'); window.app.financeiroController.renderComprasSemErroTable();">Excluir</button>`;
+      
+      return `
+        <tr>
+          <td><strong>${exp.description}</strong></td>
+          <td>-</td>
+          <td>${formattedDate}</td>
+          <td style="color: #fff; font-weight: 700;">${this.formatCurrency(exp.amount)}</td>
+          <td>${statusBadge}</td>
+          <td>${deliveryBadge}</td>
+          <td>${deleteBtn}</td>
+        </tr>
+      `;
+    }).join('');
+    
+    // Update counters
+    const countTotal = document.getElementById('compras-count-total');
+    const countDelivered = document.getElementById('compras-count-delivered');
+    const sumPaid = document.getElementById('compras-sum-paid');
+    
+    if (countTotal) countTotal.textContent = `${this.expenses.length} itens`;
+    if (countDelivered) {
+      const deliveredCount = this.expenses.filter(e => e.delivered).length;
+      countDelivered.textContent = `${deliveredCount} itens`;
+    }
+    if (sumPaid) sumPaid.textContent = this.formatCurrency(this.getPaidTotal());
+  }
+
+  toggleExpenseDelivery(id) {
+    const exp = this.expenses.find(e => e.id === id);
+    if (!exp) return;
+    exp.delivered = !exp.delivered;
+    this.saveExpenses();
+    this.renderComprasSemErroTable();
   }
 }

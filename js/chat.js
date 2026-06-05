@@ -28,25 +28,23 @@ SOBRE COBRANÇA E DESBLOQUEIO DE AMBIENTES/PROTOCOLOS (MUITO IMPORTANTE):
 DIRECIONAMENTO E LINKS INTERNOS DO APLICATIVO:
 Quando o usuário perguntar onde fica alguma coisa, como fazer um lançamento ou quiser ver um ambiente, você deve enviar um link inteligente no formato Markdown [Texto do Link](app://caminho). Isso irá levá-lo diretamente para a área solicitada:
 - Dashboard principal: [Painel Principal](app://painel)
-- Lançar despesas / Ver orçamento: [Financeiro e Orçamento](app://orcamento)
+- Fase 1 • Planejar: [Fase Planejar](app://planejar)
+- Fase 2 • Prevenir (Orçamentos, Cotações e Compras): [Fase Prevenir](app://prevenir)
+- Fase 3 • Proteger (Checklist Final, Garantias e Relatório): [Fase Proteger](app://proteger)
+- Fase • Decidir (Protocolos de Decisão): [Fase Decidir](app://decidir)
 - Abrir diretamente o formulário de lançamento de despesa: [Lançar Nova Despesa](app://despesas)
-- Cronograma da obra: [Cronograma da Obra](app://cronograma)
-- Cotações / Fornecedores: [Comparar Preços](app://cotacoes)
-- Portal Método 3P (Checklists/Protocolos): [Método 3P](app://central)
-- Biblioteca de PDFs: [Biblioteca de Conteúdos](app://central/biblioteca)
-- Matriz de Riscos: [Matriz de Riscos](app://central/riscos)
-- Ver os checklists de um ambiente específico:
-  - Cozinha: [Checklist da Cozinha](app://checklists/cozinha)
-  - Banheiro: [Checklist do Banheiro](app://checklists/banheiro)
-  - Sala: [Checklist da Sala](app://checklists/sala)
-  - Quarto: [Checklist do Quarto](app://checklists/quarto)
-  - Área Externa: [Checklist da Área Externa](app://checklists/area_externa)
-- Ver os protocolos de decisão técnica de um ambiente:
-  - Cozinha: [Protocolo da Cozinha](app://decisoes/cozinha)
-  - Banheiro: [Protocolo do Banheiro](app://decisoes/banheiro)
-  - Sala: [Protocolo da Sala](app://decisoes/sala)
-  - Quarto: [Protocolo do Quarto](app://decisoes/quarto)
-  - Área Externa: [Protocolo da Área Externa](app://decisoes/area_externa)
+- Ver os checklists/protocolos de um ambiente específico na Fase Planejar:
+  - Cozinha: [Planejar Cozinha](app://planejar/cozinha)
+  - Banheiro: [Planejar Banheiro](app://planejar/banheiro)
+  - Sala: [Planejar Sala](app://planejar/sala)
+  - Quarto: [Planejar Quarto](app://planejar/quarto)
+  - Área Externa: [Planejar Área Externa](app://planejar/area_externa)
+- Ver as decisões de um ambiente específico na Fase Decidir:
+  - Cozinha: [Decidir Cozinha](app://decidir/cozinha)
+  - Banheiro: [Decidir Banheiro](app://decidir/banheiro)
+  - Sala: [Decidir Sala](app://decidir/sala)
+  - Quarto: [Decidir Quarto](app://decidir/quarto)
+  - Área Externa: [Decidir Área Externa](app://decidir/area_externa)
 - Abrir meu Perfil / Configurações / Upgrade: [Meu Perfil](app://profile)`;
 
     // Wait for DOM
@@ -230,12 +228,36 @@ Quando o usuário perguntar onde fica alguma coisa, como fazer um lançamento ou
     try {
       if (primary === "painel") {
         this.app.switchTab('painel');
+      } else if (primary === "planejar") {
+        this.app.switchTab('planejar');
+        if (secondary) {
+          this.app.conteudosController.selectPlanejarEnvironment(secondary);
+        }
+      } else if (primary === "prevenir") {
+        this.app.switchTab('prevenir');
+        if (secondary) {
+          const stepMap = { 'orcamento': 1, 'contratacao': 2, 'compras': 3 };
+          this.app.financeiroController.switchPrevenirStep(stepMap[secondary] || 1);
+        }
+      } else if (primary === "proteger") {
+        this.app.switchTab('proteger');
+        if (secondary) {
+          const stepMap = { 'checklist': 1, 'garantias': 2, 'relatorio': 3 };
+          this.app.conteudosController.switchProtegerStep(stepMap[secondary] || 1);
+        }
+      } else if (primary === "decidir") {
+        this.app.switchTab('decidir');
+        if (secondary) {
+          this.app.decisoesController.selectDecidirEnvironment(secondary);
+        }
       } else if (primary === "orcamento") {
-        this.app.switchTab('orcamento');
+        this.app.switchTab('prevenir');
+        this.app.financeiroController.switchPrevenirStep(1);
       } else if (primary === "cronograma") {
-        this.app.switchTab('cronograma');
+        this.app.switchTab('planejar');
       } else if (primary === "cotacoes") {
-        this.app.switchTab('cotacoes');
+        this.app.switchTab('prevenir');
+        this.app.financeiroController.switchPrevenirStep(2);
       } else if (primary === "profile") {
         this.app.openProfileDrawer();
       } else if (primary === "despesas") {
@@ -244,27 +266,16 @@ Quando o usuário perguntar onde fica alguma coisa, como fazer um lançamento ou
         if (secondary) {
           this.app.paywallController.triggerEnvironmentPurchase(secondary);
         } else {
-          this.app.paywallController.showPaywallModal();
+          this.app.openProfileDrawer();
         }
       } else if (primary === "central") {
-        this.app.switchTab('central');
-        if (secondary) {
-          this.app.switchCentralSection(secondary);
-        } else {
-          this.app.switchCentralSection('portal');
-        }
+        this.app.switchTab('planejar');
       } else if (primary === "checklists" && secondary) {
-        this.app.switchTab('central');
-        this.app.switchCentralSection('checklists');
-        if (this.app.conteudosController) {
-          this.app.conteudosController.openEnvironmentDetail(secondary);
-        }
+        this.app.switchTab('planejar');
+        this.app.conteudosController.selectPlanejarEnvironment(secondary);
       } else if (primary === "decisoes" && secondary) {
-        this.app.switchTab('central');
-        this.app.switchCentralSection('decisoes');
-        if (this.app.decisoesController) {
-          this.app.decisoesController.openEnvironment(secondary);
-        }
+        this.app.switchTab('decidir');
+        this.app.decisoesController.selectDecidirEnvironment(secondary);
       }
       
       // Auto-minimize chat window to let user see where they navigated

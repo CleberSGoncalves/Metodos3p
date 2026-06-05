@@ -8,9 +8,11 @@ with open(log_path, "r", encoding="utf-8") as f:
         try:
             obj = json.loads(line)
             step_idx = obj.get('step_index')
-            if 2500 <= step_idx <= 2610:
+            if 9080 <= step_idx <= 9128:
                 out.append(f"STEP: {step_idx} | SOURCE: {obj.get('source')} | TYPE: {obj.get('type')}")
-                out.append(obj.get('content', ''))
+                out.append(str(obj.get('content', '')))
+                if obj.get('tool_calls'):
+                    out.append(f"TOOL CALLS: {json.dumps(obj.get('tool_calls'))}")
                 out.append("="*80)
         except Exception as e:
             pass

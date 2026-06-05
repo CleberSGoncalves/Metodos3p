@@ -211,40 +211,24 @@ class AppOrchestrator {
     // 4. Highlight navigation button
     this.highlightNavButton(tabId);
     
-    // Close checklist detail and protocols detail if switching away from central, resetting to portal
-    if (tabId !== 'central') {
-      try {
-        if (this.conteudosController) {
-          this.conteudosController.closeEnvironmentDetail();
-        }
-      } catch (e) {
-        console.warn("Could not close environment detail:", e);
-      }
-      try {
-        if (this.decisoesController) {
-          this.decisoesController.closeEnvironmentProtocols();
-        }
-      } catch (e) {
-        console.warn("Could not close environment protocols:", e);
-      }
-      try {
-        this.switchCentralSection('portal');
-      } catch (e) {
-        console.warn("Could not reset central section to portal:", e);
-      }
-    }
-    
     // Dynamic updates on tab click
     if (tabId === 'painel') {
       this.financeiroController.renderDashboardCentral();
-    } else if (tabId === 'orcamento') {
-      this.financeiroController.updateDashboard();
-    } else if (tabId === 'cronograma') {
-      this.conteudosController.updateCronograma();
-    } else if (tabId === 'cotacoes') {
-      this.decisoesController.loadSavedQuotes();
-    } else if (tabId === 'central') {
-      this.switchCentralSection('portal');
+    } else if (tabId === 'planejar') {
+      this.financeiroController.renderDashboardCentral(); // updates Limite da Reforma limits
+      this.financeiroController.renderPriorityItems(); // renders priorities list
+      this.conteudosController.renderPlanejarEnvironmentsScroll(); // renders rooms carrossel
+      this.conteudosController.renderPlanejarEtapas(); // renders steps for the selected environment
+    } else if (tabId === 'prevenir') {
+      this.financeiroController.renderPrevenirTab();
+      this.financeiroController.switchPrevenirStep(1, false); // highlight node 1 without scrolling
+    } else if (tabId === 'proteger') {
+      this.conteudosController.renderProtegerTab();
+      this.conteudosController.switchProtegerStep(1, false); // highlight node 1 without scrolling
+    } else if (tabId === 'decidir') {
+      this.decisoesController.renderDecidirEnvironmentsScroll();
+      this.decisoesController.renderDecidirPontos();
+      this.decisoesController.updateDecidirStats();
     }
 
     // Toggle floating wizard button visibility (only show on Painel / Dashboard tab)
@@ -272,72 +256,25 @@ class AppOrchestrator {
 
   switchCentralSection(sectionId) {
     this.activeCentralSection = sectionId;
-    const portalHome = document.getElementById('central-portal-home');
-    const phaseSwitcher = document.getElementById('central-phase-switcher');
-    
-    // Hide all sub-views in central
-    const subviews = document.querySelectorAll('#tab-central .sub-view');
-    subviews.forEach(sv => {
-      sv.style.display = 'none';
-      sv.classList.remove('active');
-    });
-    
-    if (sectionId === 'portal') {
-      if (portalHome) portalHome.style.display = 'flex';
-      if (phaseSwitcher) phaseSwitcher.style.display = 'grid';
-      this.conteudosController.renderPortalShortcuts();
+    if (sectionId === 'checklists') {
+      this.switchTab('planejar');
+    } else if (sectionId === 'decisoes') {
+      this.switchTab('decidir');
+    } else if (sectionId === 'biblioteca') {
+      this.switchTab('planejar');
+    } else if (sectionId === 'riscos') {
+      this.switchTab('painel');
     } else {
-      if (portalHome) portalHome.style.display = 'none';
-      if (phaseSwitcher) phaseSwitcher.style.display = 'none';
-      
-      const activeView = document.getElementById(`central-sec-${sectionId}`);
-      if (activeView) {
-        activeView.style.display = 'flex';
-        activeView.style.flexDirection = 'column';
-        activeView.classList.add('active');
-      }
-      
-      if (sectionId === 'checklists') {
-        this.conteudosController.renderEnvironmentCards();
-      } else if (sectionId === 'decisoes') {
-        this.decisoesController.renderEnvironmentsGrid();
-      } else if (sectionId === 'biblioteca') {
-        this.conteudosController.renderPdfGrid();
-      } else if (sectionId === 'riscos') {
-        this.conteudosController.renderRiskScanner();
-      }
+      this.switchTab('painel');
     }
-    
-    // Highlight correct navigation button
-    this.highlightNavButton('central', null, sectionId);
   }
 
   highlightNavButton(tabId, subTabId = null, sectionId = null) {
     const navItems = document.querySelectorAll('.app-navigation-bar .nav-item');
     navItems.forEach(item => item.classList.remove('active'));
 
-    let targetId = '';
-    if (tabId === 'painel') {
-      targetId = 'nav-btn-painel';
-    } else if (tabId === 'orcamento') {
-      targetId = 'nav-btn-planejar';
-    } else if (tabId === 'central') {
-      const sec = sectionId || this.activeCentralSection || 'portal';
-      if (sec === 'checklists') {
-        targetId = 'nav-btn-prevenir';
-      } else if (sec === 'decisoes') {
-        targetId = 'nav-btn-proteger';
-      } else {
-        targetId = 'nav-btn-central';
-      }
-    } else if (tabId === 'cotacoes') {
-      targetId = 'nav-btn-central';
-    }
-
-    if (targetId) {
-      const btn = document.getElementById(targetId);
-      if (btn) btn.classList.add('active');
-    }
+    const btn = document.getElementById(`nav-btn-${tabId}`);
+    if (btn) btn.classList.add('active');
   }
 
   // ==========================================================================

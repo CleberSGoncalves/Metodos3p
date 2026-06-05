@@ -13,6 +13,17 @@ class ContentsController {
     this.activePortalPhase = "planejar";
     this.portalSearchQuery = "";
     
+    // Load warranties
+    this.warranties = [];
+    const savedWarranties = localStorage.getItem('reformas_3p_warranties');
+    if (savedWarranties) {
+      try {
+        this.warranties = JSON.parse(savedWarranties);
+      } catch (e) {
+        this.warranties = [];
+      }
+    }
+    
     this.cronogramaDurations = {
       stage1: 5,
       stage2: 10,
@@ -109,12 +120,29 @@ class ContentsController {
 
   init() {
     this.loadTasksProgress();
+    
+    // Select default environment
+    const allEnvIds = ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'];
+    const activeSaved = localStorage.getItem('reformas_3p_active_env');
+    if (activeSaved && !this.app.paywallController.isEnvironmentLocked(activeSaved)) {
+      this.activeEnvironment = activeSaved;
+    } else {
+      const unlocked = allEnvIds.find(id => !this.app.paywallController.isEnvironmentLocked(id));
+      this.activeEnvironment = unlocked || 'cozinha';
+    }
+
     this.renderEnvironmentCards();
     this.renderPdfGrid();
     
     // Init sequential cronograma durations
     this.initCronograma();
     this.renderRiskScanner();
+
+    // Initial render of Planejar & Proteger tabs
+    this.renderPlanejarEnvironmentsScroll();
+    this.renderPlanejarEtapas();
+    this.updatePlanejarPhaseProgress();
+    this.updateProtegerSummaryMetrics();
   }
 
   loadTasksProgress() {
@@ -1077,5 +1105,439 @@ class ContentsController {
   openEnvironmentProtocol(envId) {
     this.app.switchCentralSection('decisoes');
     this.app.decisoesController.openEnvironment(envId);
+  }
+
+  // ==========================================
+  // PHASE 1: PLANEJAR METHODS
+  // ==========================================
+  renderPlanejarEnvironmentsScroll() {
+    const container = document.getElementById('planejar-environments-scroll');
+    if (!container) return;
+    
+    const allEnvIds = ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'];
+    
+    container.innerHTML = allEnvIds.map(envId => {
+      const envData = METODO_3P_DATABASE.checklists[envId];
+      if (!envData) return '';
+      
+      const isSelected = this.activeEnvironment === envId;
+      const isLocked = this.app.paywallController.isEnvironmentLocked(envId);
+      const progress = this.getEnvironmentProgress(envId);
+      
+      const activeClass = isSelected ? 'active' : '';
+      const lockIcon = isLocked ? ' 🔒' : '';
+      
+      return `
+        <div class="env-carousel-card ${activeClass}" onclick="window.app.conteudosController.selectPlanejarEnvironment('${envId}')">
+          <div style="font-size: 20px; margin-bottom: 6px;">${envData.emoji}</div>
+          <div style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 2px;">${envData.name}${lockIcon}</div>
+          <div style="font-size: 9px; color: ${isSelected ? '#32d74b' : '#8c96ab'}; font-weight: 600;">${progress.toFixed(0)}%</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  selectPlanejarEnvironment(envId) {
+    if (this.app.paywallController.isEnvironmentLocked(envId)) {
+      this.app.paywallController.triggerEnvironmentPurchase(envId);
+      return;
+    }
+    
+    this.activeEnvironment = envId;
+    localStorage.setItem('reformas_3p_active_env', envId);
+    
+    this.renderPlanejarEnvironmentsScroll();
+    this.renderPlanejarEtapas();
+    this.updatePlanejarPhaseProgress();
+  }
+
+  renderPlanejarEtapas() {
+    const container = document.getElementById('planejar-etapas-list');
+    if (!container) return;
+    
+    const envId = this.activeEnvironment || 'cozinha';
+    const envData = METODO_3P_DATABASE.checklists[envId];
+    if (!envData) return;
+    
+    const titleEl = document.getElementById('planejar-etapas-title');
+    if (titleEl) titleEl.textContent = `📋 ETAPAS DO PLANEJAMENTO - ${envData.name.toUpperCase()}`;
+    
+    const tasks = envData.planejar || [];
+    
+    if (tasks.length === 0) {
+      container.innerHTML = `<div style="font-size: 11px; color: #8c96ab; text-align: center; padding: 20px;">Nenhuma etapa encontrada.</div>`;
+      return;
+    }
+    
+    const pdfMap = {
+      'coz-pl-1': 'pdf-doc', 'coz-pl-2': 'pdf-7', 'coz-pl-3': 'pdf-8', 'coz-pl-4': 'pdf-1',
+      'ban-pl-1': 'pdf-doc', 'ban-pl-2': 'pdf-doc', 'ban-pl-3': 'pdf-8', 'ban-pl-4': 'pdf-7',
+      'sal-pl-1': 'pdf-doc', 'sal-pl-2': 'pdf-6', 'sal-pl-3': 'pdf-7',
+      'qua-pl-1': 'pdf-doc', 'qua-pl-2': 'pdf-6', 'qua-pl-3': 'pdf-7',
+      'ext-pl-1': 'pdf-8', 'ext-pl-2': 'pdf-1', 'ext-pl-3': 'pdf-7'
+    };
+    
+    let completedCount = 0;
+    container.innerHTML = tasks.map(task => {
+      const isCompleted = !!this.tasksProgress[task.id];
+      if (isCompleted) completedCount++;
+      const completedClass = isCompleted ? 'completed' : '';
+      
+      const pdfId = pdfMap[task.id] || 'pdf-doc';
+      
+      return `
+        <div class="task-item-row ${completedClass}">
+          <div class="task-checkbox-wrapper" onclick="window.app.conteudosController.togglePlanejarTask('${task.id}')">
+            <div class="task-check-circle">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="task-info-block" onclick="window.app.conteudosController.togglePlanejarTask('${task.id}')">
+            <div class="task-title" style="font-weight: 700; font-size: 13px;">${task.title}</div>
+            <div class="task-desc" style="font-size: 11px; color: var(--text-secondary);">${task.desc}</div>
+          </div>
+          <button class="btn btn-secondary btn-mini" style="margin-left: auto; font-size: 10px; padding: 4px 8px; border-color: rgba(50,215,75,0.3); color: #32d74b; background: rgba(50,215,75,0.05);" onclick="window.app.conteudosController.openPdfReader('${pdfId}')">Guia Técnico 📖</button>
+        </div>`;
+    }).join('');
+    
+    const countEl = document.getElementById('planejar-etapas-count');
+    const barEl = document.getElementById('planejar-etapas-progress-bar');
+    
+    const pct = tasks.length > 0 ? (completedCount / tasks.length) * 100 : 0;
+    if (countEl) countEl.textContent = `${completedCount} de ${tasks.length} concluídas`;
+    if (barEl) barEl.style.width = `${pct}%`;
+  }
+
+  togglePlanejarTask(taskId) {
+    this.tasksProgress[taskId] = !this.tasksProgress[taskId];
+    this.saveTasksProgress();
+    this.renderPlanejarEtapas();
+    this.renderPlanejarEnvironmentsScroll();
+    this.updatePlanejarPhaseProgress();
+    
+    this.app.updateProfileStats();
+    this.app.financeiroController.renderDashboardCentral();
+    
+    // Sync with Supabase in background
+    if (supabaseDB && supabaseDB.isConfigured && this.app.userEmail) {
+      supabaseDB.saveTaskProgress(
+        this.app.userEmail,
+        taskId,
+        !!this.tasksProgress[taskId]
+      );
+    }
+  }
+
+  updatePlanejarPhaseProgress() {
+    const planejarProgress = this.getPhaseProgress('planejar') || 0;
+    const circle = document.getElementById('planejar-phase-circle');
+    const pctLabel = document.getElementById('planejar-phase-pct');
+    if (pctLabel) pctLabel.textContent = `${planejarProgress.toFixed(0)}%`;
+    if (circle) {
+      const offset = 100 - planejarProgress;
+      circle.style.strokeDashoffset = offset;
+    }
+  }
+
+  // ==========================================
+  // PHASE 3: PROTEGER METHODS
+  // ==========================================
+  renderProtegerTab() {
+    this.renderProtegerChecklistTable();
+    this.renderProtegerGarantiasTable();
+    this.renderProtegerRelatorioFinal();
+  }
+
+  switchProtegerStep(stepNum, scroll = false) {
+    this.activeProtegerStep = stepNum;
+    
+    // Highlight timeline nodes
+    for (let i = 1; i <= 3; i++) {
+      const node = document.getElementById(`proteger-node-${i}`);
+      if (node) {
+        if (i < stepNum) {
+          node.className = "timeline-step-node completed active";
+        } else if (i === stepNum) {
+          node.className = "timeline-step-node active";
+        } else {
+          node.className = "timeline-step-node";
+        }
+      }
+    }
+    
+    // Update timeline line fill width
+    const fill = document.getElementById('proteger-timeline-line-fill');
+    if (fill) {
+      const widthPct = (stepNum - 1) * 50; // 0%, 50%, 100%
+      fill.style.width = `${widthPct}%`;
+    }
+    
+    // Smooth scroll to the specific content section if requested by user click
+    if (scroll) {
+      const content = document.getElementById(`proteger-step-content-${stepNum}`);
+      if (content) {
+        content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+
+  renderProtegerChecklistTable() {
+    const tbody = document.getElementById('proteger-checklist-table-body');
+    if (!tbody) return;
+    
+    const envId = this.activeEnvironment || 'cozinha';
+    const envData = METODO_3P_DATABASE.checklists[envId];
+    if (!envData) return;
+    
+    const tasks = envData.proteger || [];
+    
+    if (tasks.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #8c96ab; font-size: 11px;">Nenhuma etapa de proteção cadastrada para este ambiente.</td></tr>`;
+      return;
+    }
+    
+    let completedCount = 0;
+    tbody.innerHTML = tasks.map(task => {
+      const isCompleted = !!this.tasksProgress[task.id];
+      if (isCompleted) completedCount++;
+      
+      const statusBadge = isCompleted 
+        ? `<span class="stats-badge" style="background: rgba(38,208,124,0.1); color: var(--color-success); border: 1px solid rgba(38,208,124,0.2); font-size: 9px; padding: 2px 6px;">Concluído ✓</span>`
+        : `<span class="stats-badge" style="background: rgba(255,159,10,0.1); color: var(--color-warning); border: 1px solid rgba(255,159,10,0.2); font-size: 9px; padding: 2px 6px;">Pendente ⏱️</span>`;
+        
+      const toggleAction = `window.app.conteudosController.toggleProtegerTask('${task.id}')`;
+      const actionBtn = `<button class="btn btn-secondary btn-mini" style="font-size: 9px; padding: 2px 6px;" onclick="${toggleAction}">${isCompleted ? 'Desmarcar' : 'Concluir'}</button>`;
+      
+      return `
+        <tr>
+          <td><strong>${task.title}</strong></td>
+          <td>${envData.name}</td>
+          <td>${statusBadge}</td>
+          <td style="font-size: 10px; color: #8c96ab; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${task.desc}</td>
+          <td>${actionBtn}</td>
+        </tr>
+      `;
+    }).join('');
+    
+    // Update footer labels
+    const concludedText = document.getElementById('proteger-checklist-concluidos-text');
+    if (concludedText) {
+      const pct = tasks.length > 0 ? (completedCount / tasks.length) * 100 : 0;
+      concludedText.textContent = `${completedCount} de ${tasks.length} (${pct.toFixed(0)}%)`;
+    }
+    
+    this.updateProtegerSummaryMetrics();
+  }
+
+  toggleProtegerTask(taskId) {
+    this.tasksProgress[taskId] = !this.tasksProgress[taskId];
+    this.saveTasksProgress();
+    this.renderProtegerChecklistTable();
+    this.updateProtegerPhaseProgress();
+    
+    this.app.updateProfileStats();
+    this.app.financeiroController.renderDashboardCentral();
+    
+    // Sync with Supabase in background
+    if (supabaseDB && supabaseDB.isConfigured && this.app.userEmail) {
+      supabaseDB.saveTaskProgress(
+        this.app.userEmail,
+        taskId,
+        !!this.tasksProgress[taskId]
+      );
+    }
+  }
+
+  updateProtegerPhaseProgress() {
+    const protegerProgress = this.getPhaseProgress('proteger') || 0;
+    const circle = document.getElementById('proteger-phase-circle');
+    const pctLabel = document.getElementById('proteger-phase-pct');
+    if (pctLabel) pctLabel.textContent = `${protegerProgress.toFixed(0)}%`;
+    if (circle) {
+      const offset = 100 - protegerProgress;
+      circle.style.strokeDashoffset = offset;
+    }
+  }
+
+  saveWarranties() {
+    localStorage.setItem('reformas_3p_warranties', JSON.stringify(this.warranties));
+    this.updateProtegerSummaryMetrics();
+  }
+
+  openAddWarrantyDrawer() {
+    const supplier = prompt("Nome do Fornecedor / Fabricante:");
+    if (!supplier) return;
+    const item = prompt("Produto ou Serviço:");
+    if (!item) return;
+    const duration = prompt("Tempo de Garantia (Ex: 1 ano, 5 anos):");
+    if (!duration) return;
+    
+    const today = new Date().toISOString().split('T')[0];
+    const startDate = prompt("Data de Início (AAAA-MM-DD):", today) || today;
+    
+    let years = 1;
+    if (duration.toLowerCase().includes('ano')) {
+      years = parseInt(duration) || 1;
+    } else if (duration.toLowerCase().includes('mes')) {
+      years = (parseInt(duration) || 12) / 12;
+    }
+    
+    let endDate = '';
+    try {
+      const d = new Date(startDate + 'T00:00:00');
+      d.setFullYear(d.getFullYear() + years);
+      endDate = d.toISOString().split('T')[0];
+    } catch(e) {
+      endDate = startDate;
+    }
+    
+    const newWarranty = {
+      id: 'warr-' + Date.now(),
+      supplier: supplier,
+      item: item,
+      duration: duration,
+      startDate: startDate,
+      endDate: endDate,
+      docUrl: '#'
+    };
+    
+    this.warranties.push(newWarranty);
+    this.saveWarranties();
+    this.renderProtegerGarantiasTable();
+    this.app.triggerPushNotification("🛡️ GARANTIA ADICIONADA", `Garantia de "${item}" registrada com sucesso.`, "success");
+  }
+
+  deleteWarranty(id) {
+    this.warranties = this.warranties.filter(w => w.id !== id);
+    this.saveWarranties();
+    this.renderProtegerGarantiasTable();
+  }
+
+  renderProtegerGarantiasTable() {
+    const tbody = document.getElementById('proteger-garantias-table-body');
+    if (!tbody) return;
+    
+    if (this.warranties.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #8c96ab; font-size: 11px;">Nenhuma garantia registrada ainda. Clique em "Adicionar garantia".</td></tr>`;
+      return;
+    }
+    
+    tbody.innerHTML = this.warranties.map(w => {
+      let fStart = w.startDate;
+      let fEnd = w.endDate;
+      try {
+        fStart = new Date(w.startDate + 'T00:00:00').toLocaleDateString('pt-BR');
+        fEnd = new Date(w.endDate + 'T00:00:00').toLocaleDateString('pt-BR');
+      } catch (e) {}
+      
+      const docLink = w.docUrl && w.docUrl !== '#'
+        ? `<a href="${w.docUrl}" target="_blank" style="color: #bf5af2; font-weight: 700; text-decoration: none;">Download 📂</a>`
+        : `<span style="color: #8c96ab; font-style: italic;">Sem anexo</span>`;
+        
+      const deleteBtn = `<button class="btn btn-secondary btn-mini" style="padding: 2px 6px; color: var(--color-danger); border: none; background: rgba(255, 59, 48, 0.05); cursor: pointer;" onclick="window.app.conteudosController.deleteWarranty('${w.id}')">✕</button>`;
+      
+      return `
+        <tr>
+          <td><strong>${w.supplier}</strong></td>
+          <td>${w.item}</td>
+          <td style="color: #bf5af2; font-weight: 700;">${w.duration}</td>
+          <td>${fStart}</td>
+          <td>${fEnd}</td>
+          <td>${docLink}</td>
+          <td>${deleteBtn}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  renderProtegerRelatorioFinal() {
+    const fin = this.app.financeiroController;
+    if (!fin) return;
+    
+    const totalSpent = fin.getTotalSpent();
+    const budget = fin.budget;
+    const economy = budget - totalSpent;
+    
+    const budgetEl = document.getElementById('report-metric-budget');
+    const executedEl = document.getElementById('report-metric-executed');
+    const economyEl = document.getElementById('report-metric-economy');
+    
+    if (budgetEl) budgetEl.textContent = fin.formatCurrency(budget);
+    if (executedEl) executedEl.textContent = fin.formatCurrency(totalSpent);
+    if (economyEl) {
+      economyEl.textContent = fin.formatCurrency(Math.max(0, economy));
+      economyEl.style.color = economy >= 0 ? '#32d74b' : '#ff453a';
+    }
+    
+    // Update doc counters
+    const nfEl = document.getElementById('report-doc-count-nfs');
+    const contractEl = document.getElementById('report-doc-count-contracts');
+    const warrantyEl = document.getElementById('report-doc-count-warranties');
+    const receiptEl = document.getElementById('report-doc-count-receipts');
+    const photoEl = document.getElementById('report-doc-count-photos');
+    
+    const invoiceExpenses = fin.expenses.filter(e => e.status === 'pago');
+    const pendingExpenses = fin.expenses.filter(e => e.status === 'a_pagar');
+    
+    if (nfEl) nfEl.textContent = `${invoiceExpenses.length} arquivos`;
+    if (contractEl) contractEl.textContent = `${Math.min(3, fin.expenses.length)} arquivos`;
+    if (warrantyEl) warrantyEl.textContent = `${this.warranties.length} arquivos`;
+    if (receiptEl) receiptEl.textContent = `${pendingExpenses.length} arquivos`;
+    
+    let photosCount = 0;
+    const allEnvIds = ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'];
+    allEnvIds.forEach(envId => {
+      const savedPhotos = localStorage.getItem(`reformas_3p_photos_${envId}`);
+      if (savedPhotos) {
+        try {
+          const list = JSON.parse(savedPhotos);
+          photosCount += list.length;
+        } catch (e) {}
+      }
+    });
+    if (photoEl) photoEl.textContent = `${photosCount} arquivos`;
+  }
+
+  updateProtegerSummaryMetrics() {
+    const checkedItemsEl = document.getElementById('proteger-metric-checked-items');
+    const checkedItemsPctEl = document.getElementById('proteger-metric-checked-items-pct');
+    const warrantiesEl = document.getElementById('proteger-metric-warranties');
+    const documentsEl = document.getElementById('proteger-metric-documents');
+    const finalProgressEl = document.getElementById('proteger-metric-final-progress');
+    
+    const activeEnvironments = this.app.selectedEnvironments || ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'];
+    
+    let totalTasks = 0;
+    let completedTasks = 0;
+    
+    activeEnvironments.forEach(envId => {
+      const envData = METODO_3P_DATABASE.checklists[envId];
+      if (envData && envData.proteger) {
+        envData.proteger.forEach(t => {
+          totalTasks++;
+          if (this.tasksProgress[t.id]) completedTasks++;
+        });
+      }
+    });
+    
+    if (checkedItemsEl) checkedItemsEl.textContent = `${completedTasks} / ${totalTasks}`;
+    if (checkedItemsPctEl) {
+      const pct = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+      checkedItemsPctEl.textContent = `${pct.toFixed(0)}% concluído`;
+    }
+    
+    if (warrantiesEl) warrantiesEl.textContent = this.warranties.length.toString();
+    
+    let docsCount = this.warranties.length;
+    const fin = this.app.financeiroController;
+    if (fin) {
+      docsCount += fin.expenses.length;
+    }
+    if (documentsEl) documentsEl.textContent = docsCount.toString();
+    
+    const overallProgress = this.getPhaseProgress('proteger') || 0;
+    if (finalProgressEl) finalProgressEl.textContent = `${overallProgress.toFixed(0)}%`;
   }
 }

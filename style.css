@@ -5251,3 +5251,287 @@ label {
     font-size: 6.5px !important;
   }
 }
+
+/* ==========================================================================
+   NEW REDESIGN STYLES - METODO 3P
+   ========================================================================== */
+   
+/* Tab bar active states override */
+#nav-btn-painel.active {
+  color: #ff9f0a !important;
+}
+#nav-btn-painel.active .nav-icon {
+  filter: drop-shadow(0 0 4px rgba(255, 159, 10, 0.4)) !important;
+}
+
+#nav-btn-planejar.active {
+  color: #32d74b !important;
+}
+#nav-btn-planejar.active .nav-icon {
+  filter: drop-shadow(0 0 4px rgba(50, 215, 75, 0.4)) !important;
+}
+
+#nav-btn-prevenir.active {
+  color: #0088ff !important;
+}
+#nav-btn-prevenir.active .nav-icon {
+  filter: drop-shadow(0 0 4px rgba(0, 136, 255, 0.4)) !important;
+}
+
+#nav-btn-proteger.active {
+  color: #bf5af2 !important;
+}
+#nav-btn-proteger.active .nav-icon {
+  filter: drop-shadow(0 0 4px rgba(191, 90, 242, 0.4)) !important;
+}
+
+#nav-btn-decidir.active {
+  color: #ff375f !important;
+}
+#nav-btn-decidir.active .nav-icon {
+  filter: drop-shadow(0 0 4px rgba(255, 55, 95, 0.4)) !important;
+}
+
+/* Score 3P and Pill */
+.score-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.healthy-pill {
+  background: rgba(38, 208, 124, 0.1);
+  border: 1px solid rgba(38, 208, 124, 0.25);
+  color: #26d07c;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+}
+
+/* Phase Progress Timelines */
+.steps-timeline-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin: 16px 0;
+  padding: 0 10px;
+}
+
+.steps-timeline-line {
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  right: 30px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 1;
+}
+
+.steps-timeline-line-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--color-success);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.timeline-step-node {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.timeline-step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #121520;
+  border: 2px solid rgba(255,255,255,0.12);
+  color: #8c96ab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.timeline-step-node.completed .timeline-step-circle {
+  background: rgba(38, 208, 124, 0.15);
+  border-color: #26d07c;
+  color: #26d07c;
+}
+
+.timeline-step-node.active .timeline-step-circle {
+  background: #ff6a00;
+  border-color: #ff9f0a;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 106, 0, 0.35);
+}
+
+.timeline-step-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #8c96ab;
+  white-space: nowrap;
+}
+
+.timeline-step-node.active .timeline-step-label {
+  color: #ffffff;
+}
+
+/* Premium Table Layouts */
+.premium-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 11px;
+  color: #8c96ab;
+}
+
+.premium-table th {
+  padding: 8px 10px;
+  font-weight: 700;
+  color: #576075;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+}
+
+.premium-table td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+  vertical-align: middle;
+}
+
+.premium-table tr:hover {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.badge-table-status {
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.badge-table-status.approved {
+  background: rgba(38, 208, 124, 0.12);
+  color: #26d07c;
+  border: 1px solid rgba(38, 208, 124, 0.2);
+}
+
+.badge-table-status.pending {
+  background: rgba(255, 159, 10, 0.12);
+  color: #ff9f0a;
+  border: 1px solid rgba(255, 159, 10, 0.2);
+}
+
+.badge-table-status.danger {
+  background: rgba(255, 59, 48, 0.12);
+  color: #ff3b30;
+  border: 1px solid rgba(255, 59, 48, 0.2);
+}
+
+/* Decidir Tab specific theme */
+.decidir-active-theme {
+  border-color: rgba(255, 55, 95, 0.25) !important;
+  background: rgba(255, 55, 95, 0.03) !important;
+}
+
+/* Horizontal Environments Scroll */
+.environments-scroll-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 16px;
+  scrollbar-width: none;
+}
+
+.environments-scroll-row::-webkit-scrollbar {
+  display: none;
+}
+
+.env-carousel-card {
+  flex: 0 0 120px;
+  background: rgba(15, 18, 26, 0.45);
+  border: 1.5px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.env-carousel-card.active {
+  border-color: #26d07c;
+  background: rgba(38, 208, 124, 0.04);
+}
+
+.env-carousel-card.active.blue {
+  border-color: #0088ff;
+  background: rgba(0, 136, 255, 0.04);
+}
+
+.env-carousel-card.active.pink {
+  border-color: #ff375f;
+  background: rgba(255, 55, 95, 0.04);
+}
+
+.env-carousel-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Custom colors for timeline step active/completed nodes by phase */
+#tab-prevenir .timeline-step-node.active .timeline-step-circle {
+  background: rgba(0, 136, 255, 0.15);
+  border-color: #0088ff;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(0, 136, 255, 0.35);
+}
+#tab-prevenir .timeline-step-node.completed .timeline-step-circle {
+  background: rgba(0, 136, 255, 0.1);
+  border-color: rgba(0, 136, 255, 0.6);
+  color: #0088ff;
+}
+#tab-prevenir .timeline-step-node.active .timeline-step-label {
+  color: #0088ff;
+}
+
+#tab-proteger .timeline-step-node.active .timeline-step-circle {
+  background: rgba(191, 90, 242, 0.15);
+  border-color: #bf5af2;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(191, 90, 242, 0.35);
+}
+#tab-proteger .timeline-step-node.completed .timeline-step-circle {
+  background: rgba(191, 90, 242, 0.1);
+  border-color: rgba(191, 90, 242, 0.6);
+  color: #bf5af2;
+}
+#tab-proteger .timeline-step-node.active .timeline-step-label {
+  color: #bf5af2;
+}
+

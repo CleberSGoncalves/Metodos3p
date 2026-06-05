@@ -12,6 +12,49 @@ class DecisionsController {
   init() {
     this.renderEnvironmentsGrid();
     this.loadSavedQuotes();
+    
+    // Select default active environment
+    const allEnvIds = ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'];
+    const activeSaved = localStorage.getItem('reformas_3p_active_env');
+    if (activeSaved && !this.app.paywallController.isEnvironmentLocked(activeSaved)) {
+      this.activeEnvironment = activeSaved;
+    } else {
+      const unlocked = allEnvIds.find(id => !this.app.paywallController.isEnvironmentLocked(id));
+      this.activeEnvironment = unlocked || 'cozinha';
+    }
+
+    // Register decisionPoints
+    this.decisionPoints = {
+      cozinha: [
+        { id: 'coz-dp-1', category: 'Layout', topic: 'Layout da Bancada e Triângulo de Trabalho', docId: 'pdf-doc', statusKey: 'coz-pl-1' },
+        { id: 'coz-dp-2', category: 'Materiais', topic: 'Escolha de Rejunte (Epóxi vs Acrílico)', docId: 'pdf-1', statusKey: 'coz-pt-1' },
+        { id: 'coz-dp-3', category: 'Equipamentos', topic: 'Dimensionamento de Tomadas e Cargas (20A)', docId: 'pdf-7', statusKey: 'coz-pl-2' }
+      ],
+      banheiro: [
+        { id: 'ban-dp-1', category: 'Layout', topic: 'Eixo do Vaso e Distâncias Laterais', docId: 'pdf-doc', statusKey: 'ban-pl-1' },
+        { id: 'ban-dp-2', category: 'Materiais', topic: 'Impermeabilização Estrutural do Box', docId: 'pdf-1', statusKey: 'ban-pr-1' },
+        { id: 'ban-dp-3', category: 'Equipamentos', topic: 'Ponto do Chuveiro e Disjuntor Dedicado', docId: 'pdf-7', statusKey: 'ban-pl-3' }
+      ],
+      sala: [
+        { id: 'sal-dp-1', category: 'Layout', topic: 'Layout de Painel de TV e Tomadas de Sinal', docId: 'pdf-doc', statusKey: 'sal-pt-1' },
+        { id: 'sal-dp-2', category: 'Materiais', topic: 'Tipo de Porcelanato (Retificado vs Polido)', docId: 'pdf-6', statusKey: 'sal-pr-1' },
+        { id: 'sal-dp-3', category: 'Equipamentos', topic: 'Dispositivos de Proteção contra Surtos (DPS)', docId: 'pdf-7', statusKey: 'sal-pt-1' }
+      ],
+      quarto: [
+        { id: 'qua-dp-1', category: 'Layout', topic: 'Layout de Guarda-Roupa e Paredes Hidráulicas', docId: 'pdf-doc', statusKey: 'qua-pl-1' },
+        { id: 'qua-dp-2', category: 'Materiais', topic: 'Piso Vinílico vs Laminado (Conforto Acústico)', docId: 'pdf-6', statusKey: 'qua-pr-1' },
+        { id: 'qua-dp-3', category: 'Equipamentos', topic: 'Pontos de Ar Condicionado e Drenos', docId: 'pdf-7', statusKey: 'qua-pl-3' }
+      ],
+      area_externa: [
+        { id: 'ext-dp-1', category: 'Layout', topic: 'Caimento de Ralos e Escoamento de Chuvas', docId: 'pdf-doc', statusKey: 'ext-pl-1' },
+        { id: 'ext-dp-2', category: 'Materiais', topic: 'Impermeabilização de Laje Externa (Manta)', docId: 'pdf-1', statusKey: 'ext-pr-1' },
+        { id: 'ext-dp-3', category: 'Equipamentos', topic: 'Iluminação Externa Blindada contra Vapor (IP65)', docId: 'pdf-8', statusKey: 'ext-pl-2' }
+      ]
+    };
+    
+    this.renderDecidirEnvironmentsScroll();
+    this.renderDecidirPontos();
+    this.updateDecidirStats();
   }
 
   // Renders the list of environments in the "Protocolos" section
@@ -336,6 +379,239 @@ class DecisionsController {
       }
     } catch (e) {
       console.warn("Error loading saved quotes:", e);
+    }
+  }
+
+  // ==========================================
+  // PHASE DECIDIR METHODS
+  // ==========================================
+  renderDecidirEnvironmentsScroll() {
+    const container = document.getElementById('decidir-environments-scroll');
+    if (!container) return;
+    
+    const allEnvIds = ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa', 'casa_completa'];
+    
+    const colorMap = {
+      cozinha: '#bf5af2', // purple
+      banheiro: '#30b0c7', // cyan
+      sala: '#32d74b', // green
+      quarto: '#0088ff', // blue
+      area_externa: '#ff9f0a', // yellow
+      casa_completa: '#ff6a00' // orange
+    };
+    
+    container.innerHTML = allEnvIds.map(envId => {
+      let emoji = '';
+      let name = '';
+      let isLocked = false;
+      let solvedCount = 0;
+      let totalCount = 0;
+      
+      if (envId === 'casa_completa') {
+        emoji = '🏠';
+        name = 'Casa Completa';
+        isLocked = false;
+        
+        // Sum all solved decision points
+        Object.keys(this.decisionPoints).forEach(key => {
+          this.decisionPoints[key].forEach(dp => {
+            totalCount++;
+            if (this.app.conteudosController.tasksProgress[dp.statusKey]) solvedCount++;
+          });
+        });
+      } else {
+        const envData = METODO_3P_DATABASE.checklists[envId];
+        if (!envData) return '';
+        emoji = envData.emoji;
+        name = envData.name;
+        isLocked = this.app.paywallController.isEnvironmentLocked(envId);
+        
+        const points = this.decisionPoints[envId] || [];
+        totalCount = points.length;
+        points.forEach(dp => {
+          if (this.app.conteudosController.tasksProgress[dp.statusKey]) solvedCount++;
+        });
+      }
+      
+      const progress = totalCount > 0 ? (solvedCount / totalCount) * 100 : 0;
+      const isSelected = this.activeEnvironment === envId;
+      const isLockedIcon = isLocked ? ' 🔒' : '';
+      const activeClass = isSelected ? 'active pink' : '';
+      const color = colorMap[envId] || '#ff2d55';
+      
+      const label = solvedCount === 1 ? '1 protocolo usado' : `${solvedCount} protocolos usados`;
+      
+      return `
+        <div class="env-carousel-card ${activeClass}" onclick="window.app.decisoesController.selectDecidirEnvironment('${envId}')" style="position: relative; flex-shrink: 0; min-width: 110px;">
+          ${isSelected ? `<div style="position: absolute; top: -4px; right: -4px; width: 16px; height: 16px; border-radius: 50%; background: ${color}; border: 1.5px solid #0a0b0d; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #fff; font-weight: bold;">✓</div>` : ''}
+          <div style="font-size: 20px; margin-bottom: 6px;">${emoji}</div>
+          <div style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 2px;">${name}${isLockedIcon}</div>
+          <div style="font-size: 9px; color: #8c96ab; margin-bottom: 6px;">${label}</div>
+          <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden;">
+            <div style="width: ${progress}%; height: 100%; background: ${color}; border-radius: 2px; transition: width 0.6s ease;"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  selectDecidirEnvironment(envId) {
+    if (envId !== 'casa_completa' && this.app.paywallController.isEnvironmentLocked(envId)) {
+      this.app.paywallController.triggerEnvironmentPurchase(envId);
+      return;
+    }
+    
+    this.activeEnvironment = envId;
+    localStorage.setItem('reformas_3p_active_env', envId);
+    
+    this.renderDecidirEnvironmentsScroll();
+    this.renderDecidirPontos();
+    this.updateDecidirStats();
+  }
+
+  renderDecidirPontos() {
+    const tbody = document.getElementById('decidir-pontos-table-body');
+    if (!tbody) return;
+    
+    const envId = this.activeEnvironment || 'cozinha';
+    let envName = '';
+    let points = [];
+    
+    if (envId === 'casa_completa') {
+      envName = 'Casa Completa';
+      Object.keys(this.decisionPoints).forEach(key => {
+        points.push(...this.decisionPoints[key]);
+      });
+    } else {
+      const envData = METODO_3P_DATABASE.checklists[envId];
+      if (!envData) return;
+      envName = envData.name;
+      points = this.decisionPoints[envId] || [];
+    }
+    
+    const titleEl = document.getElementById('decidir-pontos-title');
+    if (titleEl) titleEl.textContent = `2. PONTOS DE DECISÃO DO PROTOCOLO - ${envName.toUpperCase()}`;
+    
+    if (points.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #8c96ab; font-size: 11px;">Nenhum ponto de decisão cadastrado.</td></tr>`;
+      return;
+    }
+    
+    tbody.innerHTML = points.map(dp => {
+      const isCompleted = !!this.app.conteudosController.tasksProgress[dp.statusKey];
+      
+      const statusBadge = isCompleted
+        ? `<span class="stats-badge" style="background: rgba(38,208,124,0.1); color: var(--color-success); border: 1px solid rgba(38,208,124,0.2); font-size: 9px; padding: 2px 6px;">Resolvido ✓</span>`
+        : `<span class="stats-badge" style="background: rgba(255,45,85,0.1); color: #ff2d55; border: 1px solid rgba(255,45,85,0.2); font-size: 9px; padding: 2px 6px;">Pendente 🧠</span>`;
+        
+      const actionBtn = `<button class="btn btn-secondary btn-mini" style="font-size: 9px; padding: 2px 6px; border-color: rgba(255,45,85,0.3); color: #ff2d55;" onclick="window.app.decisoesController.toggleDecisionPoint('${dp.statusKey}')">${isCompleted ? 'Reabrir' : 'Decidir ✓'}</button>`;
+      
+      const guideBtn = `<button class="btn btn-secondary btn-mini" style="font-size: 9px; padding: 2px 6px; border-color: rgba(255,106,0,0.3); color: var(--primary-orange); background: rgba(255,106,0,0.05);" onclick="window.app.conteudosController.openPdfReader('${dp.docId}')">Ver Guia 📖</button>`;
+      
+      return `
+        <tr>
+          <td><strong>${dp.category}</strong></td>
+          <td>${dp.topic}</td>
+          <td>${statusBadge}</td>
+          <td>${actionBtn}</td>
+          <td>${guideBtn}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  toggleDecisionPoint(statusKey) {
+    this.app.conteudosController.togglePlanejarTask(statusKey);
+    this.renderDecidirPontos();
+    this.renderDecidirEnvironmentsScroll();
+    this.updateDecidirStats();
+  }
+
+  updateDecidirStats() {
+    const envId = this.activeEnvironment || 'cozinha';
+    let envName = '';
+    let envEmoji = '';
+    let points = [];
+    
+    if (envId === 'casa_completa') {
+      envName = 'Casa Completa';
+      envEmoji = '🏠';
+      Object.keys(this.decisionPoints).forEach(key => {
+        points.push(...this.decisionPoints[key]);
+      });
+    } else {
+      const envData = METODO_3P_DATABASE.checklists[envId];
+      if (!envData) return;
+      envName = envData.name;
+      envEmoji = envData.emoji;
+      points = this.decisionPoints[envId] || [];
+    }
+    
+    // Active Environment details
+    const activeEmojiEl = document.getElementById('decidir-active-env-emoji');
+    const activeNameEl = document.getElementById('decidir-active-env-name');
+    const activeStepsEl = document.getElementById('decidir-active-steps-count');
+    const activeCircle = document.getElementById('decidir-active-circle');
+    const activePctEl = document.getElementById('decidir-active-pct');
+    const activeFullBtn = document.getElementById('decidir-active-full-btn');
+    
+    if (activeEmojiEl) activeEmojiEl.textContent = envEmoji;
+    if (activeNameEl) activeNameEl.textContent = envName;
+    
+    let completedCount = 0;
+    points.forEach(dp => {
+      if (this.app.conteudosController.tasksProgress[dp.statusKey]) completedCount++;
+    });
+    
+    if (activeStepsEl) activeStepsEl.textContent = `${completedCount} de ${points.length} concluídas`;
+    
+    const pct = points.length > 0 ? (completedCount / points.length) * 100 : 0;
+    if (activePctEl) activePctEl.textContent = `${pct.toFixed(0)}%`;
+    if (activeCircle) {
+      const offset = 100 - pct;
+      activeCircle.style.strokeDashoffset = offset;
+    }
+    
+    if (activeFullBtn) {
+      activeFullBtn.setAttribute('onclick', `window.app.conteudosController.openPdfReader('pdf-doc')`);
+    }
+    
+    // Metric used count (total solved decision points across all environments)
+    let totalSolved = 0;
+    Object.keys(this.decisionPoints).forEach(key => {
+      this.decisionPoints[key].forEach(dp => {
+        if (this.app.conteudosController.tasksProgress[dp.statusKey]) totalSolved++;
+      });
+    });
+    
+    const usedCountEl = document.getElementById('decidir-metric-used-count');
+    if (usedCountEl) usedCountEl.textContent = totalSolved.toString();
+    
+    // Comparisons and registrations cards count
+    const regPdfCountEl = document.getElementById('decidir-reg-pdf-count');
+    const regCompCountEl = document.getElementById('decidir-reg-comp-count');
+    const regChoiceCountEl = document.getElementById('decidir-reg-choice-count');
+    const regDoubtCountEl = document.getElementById('decidir-reg-doubt-count');
+    
+    if (regPdfCountEl) {
+      const savedQuotes = localStorage.getItem('reformas_3p_quotes_saved');
+      let quotesCount = 0;
+      if (savedQuotes) {
+        try { quotesCount = JSON.parse(savedQuotes).length; } catch (e) {}
+      }
+      regPdfCountEl.textContent = quotesCount.toString();
+    }
+    if (regCompCountEl) {
+      const fin = this.app.financeiroController;
+      const count = fin ? fin.plannedItems.length : 0;
+      regCompCountEl.textContent = count.toString();
+    }
+    if (regChoiceCountEl) {
+      regChoiceCountEl.textContent = totalSolved.toString();
+    }
+    if (regDoubtCountEl) {
+      const unlockedCount = this.app.selectedEnvironments.length;
+      regDoubtCountEl.textContent = unlockedCount.toString();
     }
   }
 }
