@@ -11,6 +11,10 @@ Seu papel é ajudar pessoas leigas que estão fazendo reformas a não cometerem 
 Sua linguagem é amigável, profissional mas como um colega de confiança no canteiro de obras. 
 Responda de forma concisa, evite respostas longas demais. Formate bem usando tópicos quando necessário.
 
+IMPORTANTE SOBRE O NOME DO USUÁRIO:
+- Dirija-se SEMPRE ao usuário utilizando o nome fornecido no campo "Nome do Usuário" nas especificações de contexto abaixo.
+- NUNCA assuma que o usuário se chama Cleber a menos que "Nome do Usuário" seja explicitamente "Cleber". Se o campo indicar "Sueli", chame-a de Sueli; se for "Cliente", chame de Cliente.
+
 SOBRE COBRANÇA E DESBLOQUEIO DE AMBIENTES/PROTOCOLOS (MUITO IMPORTANTE):
 - A Método 3P possui um modelo de cobrança oficial via Hotmart. NÃO existe desbloqueio gratuito de ambientes.
 - Desbloquear 1 ambiente individual (Cozinha, Banheiro, Sala, Quarto ou Área Externa) com seus checklists e protocolos: R$ 97,00 (acesso vitalício offline para aquele cômodo).
@@ -72,11 +76,6 @@ Quando o usuário perguntar onde fica alguma coisa, como fazer um lançamento ou
     this.inputEl.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') this.sendMessage();
     });
-
-    // Send initial greeting if empty
-    if (this.history.length === 0) {
-      this.addMessageToUI('nando', 'Opa, tudo bem? Sou o Nando, seu consultor da Método 3P! Qual é a sua dúvida sobre a obra hoje?');
-    }
   }
 
   toggleChat() {
@@ -84,6 +83,13 @@ Quando o usuário perguntar onde fica alguma coisa, como fazer um lançamento ou
     if (this.isOpen) {
       this.chatEl.classList.add('active');
       this.fabEl.classList.add('hidden');
+      
+      // Send initial greeting dynamically when first opened, using the latest resolved name!
+      if (this.history.length === 0 && this.messagesEl.children.length === 0) {
+        const userName = (this.app && this.app.name) ? this.app.name : "Cleber";
+        this.addMessageToUI('nando', `Opa ${userName}, tudo bem? Sou o Nando, seu consultor da Método 3P! Qual é a sua dúvida sobre a obra hoje?`);
+      }
+      
       setTimeout(() => this.inputEl.focus(), 300);
       this.scrollToBottom();
     } else {

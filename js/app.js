@@ -33,8 +33,32 @@ class AppOrchestrator {
     }
     
     // Load persisted onboarding details
-    const savedName = localStorage.getItem('reformas_3p_user_name');
-    if (savedName) this.name = savedName;
+    let savedName = localStorage.getItem('reformas_3p_user_name');
+    
+    // Auto-resolve name if there is an email and the saved name is default/missing/mismatched
+    if (this.userEmail) {
+      const isCleberEmail = this.userEmail.toLowerCase().includes('binhole') || this.userEmail.toLowerCase().includes('cleber');
+      if (!isCleberEmail) {
+        if (!savedName || savedName === 'Cleber') {
+          savedName = this.getNameFromEmail(this.userEmail);
+          localStorage.setItem('reformas_3p_user_name', savedName);
+        }
+      }
+    }
+    
+    if (savedName) {
+      this.name = savedName;
+    } else {
+      this.name = "Cleber";
+    }
+    
+    // Sync DOM name display and setup inputs immediately
+    const headerName = document.getElementById('header-user-name');
+    if (headerName) headerName.textContent = `Olá, ${this.name}`;
+    const profileName = document.getElementById('profile-name');
+    if (profileName) profileName.textContent = this.name;
+    const nameInput = document.getElementById('setup-name');
+    if (nameInput) nameInput.value = this.name;
     
     const savedPicture = localStorage.getItem('reformas_3p_user_picture');
     this.syncUserAvatars(savedPicture, this.name);
@@ -89,6 +113,32 @@ class AppOrchestrator {
     this.updateProfileStats();
     this.loadPreferences();
     this.initGoogleAuth();
+  }
+
+  getNameFromEmail(email) {
+    if (!email) return "Cliente";
+    const username = email.split('@')[0];
+    let cleaned = username.replace(/[._\-0-9]+/g, ' ').trim();
+    cleaned = cleaned.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    return cleaned || "Cliente";
+  }
+
+  updateUserNameAndDOM(newName) {
+    if (!newName) return;
+    this.name = newName;
+    localStorage.setItem('reformas_3p_user_name', newName);
+    
+    const headerName = document.getElementById('header-user-name');
+    if (headerName) headerName.textContent = `Olá, ${newName}`;
+    
+    const profileName = document.getElementById('profile-name');
+    if (profileName) profileName.textContent = newName;
+    
+    const nameInput = document.getElementById('setup-name');
+    if (nameInput) nameInput.value = newName;
+    
+    const savedPicture = localStorage.getItem('reformas_3p_user_picture');
+    this.syncUserAvatars(savedPicture, newName);
   }
 
   // ==========================================================================
@@ -1096,24 +1146,17 @@ class AppOrchestrator {
       console.log("Google User Authenticated: ", userProfile.name, userProfile.email);
       
       // Persistir informações autenticadas
-      this.name = userProfile.name;
       this.userEmail = userProfile.email;
-      localStorage.setItem('reformas_3p_user_name', userProfile.name);
       localStorage.setItem('reformas_3p_user_email', userProfile.email);
       if (userProfile.picture) {
         localStorage.setItem('reformas_3p_user_picture', userProfile.picture);
       }
       
-      // Sincronizar DOM imediatamente
-      const headerName = document.getElementById('header-user-name');
-      if (headerName) headerName.textContent = `Olá, ${this.name}`;
-      const profileName = document.getElementById('profile-name');
-      if (profileName) profileName.textContent = this.name;
+      const resolvedName = userProfile.name || this.getNameFromEmail(userProfile.email);
+      this.updateUserNameAndDOM(resolvedName);
       
       const emailEl = document.getElementById('profile-email');
       if (emailEl) emailEl.textContent = userProfile.email;
-      
-      this.syncUserAvatars(userProfile.picture, userProfile.name);
       
       // Sincronizar com Supabase (carregar dados da nuvem se existirem)
       if (supabaseDB && supabaseDB.isConfigured) {
@@ -1162,8 +1205,7 @@ class AppOrchestrator {
       const obraProfile = await supabaseDB.loadObraProfile(email);
       if (obraProfile) {
         if (obraProfile.user_name) {
-          this.name = obraProfile.user_name;
-          localStorage.setItem('reformas_3p_user_name', this.name);
+          this.updateUserNameAndDOM(obraProfile.user_name);
         }
         if (obraProfile.investment) {
           this.financeiroController.investment = parseFloat(obraProfile.investment);
