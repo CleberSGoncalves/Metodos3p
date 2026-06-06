@@ -35,7 +35,10 @@ Quando o usuário perguntar onde fica alguma coisa, como fazer um lançamento ou
 - Fase 1 • Planejar: [Fase Planejar](app://planejar)
 - Fase 2 • Prevenir (Orçamentos, Cotações e Compras): [Fase Prevenir](app://prevenir)
 - Fase 3 • Proteger (Checklist Final, Garantias e Relatório): [Fase Proteger](app://proteger)
-- Fase • Decidir (Protocolos de Decisão): [Fase Decidir](app://decidir)
+- Fase • Decidir (Central de Apoio com Protocolos e Biblioteca): [Fase Decidir](app://decidir)
+- Sub-abas da Fase Decidir:
+  - Protocolos de Decisão/Dilemas por Ambiente: [Dilemas e Protocolos](app://decidir/dilemas)
+  - Biblioteca de Guias e Estratégias (PDFs): [Biblioteca de Guias](app://decidir/biblioteca)
 - Abrir diretamente o formulário de lançamento de despesa: [Lançar Nova Despesa](app://despesas)
 - Ver os checklists/protocolos de um ambiente específico na Fase Planejar:
   - Cozinha: [Planejar Cozinha](app://planejar/cozinha)
@@ -43,7 +46,7 @@ Quando o usuário perguntar onde fica alguma coisa, como fazer um lançamento ou
   - Sala: [Planejar Sala](app://planejar/sala)
   - Quarto: [Planejar Quarto](app://planejar/quarto)
   - Área Externa: [Planejar Área Externa](app://planejar/area_externa)
-- Ver as decisões de um ambiente específico na Fase Decidir:
+- Ver as decisões/dilemas de um ambiente específico na Fase Decidir (Dilemas):
   - Cozinha: [Decidir Cozinha](app://decidir/cozinha)
   - Banheiro: [Decidir Banheiro](app://decidir/banheiro)
   - Sala: [Decidir Sala](app://decidir/sala)
@@ -254,7 +257,15 @@ Quando o usuário perguntar onde fica alguma coisa, como fazer um lançamento ou
       } else if (primary === "decidir") {
         this.app.switchTab('decidir');
         if (secondary) {
-          this.app.decisoesController.selectDecidirEnvironment(secondary);
+          if (secondary === 'biblioteca' || secondary === 'guias') {
+            this.app.decisoesController.switchDecidirSubTab('biblioteca');
+          } else if (secondary === 'dilemas') {
+            this.app.decisoesController.switchDecidirSubTab('dilemas');
+          } else {
+            // Environment ID
+            this.app.decisoesController.switchDecidirSubTab('dilemas');
+            this.app.decisoesController.openEnvironmentProtocol(secondary);
+          }
         }
       } else if (primary === "orcamento") {
         this.app.switchTab('prevenir');
@@ -281,6 +292,7 @@ Quando o usuário perguntar onde fica alguma coisa, como fazer um lançamento ou
         this.app.conteudosController.selectPlanejarEnvironment(secondary);
       } else if (primary === "decisoes" && secondary) {
         this.app.switchTab('decidir');
+        this.app.decisoesController.switchDecidirSubTab('dilemas');
         this.app.decisoesController.selectDecidirEnvironment(secondary);
       }
       

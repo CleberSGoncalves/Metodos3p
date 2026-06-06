@@ -882,22 +882,22 @@ class FinancialController {
         statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #8c96ab; display: inline-block;"></span> INATIVO`;
       }
     } else if (diff > 15) {
-      statusText = "RISCO";
+      statusText = "EM RISCO";
       statusColor = "#ff453a";
-      if (statusTitle) statusTitle.textContent = "RISCO";
+      if (statusTitle) statusTitle.textContent = "EM RISCO";
       if (statusTitle) statusTitle.style.color = "#ff453a";
       if (statusCard) {
         statusCard.style.borderColor = "rgba(255, 69, 58, 0.4)";
         statusCard.style.boxShadow = "0 8px 32px rgba(255, 69, 58, 0.06)";
       }
-      if (statusDesc) statusDesc.textContent = "Gasto financeiro muito acima do avanço físico!";
+      if (statusDesc) statusDesc.textContent = "Atenção: avanço físico abaixo do esperado. Risco de atrasos e custos elevados.";
       if (statusIconContainer) {
-        statusIconContainer.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff453a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`;
+        statusIconContainer.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff453a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`;
         statusIconContainer.style.background = "rgba(255, 69, 58, 0.12)";
         statusIconContainer.style.borderColor = "#ff453a";
       }
       if (statusPill) {
-        statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #ff453a; display: inline-block;"></span> RISCO`;
+        statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #ff453a; display: inline-block;"></span> EM RISCO`;
       }
     } else if (diff > 5 || totalRealSpent > this.budget) {
       statusText = "ATENÇÃO";
@@ -908,9 +908,9 @@ class FinancialController {
         statusCard.style.borderColor = "rgba(255, 159, 10, 0.4)";
         statusCard.style.boxShadow = "0 8px 32px rgba(255, 159, 10, 0.06)";
       }
-      if (statusDesc) statusDesc.textContent = "Pequeno descompasso identificado na obra.";
+      if (statusDesc) statusDesc.textContent = "Atenção: avanço físico ligeiramente abaixo do planejado.";
       if (statusIconContainer) {
-        statusIconContainer.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
+        statusIconContainer.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
         statusIconContainer.style.background = "rgba(255, 159, 10, 0.12)";
         statusIconContainer.style.borderColor = "#ff9f0a";
       }
@@ -918,22 +918,22 @@ class FinancialController {
         statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #ff9f0a; display: inline-block;"></span> ATENÇÃO`;
       }
     } else {
-      statusText = "NO CONTROLE";
+      statusText = "SOB CONTROLE";
       statusColor = "#32d74b";
-      if (statusTitle) statusTitle.textContent = "NO CONTROLE";
+      if (statusTitle) statusTitle.textContent = "SOB CONTROLE";
       if (statusTitle) statusTitle.style.color = "#32d74b";
       if (statusCard) {
         statusCard.style.borderColor = "rgba(50, 215, 75, 0.25)";
         statusCard.style.boxShadow = "0 8px 32px rgba(50, 215, 75, 0.05)";
       }
-      if (statusDesc) statusDesc.textContent = "Tudo dentro do planejado.";
+      if (statusDesc) statusDesc.textContent = "Sua reforma está evoluindo conforme o planejado.";
       if (statusIconContainer) {
-        statusIconContainer.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        statusIconContainer.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
         statusIconContainer.style.background = "rgba(50, 215, 75, 0.12)";
         statusIconContainer.style.borderColor = "#32d74b";
       }
       if (statusPill) {
-        statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #32d74b; display: inline-block;"></span> NO CONTROLE`;
+        statusPill.innerHTML = `<span class="pill-dot" style="width: 6px; height: 6px; border-radius: 50%; background: #32d74b; display: inline-block;"></span> SOB CONTROLE`;
       }
     }
 
@@ -1071,44 +1071,50 @@ class FinancialController {
     // Planejar tab values
     const p1TotalVerba = document.getElementById('planejar-total-verba');
     const p1MargemVerba = document.getElementById('planejar-margem-verba');
-    const p1DisponivelVerba = document.getElementById('planejar-disponivel-verba');
-    const p1PrevistoVerba = document.getElementById('planejar-previsto-verba');
-    const p1PrevistoVerbaPct = document.getElementById('planejar-previsto-verba-pct');
     
     if (p1TotalVerba) p1TotalVerba.textContent = this.formatCurrency(this.investment);
-    if (p1MargemVerba) p1MargemVerba.textContent = this.formatCurrency(this.investment * 0.1);
-    if (p1DisponivelVerba) p1DisponivelVerba.textContent = this.formatCurrency(this.budget);
-    if (p1PrevistoVerba) p1PrevistoVerba.textContent = this.formatCurrency(totalPlanned);
-    if (p1PrevistoVerbaPct) {
-      const pctMax = this.investment > 0 ? (totalPlanned / this.investment) * 100 : 0;
-      p1PrevistoVerbaPct.textContent = `${pctMax.toFixed(0)}% do máximo`;
+    if (p1MargemVerba) p1MargemVerba.textContent = `${this.formatCurrency(this.investment * 0.1)} reservados para imprevistos`;
+    
+    const p1MargemPct = document.getElementById('planejar-margem-pct');
+    if (p1MargemPct) p1MargemPct.textContent = "10%";
+    
+    const p1ProgressBar = document.getElementById('planejar-progress-bar');
+    const p1UtilizadoLbl = document.getElementById('planejar-utilizado-lbl');
+    const p1DisponivelLbl = document.getElementById('planejar-disponivel-lbl');
+    
+    const p1Pct = this.budget > 0 ? (totalPlanned / this.budget) * 100 : 0;
+    if (p1ProgressBar) p1ProgressBar.style.width = `${Math.min(p1Pct, 100)}%`;
+    if (p1UtilizadoLbl) p1UtilizadoLbl.textContent = `${this.formatCurrency(totalPlanned)} utilizado`;
+    if (p1DisponivelLbl) {
+      const avail = Math.max(0, this.budget - totalPlanned);
+      const availPct = this.investment > 0 ? (avail / this.investment) * 100 : 0;
+      p1DisponivelLbl.textContent = `${this.formatCurrency(avail)} disponível (${availPct.toFixed(0)}%)`;
     }
     
-    // Prevenir tab values
-    const p2Disponivel = document.getElementById('prevenir-disponivel');
+    this.loadPilarPriorities();
+    
+    // Prevenir tab values (3-column layout matching mockups)
     const p2Previsto = document.getElementById('prevenir-previsto');
-    const p2PrevistoPct = document.getElementById('prevenir-previsto-pct');
-    const p2Pago = document.getElementById('prevenir-pago');
-    const p2PagoPct = document.getElementById('prevenir-pago-pct');
+    const p2Economia = document.getElementById('prevenir-economia');
     const p2Saldo = document.getElementById('prevenir-saldo');
-    const p2SaldoPct = document.getElementById('prevenir-saldo-pct');
     
-    if (p2Disponivel) p2Disponivel.textContent = this.formatCurrency(this.budget);
+    // Calculate Economy Potential dynamically (difference between max and min budget estimated or 12% standard)
+    let economyTotal = 0;
+    if (this.plannedItems) {
+      this.plannedItems.forEach(item => {
+        const itemMax = item.cost_max || item.planned_cost || item.cost || 0;
+        const itemMin = item.cost_min || item.min_cost || (itemMax * 0.88);
+        economyTotal += Math.max(0, itemMax - itemMin);
+      });
+    }
+    if (economyTotal === 0 && totalPlanned > 0) {
+      economyTotal = totalPlanned * 0.12;
+    }
+    
     if (p2Previsto) p2Previsto.textContent = this.formatCurrency(totalPlanned);
-    if (p2PrevistoPct) {
-      const pctDisp = this.budget > 0 ? (totalPlanned / this.budget) * 100 : 0;
-      p2PrevistoPct.textContent = `${pctDisp.toFixed(0)}% do disponível`;
-    }
-    if (p2Pago) p2Pago.textContent = this.formatCurrency(paidTotal);
-    if (p2PagoPct) {
-      const pctPago = totalPlanned > 0 ? (paidTotal / totalPlanned) * 100 : 0;
-      p2PagoPct.textContent = `${pctPago.toFixed(0)}% do previsto`;
-    }
+    if (p2Economia) p2Economia.textContent = this.formatCurrency(economyTotal);
     if (p2Saldo) p2Saldo.textContent = this.formatCurrency(unpaidTotal);
-    if (p2SaldoPct) {
-      const pctSaldo = totalPlanned > 0 ? (unpaidTotal / totalPlanned) * 100 : 0;
-      p2SaldoPct.textContent = `${pctSaldo.toFixed(0)}% do previsto`;
-    }
+
 
     // ==========================================
     // 6. MAIN DYNAMIC ALERT BOX (DESCOMPASSO)
@@ -1472,5 +1478,40 @@ class FinancialController {
     exp.delivered = !exp.delivered;
     this.saveExpenses();
     this.renderComprasSemErroTable();
+  }
+
+  savePilarPriority(pilarId) {
+    const statusEl = document.getElementById(`pilar-status-${pilarId}`);
+    const obsEl = document.getElementById(`pilar-obs-${pilarId}`);
+    if (!statusEl || !obsEl) return;
+    
+    const saved = localStorage.getItem('reformas_3p_pilar_priorities') || '{}';
+    let data = {};
+    try { data = JSON.parse(saved); } catch(e) {}
+    
+    data[pilarId] = {
+      status: statusEl.value,
+      obs: obsEl.value
+    };
+    
+    localStorage.setItem('reformas_3p_pilar_priorities', JSON.stringify(data));
+  }
+
+  loadPilarPriorities() {
+    const saved = localStorage.getItem('reformas_3p_pilar_priorities');
+    if (!saved) return;
+    let data = {};
+    try { data = JSON.parse(saved); } catch(e) {}
+    
+    ['eletrica', 'hidraulica', 'estrutural', 'acabamento'].forEach(pilarId => {
+      const item = data[pilarId];
+      if (!item) return;
+      
+      const statusEl = document.getElementById(`pilar-status-${pilarId}`);
+      const obsEl = document.getElementById(`pilar-obs-${pilarId}`);
+      
+      if (statusEl) statusEl.value = item.status || 'ok';
+      if (obsEl) obsEl.value = item.obs || '';
+    });
   }
 }

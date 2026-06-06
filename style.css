@@ -3454,11 +3454,11 @@ label {
    ========================================================================== */
 
 .app-splash-screen {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #06070a;
   z-index: 99999;
   display: none;
@@ -3527,8 +3527,8 @@ label {
 
 .splash-logo-wrapper {
   position: relative;
-  width: 110px;
-  height: 110px;
+  width: 220px;
+  height: 74px;
   margin-bottom: 24px;
   display: flex;
   align-items: center;
@@ -3536,8 +3536,8 @@ label {
 }
 
 .splash-logo {
-  width: 90px;
-  height: 90px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   z-index: 5;
   filter: drop-shadow(0 4px 15px rgba(0,0,0,0.5));
@@ -3548,8 +3548,8 @@ label {
 
 .splash-logo-glow {
   position: absolute;
-  width: 130px;
-  height: 130px;
+  width: 260px;
+  height: 110px;
   background: radial-gradient(circle, rgba(255, 106, 0, 0.25) 0%, rgba(255, 106, 0, 0) 70%);
   z-index: 4;
   opacity: 0;
@@ -4558,84 +4558,167 @@ label {
   color: var(--primary-orange);
 }
 
-/* DESKTOP LAYOUT (Web App) */
+#desktop-side-panel {
+  display: none !important;
+}
+
+/* DESKTOP LAYOUT (Web App / Mobile Simulator) */
 @media (min-width: 1024px) {
-  /* Transform bottom nav into left sidebar */
-  .app-navigation-bar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    bottom: auto !important;
-    transform: none !important;
-    width: 250px !important;
-    height: 100vh !important;
-    border-radius: 0 !important;
-    border: none !important;
-    border-right: 1px solid var(--border-glass) !important;
+  body {
+    background: #06070a;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(255, 106, 0, 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(255, 159, 10, 0.03) 0%, transparent 50%);
     display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    align-items: stretch !important;
-    padding: 32px 16px !important;
-    gap: 8px !important;
-    background: var(--bg-dark) !important;
-    max-width: none !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    overflow: hidden !important;
+    gap: 40px !important;
+    padding: 20px !important;
   }
 
-  
+  /* Centered device simulator frame */
+  .app-container {
+    width: 430px !important;
+    height: 920px !important;
+    max-height: 95vh !important;
+    background: var(--bg-void) !important;
+    border: 2px solid rgba(255, 106, 0, 0.15) !important;
+    border-radius: 48px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow: 
+      0 0 0 8px #111317,
+      0 0 0 9px rgba(255, 106, 0, 0.08),
+      0 30px 80px rgba(0, 0, 0, 0.9),
+      0 0 60px rgba(255, 106, 0, 0.06) !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Notch do celular */
+  .app-container::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 24px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 9999;
+  }
+
+  /* Absolute navigation bar at bottom of frame */
+  .app-navigation-bar {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    border-radius: 0 0 46px 46px !important;
+    border: none !important;
+    border-top: 1px solid rgba(255,255,255,0.06) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    padding: 8px 4px 16px !important;
+    gap: 0 !important;
+    max-width: 100% !important;
+    transform: none !important;
+  }
+
   .nav-item {
-    flex-direction: row;
-    padding: 14px 16px;
-    border-radius: 12px;
-    font-size: 14px;
-    gap: 14px;
-    justify-content: flex-start;
+    flex-direction: column !important;
+    padding: 8px 16px !important;
+    border-radius: 12px !important;
+    font-size: 10px !important;
+    gap: 4px !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: none !important;
   }
-  
-  .nav-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
-  
-  .nav-item.active {
-    background: rgba(255, 106, 0, 0.1);
-  }
-  
-  /* Shift main layout to the right */
-  #screen-main {
-    padding-left: 250px;
-  }
-  
-  /* Make header span the remaining width properly */
+
+  /* Header stays inside container */
   .app-header {
-    width: calc(100% - 250px);
-    max-width: 100%;
-    left: 250px;
-    transform: none;
-    padding: 16px 40px;
+    width: 100% !important;
+    left: 0 !important;
+    transform: none !important;
+    padding: 0 16px !important;
   }
-  
-  /* Remove width restriction from content */
+
+  /* Viewport inside container fills remaining space */
   .app-viewport-content {
-    max-width: none;
-    padding-left: 40px;
-    padding-right: 40px;
+    max-width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
-  
-  /* Use CSS Grid for checklists and modules */
-  .environments-progress-grid,
-  .risk-warnings-container,
-  .planned-items-list,
-  .expenses-list {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+
+  #screen-main {
+    padding-left: 0 !important;
+  }
+
+  /* FAB/Nando Chat positioning inside the bezel */
+  .nando-fab {
+    position: absolute !important;
+    bottom: 84px !important;
+    right: 16px !important;
+  }
+
+  .nando-chat-window {
+    position: absolute !important;
+    bottom: 84px !important;
+    right: 8px !important;
+    width: 95% !important;
+    max-width: 400px !important;
+  }
+
+  /* Painel lateral do desktop com logo e info */
+  #desktop-side-panel {
+    display: flex !important;
+    flex-direction: column !important;
     gap: 20px !important;
+    width: 300px !important;
+    flex-shrink: 0 !important;
+    text-align: left !important;
   }
-  
-  /* Improve layout of dashboards */
-  .dash-cards-container {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px !important;
+
+  /* Logo grande no painel lateral */
+  .desktop-logo-block {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .desktop-logo-block img {
+    width: 100% !important;
+    max-width: 260px !important;
+    height: auto !important;
+  }
+
+  /* Cards informativos no painel */
+  .desktop-info-card {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+  }
+
+  .desktop-info-card h4 {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #8c96ab !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .desktop-info-card p {
+    font-size: 13px !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    line-height: 1.5 !important;
   }
 }
 

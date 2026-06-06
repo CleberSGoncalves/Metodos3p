@@ -62,6 +62,48 @@
 </head>
 <body>
 
+  <!-- Painel lateral visível apenas no desktop -->
+  <div id="desktop-side-panel" style="display: none; flex-direction: column; gap: 24px; width: 300px;">
+    <!-- Logo principal -->
+    <div class="desktop-logo-block">
+      <img src="logo.jpeg" alt="Método 3P" style="width: 100%; max-width: 260px; height: auto; border-radius: 8px;">
+    </div>
+
+    <!-- Slogan -->
+    <div class="desktop-info-card">
+      <h4>🏗️ Sistema de Gestão</h4>
+      <p>Controle total da sua reforma: planejamento financeiro, prevenção de erros e proteção do seu investimento.</p>
+    </div>
+
+    <!-- Fases -->
+    <div class="desktop-info-card">
+      <h4>📋 As 3 Fases do Método</h4>
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #32d74b; flex-shrink: 0;"></div>
+          <span style="font-size: 13px; color: rgba(255,255,255,0.8);"><strong style="color: #32d74b;">Planejar</strong> — Defina o orçamento e prioridades</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #0088ff; flex-shrink: 0;"></div>
+          <span style="font-size: 13px; color: rgba(255,255,255,0.8);"><strong style="color: #0088ff;">Prevenir</strong> — Compare, contrate e controle</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #bf5af2; flex-shrink: 0;"></div>
+          <span style="font-size: 13px; color: rgba(255,255,255,0.8);"><strong style="color: #bf5af2;">Proteger</strong> — Garanta e documente tudo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão instalar app -->
+    <div class="desktop-info-card" style="border-color: rgba(255,106,0,0.2); background: rgba(255,106,0,0.04);">
+      <h4>📱 Instalar no Celular</h4>
+      <p style="margin-bottom: 12px;">Tenha o app sempre disponível, mesmo sem internet.</p>
+      <button onclick="window.app.installPwa()" style="width: 100%; padding: 12px 16px; background: linear-gradient(135deg, #ff6a00, #ff9f0a); color: #fff; border: none; border-radius: 10px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        📲 Baixar App Grátis
+      </button>
+    </div>
+  </div>
+
   <!-- APRESENTAÇÃO DE ABERTURA (SPLASH SCREEN SELECTOR & PREVIEW) -->
   <div id="app-splash-screen" class="app-splash-screen active">
     <!-- Efeitos Visuais Dinâmicos -->
@@ -72,11 +114,10 @@
     <!-- Conteúdo da Splash -->
     <div class="splash-content" id="splash-main-content">
       <div class="splash-logo-wrapper">
-        <img id="splash-logo" src="icon-512.png" alt="Logo Método 3P" class="splash-logo">
+        <img id="splash-logo" src="logo.jpeg" alt="Logo Método 3P" class="splash-logo" style="border-radius: 8px;">
         <div class="splash-logo-glow"></div>
         <div class="splash-lens-flare"></div>
       </div>
-      <h1 class="splash-title" style="letter-spacing: 0.5px;">MÉTODO <span class="highlight-orange">3P</span></h1>
       <p class="splash-subtitle">Sua reforma. Seu sonho. Nosso método.</p>
       
       <div class="splash-loading-bar" id="splash-loading-container">
@@ -393,6 +434,34 @@
                 </div>
               </div>
 
+              <!-- BLOCK 5: PWA INSTALLATION BANNER -->
+              <div class="glass-card" id="dash-pwa-install-banner" style="padding: 14px; text-align: left; background: linear-gradient(135deg, rgba(255, 106, 0, 0.08) 0%, rgba(9, 10, 15, 0) 80%); border-color: rgba(255, 106, 0, 0.2); margin-bottom: 16px; border-radius: 16px;">
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                  <span style="font-size: 24px;">📲</span>
+                  <div style="flex: 1;">
+                    <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 4px 0;">Instale o App no seu Celular!</h4>
+                    <p style="font-size: 10px; color: var(--text-secondary); line-height: 1.4; margin: 0 0 10px 0;">Acesse os checklists e guias 100% offline direto no canteiro, sem precisar de internet.</p>
+                    
+                    <div style="font-size: 9px; color: var(--primary-orange); background: rgba(255,106,0,0.06); padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,106,0,0.1); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                      <span style="font-size: 14px;">🔗</span>
+                      <div>
+                        <div style="font-weight: 700; margin-bottom: 2px;">Acesse do celular:</div>
+                        <div style="color: #ffffff;">metodo3p.kinomuse.com.br</div>
+                      </div>
+                    </div>
+
+                    <div style="font-size: 9px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.5;">
+                      <div style="margin-bottom: 3px;">🤖 <b style="color: #fff;">Android:</b> Chrome → menu ⋮ → "Instalar"</div>
+                      <div>🍎 <b style="color: #fff;">iPhone:</b> Safari → compartilhar 📤 → "Tela de Início"</div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-mini" id="dash-btn-install-pwa" onclick="window.app.installPwa()" style="display: none; width: 100%; padding: 8px; font-size: 11px; font-weight: 700;">
+                      ⬇️ Instalar Aplicativo Agora
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <!-- CENTRO DE CONTROLE 3P (Title only) -->
               <div style="margin-bottom: 12px; text-align: left;">
                 <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0;">CENTRO DE CONTROLE <span style="color: #ff9f0a;">3P</span></h3>
@@ -610,771 +679,856 @@
           </div>
 
           <!-- =============== TAB 1: PLANEJAR (FASE 1) =============== -->
-          <div id="tab-planejar" class="tab-view">
-            <div class="pillar-header-banner" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px; background: transparent; padding-top: 0;">
-              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <div style="text-align: left;">
-                  <span style="font-size: 8px; font-weight: 700; color: #32d74b; text-transform: uppercase; letter-spacing: 0.8px;">Fase 1</span>
-                  <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">FASE 1 • PLANEJAR</h2>
-                  <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Definir limites, prioridades e o plano da sua reforma antes de gastar.</p>
-                </div>
-                <!-- Progress circle -->
-                <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                  <svg width="56" height="56" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
-                    <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
-                    <circle id="planejar-phase-circle" cx="18" cy="18" r="16" fill="none" stroke="#32d74b" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="35" style="transition: stroke-dashoffset 0.6s ease;"></circle>
-                  </svg>
-                  <div id="planejar-phase-pct" style="position: absolute; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 800; color: #32d74b;">65%</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- LIMITE DA REFORMA -->
-            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #32d74b; margin: 0; text-transform: uppercase;">💚 Limite da Reforma</h3>
-                <button class="btn btn-secondary btn-mini" onclick="window.app.openWizardDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(50,215,75,0.3); color: #32d74b; background: rgba(50,215,75,0.05);">✏️ Editar valores</button>
-              </div>
-              
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px;">
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Orçamento máximo</span>
-                  <strong id="planejar-total-verba" style="font-size: 12px; color: #32d74b; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
-                </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Margem de segurança</span>
-                  <strong id="planejar-margem-verba" style="font-size: 12px; color: #0088ff; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;">10%</span>
-                </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Orçamento disponível</span>
-                  <strong id="planejar-disponivel-verba" style="font-size: 12px; color: #32d74b; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
-                  <span style="font-size: 7px; color: #8c96ab; display: block; margin-top: 2px;">Atualizado em 01/06</span>
-                </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Previsto até agora</span>
-                  <strong id="planejar-previsto-verba" style="font-size: 12px; color: #ff9f0a; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
-                  <span style="font-size: 7px; color: #8c96ab; display: block; margin-top: 2px;" id="planejar-previsto-verba-pct">0% do máximo</span>
-                </div>
-              </div>
-              <div style="font-size: 9px; color: #8c96ab; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 8px;">
-                ⓘ Esses valores alimentam o seu Painel de Controle automaticamente.
-              </div>
-            </div>
-
-            <!-- ITENS PRIORITÁRIOS -->
-            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">⭐ Itens Prioritários</h3>
-                <button class="btn btn-secondary btn-mini" onclick="alert('Adicione ou gerencie as suas prioridades abaixo!')" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(50,215,75,0.3); color: #32d74b; background: rgba(50,215,75,0.05); font-family: inherit;">✏️ Editar itens</button>
-              </div>
-              
-              <!-- Quick select tags from mockup -->
-              <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; scrollbar-width: none; -ms-overflow-style: none;">
-                <style>
-                  .quick-tag-btn {
-                    flex-shrink: 0; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 8px; font-size: 11px; color: #fff; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease;
-                  }
-                  .quick-tag-btn:active { transform: scale(0.95); background: rgba(50, 215, 75, 0.08); border-color: rgba(50, 215, 75, 0.3); }
-                </style>
-                <div onclick="window.app.financeiroController.addQuickPriority('Piso')" class="quick-tag-btn">
-                  <span>🔸</span> Piso
-                </div>
-                <div onclick="window.app.financeiroController.addQuickPriority('Marcenaria')" class="quick-tag-btn">
-                  <span>🗄️</span> Marcenaria
-                </div>
-                <div onclick="window.app.financeiroController.addQuickPriority('Bancadas')" class="quick-tag-btn">
-                  <span>📐</span> Bancadas
-                </div>
-                <div onclick="window.app.financeiroController.addQuickPriority('Iluminação')" class="quick-tag-btn">
-                  <span>💡</span> Iluminação
-                </div>
-                <div onclick="window.app.financeiroController.addQuickPriority('Mão de obra')" class="quick-tag-btn">
-                  <span>👷</span> Mão de obra
-                </div>
-              </div>
-
-              <div style="display: flex; gap: 6px; margin-bottom: 12px;">
-                <input type="text" id="planejar-priority-input" placeholder="Adicionar item prioritário..." style="flex: 1; font-size: 11px; padding: 8px 12px; border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); color: #fff;" onkeydown="if(event.key === 'Enter') window.app.financeiroController.addPriorityItem()">
-                <button class="btn btn-primary" onclick="window.app.financeiroController.addPriorityItem()" style="padding: 0 16px; font-size: 14px; font-weight: bold; border-radius: 8px;">+</button>
-              </div>
-              <div id="planejar-priority-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto;">
-                <!-- Dynamic list generated by JS -->
-              </div>
-            </div>
-
-            <!-- PLANEJAMENTO POR AMBIENTE -->
-            <div style="text-align: left; margin-bottom: 16px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0; display: flex; align-items: center; gap: 6px;">🏠 PLANEJAMENTO POR AMBIENTE</h3>
-                <span style="font-size: 10px; color: #32d74b; font-weight: 700; cursor: pointer;" onclick="window.app.openProfileDrawer()">Adicionar ambiente +</span>
-              </div>
-              <!-- Horizontal environments scroll row -->
-              <div class="environments-scroll-row" id="planejar-environments-scroll">
-                <!-- Generated dynamically in conteudos-v2.js -->
-              </div>
-            </div>
-
-            <!-- ETAPAS DO PLANEJAMENTO -->
-            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div>
-                  <h3 id="planejar-etapas-title" style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0;">📋 ETAPAS DO PLANEJAMENTO - COZINHA</h3>
-                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Siga cada etapa para planejar sua reforma com segurança.</p>
-                </div>
-                <div style="text-align: right;">
-                  <span id="planejar-etapas-count" style="font-size: 11px; font-weight: 700; color: #32d74b;">0 de 6 concluídas</span>
-                  <div style="width: 80px; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; margin-top: 4px;">
-                    <div id="planejar-etapas-progress-bar" style="width: 0%; height: 100%; background: #32d74b; border-radius: 2px; transition: width 0.3s ease;"></div>
+            <div id="tab-planejar" class="tab-view">
+              <div class="pillar-header-banner" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px; background: transparent; padding-top: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <div style="text-align: left;">
+                    <span style="font-size: 8px; font-weight: 700; color: #32d74b; text-transform: uppercase; letter-spacing: 0.8px;">Fase 1</span>
+                    <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">FASE 1 • PLANEJAR</h2>
+                    <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Defina os limites e prioridades antes de iniciar sua reforma.</p>
                   </div>
                 </div>
               </div>
-              
-              <div id="planejar-etapas-list" style="display: flex; flex-direction: column; gap: 8px;">
-                <!-- Generated dynamically in conteudos-v2.js -->
-              </div>
-            </div>
 
-            <!-- REGISTRO RÁPIDO -->
-            <div style="text-align: left; margin-bottom: 80px;">
-              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 12px 0;">⚡ REGISTRO RÁPIDO</h3>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-                <div class="glass-card btn-bounce" onclick="window.app.switchTab('prevenir'); window.app.financeiroController.switchPrevenirStep(1);" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(50,215,75,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">💵</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Novo orçamento</span>
-                  <span style="font-size: 8px; color: #8c96ab;">Adicionar item</span>
+              <!-- REGISTRO DE AÇÕES -->
+              <div style="text-align: left; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                  <div style="width: 4px; height: 14px; background: #32d74b; border-radius: 2px;"></div>
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">Registro de Ações</h3>
                 </div>
-                <div class="glass-card btn-bounce" onclick="window.app.switchTab('prevenir'); window.app.financeiroController.switchPrevenirStep(2);" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(0,136,255,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">👥</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Novo fornecedor</span>
-                  <span style="font-size: 8px; color: #8c96ab;">Cadastrar</span>
-                </div>
-                <div class="glass-card btn-bounce" onclick="window.app.openExpenseDrawer()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(191,90,242,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">💳</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Registrar pagamento</span>
-                  <span style="font-size: 8px; color: #8c96ab;">Lançar pagamento</span>
-                </div>
-                <div class="glass-card btn-bounce" onclick="window.app.openExpenseDrawer()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(255,159,10,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">🛒</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Registrar compra</span>
-                  <span style="font-size: 8px; color: #8c96ab;">Lançar compra</span>
-                </div>
-              </div>
-            </div>
-          </div>
+                <p style="font-size: 10px; color: #8c96ab; margin: 0 0 12px 0;">Defina os principais pilares e limites da sua reforma.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;" class="planejar-actions-grid">
+                  <!-- Card 1: Definir Orçamento -->
+                  <div class="glass-card btn-bounce" onclick="window.app.openWizardDrawer(); window.app.navigateToWizardStep(1);" style="padding: 14px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; background: rgba(15,18,26,0.45); border: 1.5px solid rgba(50,215,75,0.25); border-radius: 14px; cursor: pointer; min-height: 110px; text-align: left;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(50,215,75,0.1); border: 1px solid rgba(50,215,75,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <span style="font-size: 16px;">💰</span>
+                      </div>
+                      <h4 style="font-size: 11px; font-weight: 700; color: #fff; margin: 0; line-height: 1.2;">Definir Orçamento<br>da Reforma</h4>
+                    </div>
+                    <p style="font-size: 9px; color: #8c96ab; margin: 0; line-height: 1.2; flex: 1;">Informe o valor total que você irá investir.</p>
+                    <div style="align-self: flex-end; width: 22px; height: 22px; border-radius: 50%; background: #32d74b; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; font-size: 10px; flex-shrink: 0;">➔</div>
+                  </div>
 
-          <!-- =============== TAB 2: PREVENIR (FASE 2) =============== -->
-          <div id="tab-prevenir" class="tab-view">
-            <div class="pillar-header-banner" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px; background: transparent; padding-top: 0;">
-              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <div style="text-align: left;">
-                  <span style="font-size: 8px; font-weight: 700; color: #0088ff; text-transform: uppercase; letter-spacing: 0.8px;">Fase 2</span>
-                  <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">FASE 2 • PREVENIR</h2>
-                  <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Evite erros, controle gastos e escolha os melhores fornecedores.</p>
-                </div>
-                <!-- Progress circle -->
-                <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                  <svg width="56" height="56" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
-                    <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
-                    <circle id="prevenir-phase-circle" cx="18" cy="18" r="16" fill="none" stroke="#0088ff" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="58" style="transition: stroke-dashoffset 0.6s ease;"></circle>
-                  </svg>
-                  <div id="prevenir-phase-pct" style="position: absolute; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 800; color: #0088ff;">42%</div>
+                  <!-- Card 2: Registrar Pagamento -->
+                  <div class="glass-card btn-bounce" onclick="window.app.openExpenseDrawer();" style="padding: 14px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; background: rgba(15,18,26,0.45); border: 1.5px solid rgba(255,159,10,0.25); border-radius: 14px; cursor: pointer; min-height: 110px; text-align: left;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(255,159,10,0.1); border: 1px solid rgba(255,159,10,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <span style="font-size: 16px;">💸</span>
+                      </div>
+                      <h4 style="font-size: 11px; font-weight: 700; color: #fff; margin: 0; line-height: 1.2;">Registrar Pagamento<br>da Reforma</h4>
+                    </div>
+                    <p style="font-size: 9px; color: #8c96ab; margin: 0; line-height: 1.2; flex: 1;">Registre um pagamento realizado na reforma.</p>
+                    <div style="align-self: flex-end; width: 22px; height: 22px; border-radius: 50%; background: #ff9f0a; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; font-size: 10px; flex-shrink: 0;">➔</div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- RESUMO FINANCEIRO DA FASE -->
-            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #0088ff; margin: 0 0 12px 0; display: flex; align-items: center; gap: 6px;">🛡️ Resumo Financeiro da Fase</h3>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px;">
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Orçamento disponível</span>
-                  <strong id="prevenir-disponivel" style="font-size: 12px; color: #32d74b; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;">Atualizado em 01/06</span>
+              <!-- LIMITE DA REFORMA -->
+              <div class="glass-card" style="padding: 16px; margin-bottom: 20px; text-align: left; background: rgba(15, 18, 26, 0.45); border: 1.5px solid rgba(50,215,75,0.15); border-radius: 16px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 4px; height: 14px; background: #32d74b; border-radius: 2px;"></div>
+                    <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">Limite da Reforma</h3>
+                    <span style="font-size: 12px; color: #32d74b;">🛡️</span>
+                  </div>
+                  <span style="font-size: 10px; color: #8c96ab; font-weight: 500;">Defina seu limite e mantenha o controle.</span>
                 </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Total previsto</span>
-                  <strong id="prevenir-previsto" style="font-size: 12px; color: #0088ff; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;" id="prevenir-previsto-pct">0% do disponível</span>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; position: relative;">
+                  <!-- Left: Orçamento Total -->
+                  <div style="display: flex; align-items: center; gap: 12px; text-align: left;">
+                    <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">💰</div>
+                    <div>
+                      <span style="font-size: 9px; color: #32d74b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">Orçamento Total</span>
+                      <strong id="planejar-total-verba" style="font-size: 18px; color: #ffffff; font-family: 'Sora', sans-serif;">R$ 0,00</strong>
+                      <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Valor total disponível para a reforma</span>
+                    </div>
+                  </div>
+                  <!-- Right: Margem de Segurança -->
+                  <div style="display: flex; align-items: center; gap: 12px; text-align: left;">
+                    <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; position: relative;">
+                      🛡️
+                    </div>
+                    <div>
+                      <span style="font-size: 9px; color: #32d74b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
+                        Margem de Segurança <span style="font-size: 9px; color: #8c96ab; cursor: help;" title="Reservados para imprevistos">ⓘ</span>
+                      </span>
+                      <strong id="planejar-margem-pct" style="font-size: 18px; color: #ffffff; font-family: 'Sora', sans-serif;">10%</strong>
+                      <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;" id="planejar-margem-verba">R$ 0,00 reservados para imprevistos</span>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Total pago</span>
-                  <strong id="prevenir-pago" style="font-size: 12px; color: #bf5af2; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;" id="prevenir-pago-pct">0% do previsto</span>
+                
+                <!-- Progress bar -->
+                <div style="margin-bottom: 12px;">
+                  <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; margin-bottom: 6px;">
+                    <div id="planejar-progress-bar" style="width: 0%; height: 100%; background: #32d74b; border-radius: 3px; transition: width 0.3s ease;"></div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 10px; color: #8c96ab;">
+                     <span id="planejar-utilizado-lbl">R$ 0,00 utilizado</span>
+                     <span id="planejar-disponivel-lbl">R$ 0,00 disponível (10%)</span>
+                  </div>
                 </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Saldo a pagar</span>
-                  <strong id="prevenir-saldo" style="font-size: 12px; color: #ff9f0a; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;" id="prevenir-saldo-pct">0% do previsto</span>
+                
+                <!-- Note banner -->
+                <div style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: rgba(50,215,75,0.04); border: 1.5px solid rgba(50,215,75,0.12); border-radius: 10px; font-size: 10px; color: #8c96ab; text-align: left;">
+                  <span style="color: #32d74b; font-size: 12px;">ⓘ</span>
+                  <span>Manter uma reserva é essencial para lidar com imprevistos sem comprometer sua obra.</span>
                 </div>
               </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 8px; font-size: 9px; color: #8c96ab;">
-                <span>ⓘ Esses valores alimentam automaticamente o seu Painel de Controle.</span>
-                <span style="color: #0088ff; cursor: pointer; font-weight: 700;" onclick="window.app.switchTab('painel')">📊 Ver impacto no painel</span>
-              </div>
-            </div>
 
-            <!-- ETAPAS DA FASE PREVENIR (Timeline of steps) -->
-            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0;">🔧 ETAPAS DA FASE PREVENIR</h3>
-                <div style="text-align: right;">
-                  <span id="prevenir-timeline-progress-text" style="font-size: 11px; font-weight: 700; color: #0088ff;">42% concluído</span>
+              <!-- PILARES PRIORITÁRIOS -->
+              <div id="pilares-prioritarios-section" class="glass-card" style="padding: 16px; margin-bottom: 20px; text-align: left; background: rgba(15, 18, 26, 0.45); border: 1.5px solid rgba(50,215,75,0.15); border-radius: 16px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                  <div style="width: 4px; height: 14px; background: #32d74b; border-radius: 2px;"></div>
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">Pilares Prioritários</h3>
+                </div>
+                <p style="font-size: 10px; color: #8c96ab; margin: 0 0 12px 0;">Defina o nível de prioridade de cada pilar da sua reforma.</p>
+                
+                <div class="pilares-table-wrapper" style="overflow-x: auto; width: 100%;">
+                  <table style="width: 100%; border-collapse: collapse; min-width: 320px;">
+                    <thead>
+                      <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left;">
+                        <th style="font-size: 9px; font-weight: 700; color: #8c96ab; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Pilar</th>
+                        <th style="font-size: 9px; font-weight: 700; color: #8c96ab; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Status</th>
+                        <th style="font-size: 9px; font-weight: 700; color: #8c96ab; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; width: 50%;">Observação</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Row 1: Elétrica -->
+                      <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                        <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #ffffff;">⚡ ELÉTRICA</td>
+                        <td style="padding: 10px 0;">
+                          <select id="pilar-status-eletrica" onchange="window.app.financeiroController.savePilarPriority('eletrica')" style="font-size: 10px; padding: 4px 8px; border-radius: 6px; background: rgba(15,18,26,0.6); border: 1px solid var(--border-glass); color: #fff; outline: none; cursor: pointer;">
+                            <option value="opcional">⚪ OPCIONAL</option>
+                            <option value="atencao">🟠 ATENÇÃO</option>
+                            <option value="importante">🟡 IMPORTANTE</option>
+                            <option value="prioritario" selected>🔴 PRIORITÁRIO</option>
+                          </select>
+                        </td>
+                        <td style="padding: 10px 0; display: flex; align-items: center; gap: 8px; width: 100%;">
+                          <input type="text" id="pilar-obs-eletrica" onchange="window.app.financeiroController.savePilarPriority('eletrica')" placeholder="Digite uma observação..." style="flex: 1; font-size: 10px; padding: 6px 10px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); color: #fff; width: 100%;">
+                        </td>
+                      </tr>
+                      <!-- Row 2: Hidráulica -->
+                      <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                        <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #ffffff;">💧 HIDRÁULICA</td>
+                        <td style="padding: 10px 0;">
+                          <select id="pilar-status-hidraulica" onchange="window.app.financeiroController.savePilarPriority('hidraulica')" style="font-size: 10px; padding: 4px 8px; border-radius: 6px; background: rgba(15,18,26,0.6); border: 1px solid var(--border-glass); color: #fff; outline: none; cursor: pointer;">
+                            <option value="opcional">⚪ OPCIONAL</option>
+                            <option value="atencao">🟠 ATENÇÃO</option>
+                            <option value="importante" selected>🟡 IMPORTANTE</option>
+                            <option value="prioritario">🔴 PRIORITÁRIO</option>
+                          </select>
+                        </td>
+                        <td style="padding: 10px 0; display: flex; align-items: center; gap: 8px; width: 100%;">
+                          <input type="text" id="pilar-obs-hidraulica" onchange="window.app.financeiroController.savePilarPriority('hidraulica')" placeholder="Digite uma observação..." style="flex: 1; font-size: 10px; padding: 6px 10px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); color: #fff; width: 100%;">
+                        </td>
+                      </tr>
+                      <!-- Row 3: Estrutural -->
+                      <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                        <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #ffffff;">🏗️ ESTRUTURAL</td>
+                        <td style="padding: 10px 0;">
+                          <select id="pilar-status-estrutural" onchange="window.app.financeiroController.savePilarPriority('estrutural')" style="font-size: 10px; padding: 4px 8px; border-radius: 6px; background: rgba(15,18,26,0.6); border: 1px solid var(--border-glass); color: #fff; outline: none; cursor: pointer;">
+                            <option value="opcional">⚪ OPCIONAL</option>
+                            <option value="atencao" selected>🟠 ATENÇÃO</option>
+                            <option value="importante">🟡 IMPORTANTE</option>
+                            <option value="prioritario">🔴 PRIORITÁRIO</option>
+                          </select>
+                        </td>
+                        <td style="padding: 10px 0; display: flex; align-items: center; gap: 8px; width: 100%;">
+                          <input type="text" id="pilar-obs-estrutural" onchange="window.app.financeiroController.savePilarPriority('estrutural')" placeholder="Digite uma observação..." style="flex: 1; font-size: 10px; padding: 6px 10px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); color: #fff; width: 100%;">
+                        </td>
+                      </tr>
+                      <!-- Row 4: Acabamento -->
+                      <tr style="border-bottom: none;">
+                        <td style="padding: 10px 0; font-size: 11px; font-weight: 700; color: #ffffff;">🧱 ACABAMENTO</td>
+                        <td style="padding: 10px 0;">
+                          <select id="pilar-status-acabamento" onchange="window.app.financeiroController.savePilarPriority('acabamento')" style="font-size: 10px; padding: 4px 8px; border-radius: 6px; background: rgba(15,18,26,0.6); border: 1px solid var(--border-glass); color: #fff; outline: none; cursor: pointer;">
+                            <option value="opcional" selected>⚪ OPCIONAL</option>
+                            <option value="atencao">🟠 ATENÇÃO</option>
+                            <option value="importante">🟡 IMPORTANTE</option>
+                            <option value="prioritario">🔴 PRIORITÁRIO</option>
+                          </select>
+                        </td>
+                        <td style="padding: 10px 0; display: flex; align-items: center; gap: 8px; width: 100%;">
+                          <input type="text" id="pilar-obs-acabamento" onchange="window.app.financeiroController.savePilarPriority('acabamento')" placeholder="Digite uma observação..." style="flex: 1; font-size: 10px; padding: 6px 10px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); color: #fff; width: 100%;">
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
-              <!-- Timeline horizontal nodes -->
-              <div class="steps-timeline-container">
-                <div class="steps-timeline-line">
-                  <div id="prevenir-timeline-line-fill" class="steps-timeline-line-filled" style="width: 42%; background: #0088ff;"></div>
-                </div>
-                <div class="timeline-step-node completed active" id="prevenir-node-1" onclick="window.app.financeiroController.switchPrevenirStep(1, true)">
-                  <div class="timeline-step-circle">1</div>
-                  <span class="timeline-step-label">Orçamento Blindado</span>
-                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="prevenir-node-1-pct">33%</span>
-                </div>
-                <div class="timeline-step-node active" id="prevenir-node-2" onclick="window.app.financeiroController.switchPrevenirStep(2, true)">
-                  <div class="timeline-step-circle">2</div>
-                  <span class="timeline-step-label">Contratação</span>
-                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="prevenir-node-2-pct">40%</span>
-                </div>
-                <div class="timeline-step-node" id="prevenir-node-3" onclick="window.app.financeiroController.switchPrevenirStep(3, true)">
-                  <div class="timeline-step-circle">3</div>
-                  <span class="timeline-step-label">Compras</span>
-                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="prevenir-node-3-pct">0%</span>
-                </div>
-              </div>
-            </div>
 
-            <!-- STEP CONTENT 1: ORÇAMENTO BLINDADO -->
-            <div id="prevenir-step-content-1" class="prevenir-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div>
-                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
-                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #0088ff; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">1</span> ORÇAMENTO BLINDADO
-                  </h4>
-                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Lista de itens orçados e comparados.</p>
+              <!-- Redirect to Decidir Footer -->
+              <div class="glass-card redirect-decidir-footer" onclick="window.app.switchTab('decidir'); window.app.decisoesController.switchDecidirSubTab('dilemas');" style="padding: 16px; margin: 16px 0 80px 0; background: rgba(255, 106, 0, 0.03); border: 1.5px solid rgba(255, 106, 0, 0.25); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; text-align: left; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(255, 106, 0, 0.06)';" onmouseout="this.style.background='rgba(255, 106, 0, 0.03)';">
+                <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                  <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255, 106, 0, 0.1); border: 1px solid rgba(255, 106, 0, 0.2); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">💡</div>
+                  <div>
+                    <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #fff; margin: 0 0 2px 0; text-transform: uppercase; letter-spacing: 0.5px;">Precisa de ajuda para decidir?</h4>
+                    <p style="font-size: 10px; color: #8c96ab; margin: 0; line-height: 1.3;">Consulte os materiais completos, protocolos e guias na aba: <span style="color: var(--primary-orange); font-weight: 700;">Central de Apoio (Decidir)</span>.</p>
+                  </div>
                 </div>
-                <button class="btn btn-primary btn-mini" onclick="window.app.openExpenseDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px;">Adicionar item +</button>
-              </div>
-              
-              <div style="overflow-x: auto; margin-bottom: 12px;">
-                <table class="premium-table">
-                  <thead>
-                    <tr>
-                      <th>Item</th>
-                      <th>Ambiente</th>
-                      <th>Qtd.</th>
-                      <th>Previsto (R$)</th>
-                      <th>Menor Orçamento</th>
-                      <th>Fornecedor</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="prevenir-orcamento-table-body">
-                    <!-- Dynamic planned items -->
-                  </tbody>
-                </table>
-              </div>
-              
-              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #8c96ab; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 10px;">
-                <span>Total previsto: <strong id="prevenir-orcamento-total" style="color: #fff;">R$ 0,00</strong></span>
-                <span style="color: #32d74b;">Economia potencial: <strong id="prevenir-orcamento-economia">R$ 0,00</strong></span>
-              </div>
-            </div>
-
-            <!-- STEP CONTENT 2: CONTRATAÇÃO ESTRATÉGICA -->
-            <div id="prevenir-step-content-2" class="prevenir-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div>
-                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
-                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #0088ff; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">2</span> CONTRATAÇÃO ESTRATÉGICA
-                  </h4>
-                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Registro e comparação de fornecedores.</p>
-                </div>
-                <button class="btn btn-primary btn-mini" onclick="window.app.switchTab('decidir')" style="width: auto; padding: 4px 8px; font-size: 10px;">Adicionar fornecedor +</button>
-              </div>
-              
-              <div style="overflow-x: auto; margin-bottom: 12px;">
-                <table class="premium-table">
-                  <thead>
-                    <tr>
-                      <th>Fornecedor</th>
-                      <th>Serviço</th>
-                      <th>Valor Orçado</th>
-                      <th>Prazo</th>
-                      <th>Avaliação</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="prevenir-contratacao-table-body">
-                    <!-- Dynamic quote comparisons -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- STEP CONTENT 3: COMPRAS SEM ERRO -->
-            <div id="prevenir-step-content-3" class="prevenir-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div>
-                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
-                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #0088ff; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">3</span> COMPRAS SEM ERRO
-                  </h4>
-                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Controle de compras, entregas e pagamentos.</p>
-                </div>
-                <button class="btn btn-primary btn-mini" onclick="window.app.openExpenseDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px;">Nova compra +</button>
-              </div>
-              
-              <!-- Counters grid -->
-              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
-                <div style="background: rgba(0, 136, 255, 0.05); border: 1px solid rgba(0, 136, 255, 0.15); border-radius: 8px; padding: 6px; text-align: center;">
-                  <div style="font-size: 9px; color: #8c96ab;">Compras Registradas</div>
-                  <strong id="compras-count-total" style="font-size: 14px; color: #fff;">0 itens</strong>
-                </div>
-                <div style="background: rgba(191, 90, 242, 0.05); border: 1px solid rgba(191, 90, 242, 0.15); border-radius: 8px; padding: 6px; text-align: center;">
-                  <div style="font-size: 9px; color: #8c96ab;">Entregas Recebidas</div>
-                  <strong id="compras-count-delivered" style="font-size: 14px; color: #bf5af2;">0 itens</strong>
-                </div>
-                <div style="background: rgba(50, 215, 75, 0.05); border: 1px solid rgba(50, 215, 75, 0.15); border-radius: 8px; padding: 6px; text-align: center;">
-                  <div style="font-size: 9px; color: #8c96ab;">Total Pago</div>
-                  <strong id="compras-sum-paid" style="font-size: 14px; color: #32d74b;">R$ 0,00</strong>
-                </div>
-              </div>
-              
-              <div style="overflow-x: auto; margin-bottom: 12px;">
-                <table class="premium-table">
-                  <thead>
-                    <tr>
-                      <th>Item</th>
-                      <th>Fornecedor</th>
-                      <th>Data Compra</th>
-                      <th>Valor (R$)</th>
-                      <th>Pago</th>
-                      <th>Entrega</th>
-                      <th>Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody id="prevenir-compras-table-body">
-                    <!-- Dynamic expenses -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- AÇÕES RÁPIDAS DA FASE -->
-            <div style="text-align: left; margin-bottom: 80px;">
-              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 12px 0;">⚡ AÇÕES RÁPIDAS DA FASE</h3>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-                <div class="glass-card btn-bounce" onclick="window.app.openExpenseDrawer()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(191,90,242,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">💳</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Registrar pagamento</span>
-                </div>
-                <div class="glass-card btn-bounce" onclick="window.app.switchTab('decidir')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(0,136,255,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">⚖️</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Comparar fornecedores</span>
-                </div>
-                <div class="glass-card btn-bounce" onclick="window.app.openExpenseDrawer()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(255,159,10,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">🛒</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Adicionar compra</span>
-                </div>
-                <div class="glass-card btn-bounce" onclick="window.app.switchTab('painel')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(38,208,124,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">📊</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Ver impacto no painel</span>
+                <div class="btn btn-secondary btn-mini" style="display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: rgba(255,106,0,0.05); border-color: rgba(255,106,0,0.3); color: #ff9500; font-family: inherit; font-size: 11px; font-weight: 700; width: auto; flex-shrink: 0; border-radius: 10px;">
+                  📖 Ir para Central de Apoio ➔
                 </div>
               </div>
             </div>
-          </div>
-
-          <!-- =============== TAB 3: PROTEGER (FASE 3) =============== -->
-          <div id="tab-proteger" class="tab-view">
-            <div class="pillar-header-banner" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px; background: transparent; padding-top: 0;">
-              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <div style="text-align: left;">
-                  <span style="font-size: 8px; font-weight: 700; color: #bf5af2; text-transform: uppercase; letter-spacing: 0.8px;">Fase 3</span>
-                  <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">FASE 3 • PROTEGER</h2>
-                  <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Garanta que tudo seja entregue corretamente e documentado. Finalize sua obra com segurança total.</p>
+            
+            <!-- =============== TAB 2: PREVENIR (FASE 2) =============== -->
+            <div id="tab-prevenir" class="tab-view">
+              <!-- Header Banner Fase 2 -->
+              <div style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 16px; margin-bottom: 20px;">
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                  <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(50,215,75,0.12); border: 1.5px solid rgba(50,215,75,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 11 13 15 9"/></svg>
+                  </div>
+                  <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                      <span style="font-size: 11px; font-weight: 700; color: #32d74b; text-transform: uppercase; letter-spacing: 0.8px;">FASE 2 •</span>
+                      <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #32d74b; margin: 0;">PREVENIR</h2>
+                    </div>
+                    <p style="font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">É aqui que você evita prejuízos.</p>
+                    <p style="font-size: 11px; color: #8c96ab; margin: 0; line-height: 1.5;">Antes de contratar, comprar ou aprovar qualquer gasto, o Método 3P mostra os riscos e te ajuda a tomar decisões que <span style="color: #32d74b; font-weight: 600;">protegem seu dinheiro.</span></p>
+                  </div>
                 </div>
-                <!-- Progress circle -->
-                <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                  <svg width="56" height="56" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
-                    <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
-                    <circle id="proteger-phase-circle" cx="18" cy="18" r="16" fill="none" stroke="#bf5af2" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="70" style="transition: stroke-dashoffset 0.6s ease;"></circle>
-                  </svg>
-                  <div id="proteger-phase-pct" style="position: absolute; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 800; color: #bf5af2;">30%</div>
+              </div>
+
+              <!-- AÇÕES PARA EVITAR PREJUÍZOS -->
+              <div style="text-align: left; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                  <div style="width: 4px; height: 16px; background: #32d74b; border-radius: 2px;"></div>
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #ffffff; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">AÇÕES PARA EVITAR PREJUÍZOS</h3>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                  <!-- Card 1: Compare Antes de Comprar -->
+                  <div class="glass-card btn-bounce" onclick="window.app.financeiroController.switchPrevenirStep(1, true)" style="padding: 16px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; background: rgba(15,18,26,0.5); border: 1.5px solid rgba(50,215,75,0.25); border-radius: 14px; cursor: pointer; min-height: 160px; text-align: left; transition: all 0.2s ease;" onmouseover="this.style.borderColor='rgba(50,215,75,0.5)'" onmouseout="this.style.borderColor='rgba(50,215,75,0.25)'">
+                    <div>
+                      <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(50,215,75,0.1); border: 1.5px solid rgba(50,215,75,0.25); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/><line x1="11" y1="8" x2="11" y2="14"/></svg>
+                      </div>
+                      <div style="width: 20px; height: 2px; background: #32d74b; border-radius: 1px; margin-bottom: 10px;"></div>
+                      <h4 style="font-size: 12px; font-weight: 800; color: #fff; margin: 0 0 8px 0; text-transform: uppercase; line-height: 1.2;">COMPARE ANTES<br>DE COMPRAR</h4>
+                      <p style="font-size: 10px; color: #8c96ab; margin: 0; line-height: 1.4;">Compare preços, prazos and condições e escolha melhor.</p>
+                    </div>
+                    <div style="align-self: flex-end; width: 28px; height: 28px; border-radius: 50%; background: #32d74b; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                  </div>
+
+                  <!-- Card 2: Controle Suas Compras -->
+                  <div class="glass-card btn-bounce" onclick="window.app.financeiroController.switchPrevenirStep(3, true)" style="padding: 16px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; background: rgba(15,18,26,0.5); border: 1.5px solid rgba(255,159,10,0.25); border-radius: 14px; cursor: pointer; min-height: 160px; text-align: left; transition: all 0.2s ease;" onmouseover="this.style.borderColor='rgba(255,159,10,0.5)'" onmouseout="this.style.borderColor='rgba(255,159,10,0.25)'">
+                    <div>
+                      <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255,159,10,0.1); border: 1.5px solid rgba(255,159,10,0.25); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                      </div>
+                      <div style="width: 20px; height: 2px; background: #ff9f0a; border-radius: 1px; margin-bottom: 10px;"></div>
+                      <h4 style="font-size: 12px; font-weight: 800; color: #fff; margin: 0 0 8px 0; text-transform: uppercase; line-height: 1.2;">CONTROLE SUAS<br>COMPRAS</h4>
+                      <p style="font-size: 10px; color: #8c96ab; margin: 0; line-height: 1.4;">Registre compras e identifique gastos fora do planejado.</p>
+                    </div>
+                    <div style="align-self: flex-end; width: 28px; height: 28px; border-radius: 50%; background: #ff9f0a; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                  </div>
+
+                  <!-- Card 3: Contrate com Segurança -->
+                  <div class="glass-card btn-bounce" onclick="window.app.financeiroController.switchPrevenirStep(2, true)" style="padding: 16px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; background: rgba(15,18,26,0.5); border: 1.5px solid rgba(0,136,255,0.25); border-radius: 14px; cursor: pointer; min-height: 160px; text-align: left; transition: all 0.2s ease;" onmouseover="this.style.borderColor='rgba(0,136,255,0.5)'" onmouseout="this.style.borderColor='rgba(0,136,255,0.25)'">
+                    <div>
+                      <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(0,136,255,0.1); border: 1.5px solid rgba(0,136,255,0.25); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0088ff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><polyline points="16 11 17 13 19 11"/></svg>
+                      </div>
+                      <div style="width: 20px; height: 2px; background: #0088ff; border-radius: 1px; margin-bottom: 10px;"></div>
+                      <h4 style="font-size: 12px; font-weight: 800; color: #fff; margin: 0 0 8px 0; text-transform: uppercase; line-height: 1.2;">CONTRATE COM<br>SEGURANÇA</h4>
+                      <p style="font-size: 10px; color: #8c96ab; margin: 0; line-height: 1.4;">Use critérios objetivos para evitar erros e retrabalho.</p>
+                    </div>
+                    <div style="align-self: flex-end; width: 28px; height: 28px; border-radius: 50%; background: #0088ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RESUMO FINANCEIRO DA FASE -->
+              <div class="glass-card" style="padding: 16px; margin-bottom: 20px; text-align: left; background: rgba(15, 18, 26, 0.45); border: 1.5px solid rgba(50,215,75,0.15); border-radius: 16px;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #32d74b; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px;">Resumo Financeiro da Fase 2</h3>
+                <p style="font-size: 10px; color: #8c96ab; margin: 0 0 16px 0;">Acompanhe seu resultado.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 12px;">
+                  <div>
+                    <span style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Total Previsto</span>
+                    <strong id="prevenir-previsto" style="font-size: 16px; color: #ffffff; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                    <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Valor total estimado para esta fase.</span>
+                  </div>
+                  <div>
+                    <span style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Economia Potencial</span>
+                    <strong id="prevenir-economia" style="font-size: 16px; color: #32d74b; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                    <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Dinheiro que você pode deixar no seu bolso.</span>
+                  </div>
+                  <div>
+                    <span style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Saldo a Pagar</span>
+                    <strong id="prevenir-saldo" style="font-size: 16px; color: #ff9f0a; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                    <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">O que ainda precisa ser pago para não ter surpresa.</span>
+                  </div>
+                </div>
+                
+                <!-- Compatibility spans hidden -->
+                <div style="display: none;">
+                  <strong id="prevenir-disponivel"></strong>
+                  <strong id="prevenir-pago"></strong>
+                  <span id="prevenir-previsto-pct"></span>
+                  <span id="prevenir-pago-pct"></span>
+                  <span id="prevenir-saldo-pct"></span>
+                </div>
+              </div>
+
+              <!-- ETAPAS DA FASE PREVENIR (Timeline of steps) -->
+              <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0;">🔧 ETAPAS DA FASE PREVENIR</h3>
+                  <span id="prevenir-timeline-progress-text" style="font-size: 11px; font-weight: 700; color: #0088ff;">0% concluído</span>
+                </div>
+                
+                <div class="steps-timeline-container" style="position: relative; margin-bottom: 24px; padding: 10px 0;">
+                  <div class="steps-timeline-line-bg" style="position: absolute; top: 22px; left: 10%; right: 10%; height: 4px; background: rgba(255,255,255,0.05); z-index: 1;"></div>
+                  <div id="prevenir-timeline-line-fill" class="steps-timeline-line-filled" style="position: absolute; top: 22px; left: 10%; width: 0%; height: 4px; background: #0088ff; z-index: 2; transition: width 0.4s ease;"></div>
+                  
+                  <div style="display: flex; justify-content: space-between; position: relative; z-index: 3; padding: 0 8%;">
+                    <!-- Step Node 1 -->
+                    <div class="timeline-step-node" id="prevenir-node-1" onclick="window.app.financeiroController.switchPrevenirStep(1, true)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                      <div class="step-circle" style="width: 28px; height: 28px; border-radius: 50%; background: #1a1f2e; border: 2.5px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #8c96ab; transition: all 0.3s;">1</div>
+                      <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7; margin-top: 4px;" id="prevenir-node-1-pct">0%</span>
+                    </div>
+                    <!-- Step Node 2 -->
+                    <div class="timeline-step-node" id="prevenir-node-2" onclick="window.app.financeiroController.switchPrevenirStep(2, true)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                      <div class="step-circle" style="width: 28px; height: 28px; border-radius: 50%; background: #1a1f2e; border: 2.5px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #8c96ab; transition: all 0.3s;">2</div>
+                      <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7; margin-top: 4px;" id="prevenir-node-2-pct">0%</span>
+                    </div>
+                    <!-- Step Node 3 -->
+                    <div class="timeline-step-node" id="prevenir-node-3" onclick="window.app.financeiroController.switchPrevenirStep(3, true)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                      <div class="step-circle" style="width: 28px; height: 28px; border-radius: 50%; background: #1a1f2e; border: 2.5px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #8c96ab; transition: all 0.3s;">3</div>
+                      <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7; margin-top: 4px;" id="prevenir-node-3-pct">0%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Timeline STEP 1: Compare Antes de Comprar -->
+                <div id="prevenir-step-content-1" class="prevenir-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+                    <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #32d74b; display: flex; align-items: center; gap: 6px;">📋 1. Compare Antes de Comprar</h4>
+                    <button class="btn btn-secondary btn-mini" onclick="window.app.financeiroController.openAddPlanDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(50,215,75,0.3); color: #32d74b; background: rgba(50,215,75,0.05);">➕ Nova Cotação</button>
+                  </div>
+                  
+                  <div style="overflow-x: auto; width: 100%; margin-bottom: 12px;">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 320px;">
+                      <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left;">
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Item</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Ambiente</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Teto Est.</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Menor Cot.</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Economia</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase; width: 60px;">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody id="prevenir-orcamento-table-body">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                  <div style="display: flex; justify-content: space-between; font-size: 10px; color: #8c96ab; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px;">
+                    <span>Total previsto: <strong id="prevenir-orcamento-total" style="color: #fff;">R$ 0,00</strong></span>
+                    <span style="color: #32d74b;">Economia potencial: <strong id="prevenir-orcamento-economia">R$ 0,00</strong></span>
+                  </div>
+                </div>
+
+                <!-- Timeline STEP 2: Contrate com Segurança -->
+                <div id="prevenir-step-content-2" class="prevenir-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: none; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+                    <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #0088ff; display: flex; align-items: center; gap: 6px;">🤝 2. Contrate com Segurança</h4>
+                    <button class="btn btn-secondary btn-mini" onclick="window.app.financeiroController.openCompareSuppliersDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(0,136,255,0.3); color: #0088ff; background: rgba(0,136,255,0.05);">➕ Nova Cotação Fornecedor</button>
+                  </div>
+                  
+                  <div style="overflow-x: auto; width: 100%;">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 320px;">
+                      <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left;">
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Serviço</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Fornecedor</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Preço</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Nota 3P</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Recomendação</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase; width: 60px;">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody id="prevenir-contratacao-table-body">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Timeline STEP 3: Controle suas Compras -->
+                <div id="prevenir-step-content-3" class="prevenir-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: none; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+                    <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ff9f0a; display: flex; align-items: center; gap: 6px;">🛒 3. Controle Suas Compras</h4>
+                    <button class="btn btn-secondary btn-mini" onclick="window.app.openExpenseDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(255,159,10,0.3); color: #ff9f0a; background: rgba(255,159,10,0.05);">➕ Registrar Gasto</button>
+                  </div>
+                  
+                  <div style="overflow-x: auto; width: 100%;">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 320px;">
+                      <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left;">
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Item</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Fornecedor</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Data Compra</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Valor (R$)</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Pago</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Entrega</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase; width: 60px;">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody id="prevenir-compras-table-body">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- EM DÚVIDA? Footer -->
+              <div class="glass-card redirect-decidir-footer" onclick="window.app.switchTab('decidir'); window.app.decisoesController.switchDecidirSubTab('biblioteca');" style="padding: 16px; margin: 16px 0 80px 0; background: rgba(0, 136, 255, 0.03); border: 1.5px solid rgba(0, 136, 255, 0.25); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; text-align: left; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(0,136,255,0.06)'" onmouseout="this.style.background='rgba(0,136,255,0.03)'">
+                <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                  <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(0, 136, 255, 0.1); border: 1px solid rgba(0, 136, 255, 0.25); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">💡</div>
+                  <div>
+                    <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #fff; margin: 0 0 2px 0; text-transform: uppercase; letter-spacing: 0.5px;">EM DÚVIDA?</h4>
+                    <p style="font-size: 10px; color: #8c96ab; margin: 0; line-height: 1.3;">Consulte os protocolos e guias da <span style="color: #0088ff; font-weight: 700;">Central de Apoio</span> e tome decisões com mais segurança.</p>
+                  </div>
+                </div>
+                <div class="btn btn-secondary btn-mini" style="display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: rgba(0,136,255,0.05); border-color: rgba(0,136,255,0.3); color: #0088ff; font-family: inherit; font-size: 11px; font-weight: 700; width: auto; flex-shrink: 0; border-radius: 10px;">
+                  📖 Ir para Central de Apoio ➔
                 </div>
               </div>
             </div>
+            
+            <!-- =============== TAB 3: PROTEGER (FASE 3) =============== -->
+            <div id="tab-proteger" class="tab-view">
+              <!-- Header Banner Fase 3 -->
+              <div style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 16px; margin-bottom: 20px;">
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                  <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(191,90,242,0.12); border: 1.5px solid rgba(191,90,242,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#bf5af2" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </div>
+                  <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                      <span style="font-size: 11px; font-weight: 700; color: #bf5af2; text-transform: uppercase; letter-spacing: 0.8px;">FASE 3 •</span>
+                      <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #bf5af2; margin: 0;">PROTEGER</h2>
+                    </div>
+                    <p style="font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">Garanta que nenhum erro fique sem responsável.</p>
+                    <p style="font-size: 11px; color: #8c96ab; margin: 0; line-height: 1.5;">A maioria dos problemas aparece depois que a obra termina. O Método 3P ajuda você a registrar, validar e documentar tudo antes da entrega final.</p>
+                  </div>
+                </div>
+              </div>
 
-            <!-- RESUMO DE PROTEÇÃO -->
-            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #bf5af2; margin: 0 0 12px 0; display: flex; align-items: center; gap: 6px;">⭐ Resumo de Proteção</h3>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px;">
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Itens conferidos</span>
-                  <strong id="proteger-metric-checked-items" style="font-size: 12px; color: #32d74b; font-family: 'Sora', sans-serif; white-space: nowrap;">0 / 30</strong>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;" id="proteger-metric-checked-items-pct">0% concluído</span>
+              <!-- AÇÕES PARA PROTEGER SEU INVESTIMENTO -->
+              <div style="text-align: left; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                  <div style="width: 4px; height: 16px; background: #bf5af2; border-radius: 2px;"></div>
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #ffffff; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">AÇÕES PARA PROTEGER SEU INVESTIMENTO</h3>
                 </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Garantias registradas</span>
-                  <strong id="proteger-metric-warranties" style="font-size: 12px; color: #0088ff; font-family: 'Sora', sans-serif; white-space: nowrap;">0</strong>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;">Ativas</span>
-                </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Documentos arquivados</span>
-                  <strong id="proteger-metric-documents" style="font-size: 12px; color: #bf5af2; font-family: 'Sora', sans-serif; white-space: nowrap;">0</strong>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;">Arquivos</span>
-                </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Conclusão final</span>
-                  <strong id="proteger-metric-final-progress" style="font-size: 12px; color: #ff9f0a; font-family: 'Sora', sans-serif; white-space: nowrap;">0%</strong>
-                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;">Proteção da obra</span>
-                </div>
-              </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 8px; font-size: 9px; color: #8c96ab;">
-                <span>ⓘ Esses valores alimentam automaticamente o seu Painel de Controle.</span>
-                <span style="color: #bf5af2; cursor: pointer; font-weight: 700;" onclick="window.app.switchTab('painel')">📊 Ver impacto no painel</span>
-              </div>
-            </div>
+                <p style="font-size: 10px; color: #8c96ab; margin: 0 0 12px 0;">Registre, valide e documente tudo para garantir seus direitos.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                  <!-- Card 1: Não Perca Suas Garantias -->
+                  <div class="glass-card btn-bounce" onclick="window.app.conteudosController.switchProtegerStep(1, true)" style="padding: 14px 12px; display: flex; align-items: center; gap: 12px; background: rgba(15,18,26,0.45); border: 1.5px solid rgba(191,90,242,0.2); border-radius: 14px; cursor: pointer; min-height: 80px; text-align: left;">
+                    <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(191,90,242,0.08); border: 1px solid rgba(191,90,242,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">🛡️</div>
+                    <div>
+                      <h4 style="font-size: 11px; font-weight: 700; color: #fff; margin: 0 0 2px 0;">NÃO PERCA SUAS GARANTIAS</h4>
+                      <p style="font-size: 9px; color: #8c96ab; margin: 0; line-height: 1.3;">Organize notas, garantias e contatos em um único lugar.</p>
+                    </div>
+                  </div>
 
-            <!-- ETAPAS DA FASE PROTEGER (Timeline of steps) -->
-            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0;">🛡️ ETAPAS DA FASE PROTEGER</h3>
-                <div style="text-align: right;">
-                  <span id="proteger-timeline-progress-text" style="font-size: 11px; font-weight: 700; color: #bf5af2;">30% concluído</span>
-                </div>
-              </div>
-              <!-- Timeline horizontal nodes -->
-              <div class="steps-timeline-container">
-                <div class="steps-timeline-line">
-                  <div id="proteger-timeline-line-fill" class="steps-timeline-line-filled" style="width: 30%; background: #bf5af2;"></div>
-                </div>
-                <div class="timeline-step-node completed active" id="proteger-node-1" onclick="window.app.conteudosController.switchProtegerStep(1, true)">
-                  <div class="timeline-step-circle">1</div>
-                  <span class="timeline-step-label">Checklist de Entrega</span>
-                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="proteger-node-1-pct">50%</span>
-                </div>
-                <div class="timeline-step-node active" id="proteger-node-2" onclick="window.app.conteudosController.switchProtegerStep(2, true)">
-                  <div class="timeline-step-circle">2</div>
-                  <span class="timeline-step-label">Garantias & Check-out</span>
-                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="proteger-node-2-pct">25%</span>
-                </div>
-                <div class="timeline-step-node" id="proteger-node-3" onclick="window.app.conteudosController.switchProtegerStep(3, true)">
-                  <div class="timeline-step-circle">3</div>
-                  <span class="timeline-step-label">Relatório Final</span>
-                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="proteger-node-3-pct">0%</span>
-                </div>
-              </div>
-            </div>
+                  <!-- Card 2: Tenha Tudo Documentado -->
+                  <div class="glass-card btn-bounce" onclick="window.app.conteudosController.switchProtegerStep(2, true)" style="padding: 14px 12px; display: flex; align-items: center; gap: 12px; background: rgba(15,18,26,0.45); border: 1.5px solid rgba(191,90,242,0.2); border-radius: 14px; cursor: pointer; min-height: 80px; text-align: left;">
+                    <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(191,90,242,0.08); border: 1px solid rgba(191,90,242,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">📁</div>
+                    <div>
+                      <h4 style="font-size: 11px; font-weight: 700; color: #fff; margin: 0 0 2px 0;">TENHA TUDO DOCUMENTADO</h4>
+                      <p style="font-size: 9px; color: #8c96ab; margin: 0; line-height: 1.3;">Mantenha contratos e comprovantes acessíveis caso precise cobrar.</p>
+                    </div>
+                  </div>
 
-            <!-- STEP CONTENT 1: CHECKLIST FINAL DE ENTREGA -->
-            <div id="proteger-step-content-1" class="proteger-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div>
-                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
-                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #bf5af2; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">1</span> CHECKLIST FINAL DE ENTREGA
-                  </h4>
-                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Confira cada item do ambiente e registre o status de entrega.</p>
-                </div>
-                <button class="btn btn-secondary btn-mini" onclick="window.app.conteudosController.openPdfReader('pdf-doc')" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(191,90,242,0.3); color: #bf5af2; background: rgba(191,90,242,0.05);">Ver PDF de apoio</button>
-              </div>
-              
-              <div style="overflow-x: auto; margin-bottom: 12px;">
-                <table class="premium-table">
-                  <thead>
-                    <tr>
-                      <th>Item</th>
-                      <th>Ambiente</th>
-                      <th>Status</th>
-                      <th>Observações</th>
-                      <th>Ação</th>
-                    </tr>
-                  </thead>
-                  <tbody id="proteger-checklist-table-body">
-                    <!-- Dynamic checklist tasks -->
-                  </tbody>
-                </table>
-              </div>
-              
-              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #8c96ab; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 10px;">
-                <span onclick="window.app.switchTab('planejar')" style="color: #bf5af2; cursor: pointer; font-weight: 700;">Ver checklist completo ➔</span>
-                <span style="color: #32d74b;">Itens concluídos: <strong id="proteger-checklist-concluidos-text">0 de 30 (0%)</strong></span>
-              </div>
-            </div>
+                  <!-- Card 3: Evite Pendências Escondidas -->
+                  <div class="glass-card btn-bounce" onclick="window.app.conteudosController.switchProtegerStep(3, true)" style="padding: 14px 12px; display: flex; align-items: center; gap: 12px; background: rgba(15,18,26,0.45); border: 1.5px solid rgba(191,90,242,0.2); border-radius: 14px; cursor: pointer; min-height: 80px; text-align: left;">
+                    <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(191,90,242,0.08); border: 1px solid rgba(191,90,242,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">🔍</div>
+                    <div>
+                      <h4 style="font-size: 11px; font-weight: 700; color: #fff; margin: 0 0 2px 0;">EVITE PENDÊNCIAS ESCONDIDAS</h4>
+                      <p style="font-size: 9px; color: #8c96ab; margin: 0; line-height: 1.3;">Registre os ajustes e correções pendentes da sua obra.</p>
+                    </div>
+                  </div>
 
-            <!-- STEP CONTENT 2: GARANTIAS E CHECK-OUT -->
-            <div id="proteger-step-content-2" class="proteger-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div>
-                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
-                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #bf5af2; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">2</span> GARANTIAS E CHECK-OUT
-                  </h4>
-                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Registre garantias, contratos e documentos importantes.</p>
+                  <!-- Card 4: Confira Antes de Aprovar -->
+                  <div class="glass-card btn-bounce" onclick="window.app.conteudosController.switchProtegerStep(4, true)" style="padding: 14px 12px; display: flex; align-items: center; gap: 12px; background: rgba(15,18,26,0.45); border: 1.5px solid rgba(191,90,242,0.2); border-radius: 14px; cursor: pointer; min-height: 80px; text-align: left;">
+                    <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(191,90,242,0.08); border: 1px solid rgba(191,90,242,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">📋</div>
+                    <div>
+                      <h4 style="font-size: 11px; font-weight: 700; color: #fff; margin: 0 0 2px 0;">CONFIRA ANTES DE APROVAR</h4>
+                      <p style="font-size: 9px; color: #8c96ab; margin: 0; line-height: 1.3;">Use o checklist final para evitar problemas descobertos depois.</p>
+                    </div>
+                  </div>
                 </div>
-                <button class="btn btn-primary btn-mini" onclick="window.app.conteudosController.openAddWarrantyDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px;">Adicionar garantia</button>
               </div>
-              
-              <div style="overflow-x: auto; margin-bottom: 12px;">
-                <table class="premium-table">
-                  <thead>
-                    <tr>
-                      <th>Fornecedor</th>
-                      <th>Serviço / Produto</th>
-                      <th>Garantia</th>
-                      <th>Início</th>
-                      <th>Término</th>
-                      <th>Documento</th>
-                      <th>Ação</th>
-                    </tr>
-                  </thead>
-                  <tbody id="proteger-garantias-table-body">
-                    <!-- Dynamic warranties -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
 
-            <!-- STEP CONTENT 3: RELATÓRIO FINAL DA OBRA -->
-            <div id="proteger-step-content-3" class="proteger-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div>
-                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
-                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #bf5af2; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">3</span> RELATÓRIO FINAL DA OBRA
-                  </h4>
-                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Gere o relatório final com o resumo completo da sua reforma.</p>
-                </div>
-                <button class="btn btn-primary btn-mini" onclick="window.app.financeiroController.exportDataBackup()" style="width: auto; padding: 4px 8px; font-size: 10px;">Gerar relatório</button>
-              </div>
-              
-              <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 14px;">
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab;">VALOR PLANEJADO</span>
-                  <strong id="report-metric-budget" style="font-size: 11px; color: #32d74b; display: block; margin-top: 2px;">R$ 0,00</strong>
-                </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab;">VALOR EXECUTADO</span>
-                  <strong id="report-metric-executed" style="font-size: 11px; color: #0088ff; display: block; margin-top: 2px;">R$ 0,00</strong>
-                </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab;">ECONOMIA OBTIDA</span>
-                  <strong id="report-metric-economy" style="font-size: 11px; color: #32d74b; display: block; margin-top: 2px;">R$ 0,00</strong>
-                </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab;">PRAZO PLANEJADO</span>
-                  <strong style="font-size: 11px; color: #fff; display: block; margin-top: 2px;">90 dias</strong>
-                </div>
-                <div>
-                  <span style="font-size: 8px; color: #8c96ab;">PRAZO REAL</span>
-                  <strong style="font-size: 11px; color: #32d74b; display: block; margin-top: 2px;">87 dias</strong>
-                </div>
-              </div>
-              
-              <h5 style="font-size: 10px; color: #8c96ab; margin-bottom: 8px;">DOCUMENTOS INCLUSOS NO RELATÓRIO</h5>
-              <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;">
-                <div style="background: rgba(50,215,75,0.04); border: 1px solid rgba(50,215,75,0.15); border-radius: 8px; padding: 6px; text-align: center;">
-                  <span style="font-size: 16px;">📄</span>
-                  <div style="font-size: 8px; color: #fff; font-weight: bold; margin-top: 2px;">Notas Fiscais</div>
-                  <div style="font-size: 7px; color: #8c96ab;" id="report-doc-count-nfs">0 arquivos</div>
-                </div>
-                <div style="background: rgba(0,136,255,0.04); border: 1px solid rgba(0,136,255,0.15); border-radius: 8px; padding: 6px; text-align: center;">
-                  <span style="font-size: 16px;">📝</span>
-                  <div style="font-size: 8px; color: #fff; font-weight: bold; margin-top: 2px;">Contratos</div>
-                  <div style="font-size: 7px; color: #8c96ab;" id="report-doc-count-contracts">0 arquivos</div>
-                </div>
-                <div style="background: rgba(191,90,242,0.04); border: 1px solid rgba(191,90,242,0.15); border-radius: 8px; padding: 6px; text-align: center;">
-                  <span style="font-size: 16px;">🛡️</span>
-                  <div style="font-size: 8px; color: #fff; font-weight: bold; margin-top: 2px;">Garantias</div>
-                  <div style="font-size: 7px; color: #8c96ab;" id="report-doc-count-warranties">0 arquivos</div>
-                </div>
-                <div style="background: rgba(255,159,10,0.04); border: 1px solid rgba(255,159,10,0.15); border-radius: 8px; padding: 6px; text-align: center;">
-                  <span style="font-size: 16px;">💳</span>
-                  <div style="font-size: 8px; color: #fff; font-weight: bold; margin-top: 2px;">Comprovantes</div>
-                  <div style="font-size: 7px; color: #8c96ab;" id="report-doc-count-receipts">0 arquivos</div>
-                </div>
-                <div style="background: rgba(38,208,124,0.04); border: 1px solid rgba(38,208,124,0.15); border-radius: 8px; padding: 6px; text-align: center;">
-                  <span style="font-size: 16px;">📸</span>
-                  <div style="font-size: 8px; color: #fff; font-weight: bold; margin-top: 2px;">Fotos Obra</div>
-                  <div style="font-size: 7px; color: #8c96ab;" id="report-doc-count-photos">0 arquivos</div>
-                </div>
-              </div>
-            </div>
+              <!-- NÍVEL DE PROTEÇÃO DA SUA OBRA -->
+              <div class="glass-card" style="padding: 16px; margin-bottom: 20px; text-align: left; background: rgba(15, 18, 26, 0.45); border: 1.5px solid rgba(191,90,242,0.15); border-radius: 16px;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #bf5af2; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px;">NÍVEL DE PROTEÇÃO DA SUA OBRA</h3>
+                <p style="font-size: 10px; color: #8c96ab; margin: 0 0 16px 0;">Sua proteção está avançando!</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                  <!-- Row 1: Garantias protegidas -->
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 10px;">
+                    <div style="flex: 1;">
+                      <strong style="font-size: 12px; color: #ffffff; display: block; margin-bottom: 2px;">Garantias protegidas</strong>
+                      <span style="font-size: 10px; color: #8c96ab;">Tudo registrado e organizado.</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; width: 140px; justify-content: flex-end;">
+                      <div style="width: 80px; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+                        <div id="proteger-garantias-bar" style="width: 0%; height: 100%; background: #bf5af2; border-radius: 3px; transition: width 0.3s ease;"></div>
+                      </div>
+                      <span style="font-size: 10px; color: #bf5af2; font-weight: 700; width: 40px; text-align: right;" id="proteger-garantias-pct">0%</span>
+                    </div>
+                  </div>
 
-            <!-- AÇÕES RÁPIDAS DA FASE -->
-            <div style="text-align: left; margin-bottom: 80px;">
-              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 12px 0;">⚡ AÇÕES RÁPIDAS DA FASE</h3>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-                <div class="glass-card btn-bounce" onclick="window.app.conteudosController.openAddWarrantyDrawer()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(191,90,242,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">📁</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Adicionar documento</span>
-                </div>
-                <div class="glass-card btn-bounce" onclick="alert('Funcionalidade para tirar foto e anexar no diário de obra disponível nos checklists!')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(0,136,255,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">📷</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Tirar foto</span>
-                </div>
-                <div class="glass-card btn-bounce" onclick="alert('Abra os checklists nos ambientes para anotar observações qualitativas!')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(255,159,10,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">📝</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Anotar observação</span>
-                </div>
-                <div class="glass-card btn-bounce" onclick="window.app.financeiroController.exportDataBackup()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(38,208,124,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">📤</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Compartilhar relatório</span>
-                </div>
-              </div>
-            </div>
-          </div>
+                  <!-- Row 2: Contratos documentados -->
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 10px;">
+                    <div style="flex: 1;">
+                      <strong style="font-size: 12px; color: #ffffff; display: block; margin-bottom: 2px;">Contratos documentados</strong>
+                      <span style="font-size: 10px; color: #8c96ab;">Acordos e contratos salvos.</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; width: 140px; justify-content: flex-end;">
+                      <div style="width: 80px; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+                        <div id="proteger-contratos-bar" style="width: 0%; height: 100%; background: #bf5af2; border-radius: 3px; transition: width 0.3s ease;"></div>
+                      </div>
+                      <span style="font-size: 10px; color: #bf5af2; font-weight: 700; width: 40px; text-align: right;" id="proteger-contratos-pct">0%</span>
+                    </div>
+                  </div>
 
-          <!-- =============== TAB 4: DECIDIR (PROTOCOLOS) =============== -->
-          <div id="tab-decidir" class="tab-view">
-            <div class="pillar-header-banner" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px; background: transparent; padding-top: 0;">
-              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <div style="text-align: left;">
-                  <span style="font-size: 8px; font-weight: 700; color: #ff2d55; text-transform: uppercase; letter-spacing: 0.8px;">Fase Decidir</span>
-                  <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">FASE • DECIDIR</h2>
-                  <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Protocolos de Decisão Inteligente. Responda às perguntas antes de gastar.</p>
-                </div>
-                <!-- Usage badge -->
-                <div style="background: rgba(255,45,85,0.1); border: 1.5px solid rgba(255,45,85,0.3); border-radius: 12px; padding: 6px 12px; text-align: center; min-width: 90px;">
-                  <span style="font-size: 8px; color: #8c96ab; font-weight: 700; display: block;">USO DOS PROTOCOLOS</span>
-                  <strong style="font-size: 15px; color: #ff2d55; font-family: 'Sora', sans-serif;" id="decidir-metric-used-count">0</strong>
-                  <span style="font-size: 7px; color: #8c96ab; display: block; margin-top: 1px;">protocolos utilizados</span>
-                </div>
-              </div>
-            </div>
+                  <!-- Row 3: Pendências registradas -->
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 10px;">
+                    <div style="flex: 1;">
+                      <strong style="font-size: 12px; color: #ffffff; display: block; margin-bottom: 2px;">Pendências registradas</strong>
+                      <span style="font-size: 10px; color: #8c96ab;">Ajustes e correções acompanhados.</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; width: 140px; justify-content: flex-end;">
+                      <div style="width: 80px; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+                        <div id="proteger-pendencias-bar" style="width: 0%; height: 100%; background: #bf5af2; border-radius: 3px; transition: width 0.3s ease;"></div>
+                      </div>
+                      <span style="font-size: 10px; color: #bf5af2; font-weight: 700; width: 40px; text-align: right;" id="proteger-pendencias-pct">0%</span>
+                    </div>
+                  </div>
 
-            <!-- Intro banner -->
-            <div class="glass-card" style="padding: 14px; margin-bottom: 16px; background: rgba(255, 45, 85, 0.03); border: 1px solid rgba(255, 45, 85, 0.15); display: flex; align-items: center; justify-content: space-between; gap: 12px; border-radius: 16px; text-align: left;">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 24px;">🧠</span>
-                <div style="text-align: left;">
-                  <h4 style="font-size: 12px; font-weight: 700; color: #fff; margin: 0 0 2px 0;">Decida com método. Evite arrependimentos e prejuízos.</h4>
-                  <p style="font-size: 10px; color: #8c96ab; margin: 0;">Nossos protocolos foram criados para proteger o seu dinheiro e o seu tempo.</p>
+                  <!-- Row 4: Verificação final pendente -->
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 6px;">
+                    <div style="flex: 1;">
+                      <strong style="font-size: 12px; color: #ffffff; display: block; margin-bottom: 2px;">Verificação final pendente</strong>
+                      <span style="font-size: 10px; color: #8c96ab;">Checklist final para aprovar a entrega.</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; width: 140px; justify-content: flex-end;">
+                      <div style="width: 80px; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+                        <div id="proteger-final-bar" style="width: 0%; height: 100%; background: #bf5af2; border-radius: 3px; transition: width 0.3s ease;"></div>
+                      </div>
+                      <span style="font-size: 10px; color: #bf5af2; font-weight: 700; width: 40px; text-align: right;" id="proteger-final-pct">0%</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <button class="btn btn-secondary btn-mini" onclick="window.app.conteudosController.openPdfReader('pdf-doc')" style="width: auto; padding: 6px 10px; font-size: 10px; border-color: rgba(255,45,85,0.3); color: #ff2d55; background: transparent;">Como funciona</button>
-            </div>
 
-            <!-- 1. ESCOLHA O AMBIENTE -->
-            <div style="text-align: left; margin-bottom: 16px;">
-              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 10px 0;">1. ESCOLHA O AMBIENTE</h3>
-              <div class="environments-scroll-row" id="decidir-environments-scroll">
-                <!-- Generated dynamically in protocolos.js -->
-              </div>
-            </div>
+              <!-- ETAPAS DA FASE PROTEGER (Timeline inside Proteger tab) -->
+              <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0;">🔧 ETAPAS DA FASE PROTEGER</h3>
+                  <span id="proteger-timeline-progress-text" style="font-size: 11px; font-weight: 700; color: #bf5af2;">0% concluído</span>
+                </div>
+                
+                <div class="steps-timeline-container" style="position: relative; margin-bottom: 24px; padding: 10px 0;">
+                  <div class="steps-timeline-line-bg" style="position: absolute; top: 22px; left: 10%; right: 10%; height: 4px; background: rgba(255,255,255,0.05); z-index: 1;"></div>
+                  <div id="proteger-timeline-line-fill" class="steps-timeline-line-filled" style="position: absolute; top: 22px; left: 10%; width: 0%; height: 4px; background: #bf5af2; z-index: 2; transition: width 0.4s ease;"></div>
+                  
+                  <div style="display: flex; justify-content: space-between; position: relative; z-index: 3; padding: 0 5%;">
+                    <!-- Node 1 -->
+                    <div class="timeline-step-node" id="proteger-node-1" onclick="window.app.conteudosController.switchProtegerStep(1, true)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                      <div class="step-circle" style="width: 28px; height: 28px; border-radius: 50%; background: #1a1f2e; border: 2.5px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #8c96ab; transition: all 0.3s;">1</div>
+                      <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7; margin-top: 4px;">Garantias</span>
+                    </div>
+                    <!-- Node 2 -->
+                    <div class="timeline-step-node" id="proteger-node-2" onclick="window.app.conteudosController.switchProtegerStep(2, true)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                      <div class="step-circle" style="width: 28px; height: 28px; border-radius: 50%; background: #1a1f2e; border: 2.5px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #8c96ab; transition: all 0.3s;">2</div>
+                      <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7; margin-top: 4px;">Contratos</span>
+                    </div>
+                    <!-- Node 3 -->
+                    <div class="timeline-step-node" id="proteger-node-3" onclick="window.app.conteudosController.switchProtegerStep(3, true)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                      <div class="step-circle" style="width: 28px; height: 28px; border-radius: 50%; background: #1a1f2e; border: 2.5px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #8c96ab; transition: all 0.3s;">3</div>
+                      <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7; margin-top: 4px;">Pendências</span>
+                    </div>
+                    <!-- Node 4 -->
+                    <div class="timeline-step-node" id="proteger-node-4" onclick="window.app.conteudosController.switchProtegerStep(4, true)" style="display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                      <div class="step-circle" style="width: 28px; height: 28px; border-radius: 50%; background: #1a1f2e; border: 2.5px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #8c96ab; transition: all 0.3s;">4</div>
+                      <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7; margin-top: 4px;">Checklist</span>
+                    </div>
+                  </div>
+                </div>
 
-            <!-- PROTOCOLO ATIVO CARD -->
-            <div class="glass-card decidir-active-theme" style="padding: 16px; margin-bottom: 16px; text-align: left; border: 1.5px solid rgba(255, 45, 85, 0.25); display: flex; align-items: center; justify-content: space-between; gap: 16px; border-radius: 16px; background: rgba(255,45,85,0.02);">
-              <div style="display: flex; gap: 14px; align-items: center; flex: 1;">
-                <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(255,45,85,0.08); border: 1px solid rgba(255,45,85,0.2); display: flex; align-items: center; justify-content: center; font-size: 24px;" id="decidir-active-env-emoji">🍳</div>
-                <div>
-                  <span style="font-size: 8px; font-weight: 700; color: #ff2d55; text-transform: uppercase; letter-spacing: 0.8px;">PROTOCOLO ATIVO</span>
-                  <h4 id="decidir-active-env-name" style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #ffffff; margin: 2px 0 0 0;">Cozinha</h4>
-                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Protocolo de Decisão Inteligente</p>
+                <!-- Step 1 Content: Garantias -->
+                <div id="proteger-step-content-1" class="proteger-step-content" style="display: block;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4 style="font-size: 11px; color: #fff; font-weight: 700;">📂 Pasta de Garantias & Contatos</h4>
+                    <button class="btn btn-secondary btn-mini" onclick="window.app.conteudosController.openAddGarantiaModal()" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(191,90,242,0.3); color: #bf5af2; background: rgba(191,90,242,0.05);">➕ Nova Garantia</button>
+                  </div>
+                  <div style="overflow-x: auto; width: 100%;">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 320px;">
+                      <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left;">
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Fornecedor/Produto</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Validade</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Contato</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase; width: 60px;">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody id="proteger-garantias-tbody">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-              
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <div style="text-align: right;">
-                  <span id="decidir-active-steps-count" style="font-size: 11px; font-weight: 700; color: #ff2d55;">0 de 3 concluídas</span>
-                </div>
-                <!-- Progress circle mini -->
-                <div style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                  <svg width="44" height="44" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
-                    <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
-                    <circle id="decidir-active-circle" cx="18" cy="18" r="16" fill="none" stroke="#ff2d55" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="100" style="transition: stroke-dashoffset 0.6s ease;"></circle>
-                  </svg>
-                  <div id="decidir-active-pct" style="position: absolute; font-family: 'Sora', sans-serif; font-size: 10px; font-weight: 800; color: #ff2d55;">0%</div>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-mini" id="decidir-active-full-btn" onclick="alert('Escolha e preencha os dilemas de decisão abaixo!')" style="width: auto; padding: 8px 12px; font-size: 10px; background: linear-gradient(135deg, #ff2d55 0%, #ff375f 100%); border: none; box-shadow: 0 4px 12px rgba(255,45,85,0.3);">Ver protocolo completo ➔</button>
-            </div>
 
-            <!-- 2. PONTOS DE DECISÃO DO PROTOCOLO -->
-            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
-              <h3 id="decidir-pontos-title" style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 4px 0;">2. PONTOS DE DECISÃO DO PROTOCOLO - COZINHA</h3>
-              <p style="font-size: 10px; color: #8c96ab; margin: 0 0 12px 0;">Responda cada pergunta, registre suas escolhas e anexe orçamentos quando necessário.</p>
-              
-              <div style="overflow-x: auto;">
-                <table class="premium-table">
-                  <thead>
-                    <tr>
-                      <th>Etapa</th>
-                      <th>Tópico</th>
-                      <th>Status</th>
-                      <th>Ação</th>
-                      <th>Registro</th>
-                    </tr>
-                  </thead>
-                  <tbody id="decidir-pontos-table-body">
-                    <!-- Dynamic decision points -->
-                  </tbody>
-                </table>
-              </div>
-              <div style="font-size: 10px; color: #ff2d55; font-weight: 700; cursor: pointer; text-align: left; margin-top: 10px;" onclick="window.app.switchTab('planejar')">
-                Ver todas as decisões do ambiente ➔
-              </div>
-            </div>
+                <!-- Step 2 Content: Contratos -->
+                <div id="proteger-step-content-2" class="proteger-step-content" style="display: none;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4 style="font-size: 11px; color: #fff; font-weight: 700;">📂 Contratos de Empreiteiro & Fornecedores</h4>
+                    <button class="btn btn-secondary btn-mini" onclick="window.app.conteudosController.openAddContratoModal()" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(191,90,242,0.3); color: #bf5af2; background: rgba(191,90,242,0.05);">➕ Novo Contrato</button>
+                  </div>
+                  <div style="overflow-x: auto; width: 100%;">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 320px;">
+                      <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left;">
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Serviço/Objeto</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Empresa/Profissional</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Valor total</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase; width: 60px;">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody id="proteger-contratos-tbody">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
 
-            <!-- 3. COMPARAÇÕES E REGISTROS -->
-            <div style="text-align: left; margin-bottom: 16px;">
-              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 12px 0;">3. COMPARAÇÕES E REGISTROS</h3>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
-                <div class="glass-card" style="padding: 12px 8px; text-align: center; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 12px;">
-                  <span style="font-size: 20px;">📋</span>
-                  <strong id="decidir-reg-pdf-count" style="font-size: 13px; color: #fff; display: block; margin-top: 4px;">0</strong>
-                  <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Orçamentos anexados</span>
-                  <span style="font-size: 8px; color: #ff2d55; font-weight: 700; display: block; margin-top: 4px; cursor: pointer;" onclick="window.app.switchTab('prevenir'); window.app.financeiroController.switchPrevenirStep(3);">Ver orçamentos ➔</span>
+                <!-- Step 3 Content: Pendências -->
+                <div id="proteger-step-content-3" class="proteger-step-content" style="display: none;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4 style="font-size: 11px; color: #fff; font-weight: 700;">📂 Histórico de Pendências Encontradas</h4>
+                    <button class="btn btn-secondary btn-mini" onclick="window.app.conteudosController.openAddPendenciaModal()" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(191,90,242,0.3); color: #bf5af2; background: rgba(191,90,242,0.05);">➕ Nova Pendência</button>
+                  </div>
+                  <div style="overflow-x: auto; width: 100%;">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 320px;">
+                      <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left;">
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Pendência/Detalhe</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Ambiente</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase;">Status</th>
+                          <th style="font-size: 8px; color: #8c96ab; padding-bottom: 6px; text-transform: uppercase; width: 60px;">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody id="proteger-pendencias-tbody">
+                        <!-- Loaded dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <div class="glass-card" style="padding: 12px 8px; text-align: center; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 12px;">
-                  <span style="font-size: 20px;">⚖️</span>
-                  <strong id="decidir-reg-comp-count" style="font-size: 13px; color: #26d07c; display: block; margin-top: 4px;">0</strong>
-                  <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Comparações realizadas</span>
-                  <span style="font-size: 8px; color: #ff2d55; font-weight: 700; display: block; margin-top: 4px; cursor: pointer;" onclick="window.app.switchTab('prevenir'); window.app.financeiroController.switchPrevenirStep(2);">Ver comparações ➔</span>
+
+                <!-- Step 4 Content: Checklist final -->
+                <div id="proteger-step-content-4" class="proteger-step-content" style="display: none;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4 style="font-size: 11px; color: #fff; font-weight: 700;">📋 Vistoria de Entrega Final da Obra</h4>
+                    <span style="font-size: 9px; color: #8c96ab;">Complete a vistoria antes de pagar o saldo retido.</span>
+                  </div>
+                  
+                  <div style="display: flex; flex-direction: column; gap: 8px;" id="proteger-checklist-container">
+                    <!-- Loaded dynamically -->
+                  </div>
                 </div>
-                <div class="glass-card" style="padding: 12px 8px; text-align: center; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 12px;">
-                  <span style="font-size: 20px;">🗳️</span>
-                  <strong id="decidir-reg-choice-count" style="font-size: 13px; color: #0088ff; display: block; margin-top: 4px;">0</strong>
-                  <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Decisões tomadas</span>
-                  <span style="font-size: 8px; color: #ff2d55; font-weight: 700; display: block; margin-top: 4px; cursor: pointer;" onclick="alert('Para ver o histórico de decisões, consulte a lista de cotações em Prevenir!')">Ver decisões ➔</span>
+              </div>
+
+              <!-- EM DÚVIDA? Footer -->
+              <div class="glass-card redirect-decidir-footer" onclick="window.app.switchTab('decidir'); window.app.decisoesController.switchDecidirSubTab('biblioteca');" style="padding: 16px; margin: 16px 0 80px 0; background: rgba(191, 90, 242, 0.03); border: 1.5px solid rgba(191, 90, 242, 0.25); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; text-align: left; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(191, 90, 242, 0.06)'" onmouseout="this.style.background='rgba(191, 90, 242, 0.03)'">
+                <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                  <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(191, 90, 242, 0.1); border: 1px solid rgba(191, 90, 242, 0.25); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">💡</div>
+                  <div>
+                    <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #fff; margin: 0 0 2px 0; text-transform: uppercase; letter-spacing: 0.5px;">EM DÚVIDA?</h4>
+                    <p style="font-size: 10px; color: #8c96ab; margin: 0; line-height: 1.3;">Consulte os materiais, protocolos e guias na aba <span style="color: #bf5af2; font-weight: 700;">Central de Apoio</span> e proteja sua reforma com segurança.</p>
+                  </div>
                 </div>
-                <div class="glass-card" style="padding: 12px 8px; text-align: center; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 12px;">
-                  <span style="font-size: 20px;">💡</span>
-                  <strong id="decidir-reg-doubt-count" style="font-size: 13px; color: #ff9f0a; display: block; margin-top: 4px;">0</strong>
-                  <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Dúvidas resolvidas</span>
-                  <span style="font-size: 8px; color: #ff2d55; font-weight: 700; display: block; margin-top: 4px; cursor: pointer;" onclick="window.app.openProfileDrawer()">Ver coleções ➔</span>
+                <div class="btn btn-secondary btn-mini" style="display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: rgba(191,90,242,0.05); border-color: rgba(191,90,242,0.3); color: #bf5af2; font-family: inherit; font-size: 11px; font-weight: 700; width: auto; flex-shrink: 0; border-radius: 10px;">
+                  📖 Ir para Central de Apoio ➔
                 </div>
               </div>
             </div>
+            
+            <!-- =============== TAB 4: DECIDIR (PROTOCOLOS) =============== -->
+            <div id="tab-decidir" class="tab-view">
+              <!-- Segmented Control for Decidir Sub-Views -->
+              <div class="tool-segmented-control" style="margin-bottom: 16px; background: rgba(255,255,255,0.03); padding: 4px; border-radius: 12px; display: flex; gap: 4px; border: 1px solid var(--border-glass);">
+                <button class="segment-btn active" id="decidir-tab-dilemas" onclick="window.app.decisoesController.switchDecidirSubTab('dilemas')" style="flex: 1; padding: 10px; font-size: 11px; border-radius: 8px; border: none; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s;">🧠 Dilemas (Protocolos)</button>
+                <button class="segment-btn" id="decidir-tab-biblioteca" onclick="window.app.decisoesController.switchDecidirSubTab('biblioteca')" style="flex: 1; padding: 10px; font-size: 11px; border-radius: 8px; border: none; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s;">📚 Biblioteca (Guias)</button>
+              </div>
 
-            <!-- 4. AÇÕES RÁPIDAS -->
-            <div style="text-align: left; margin-bottom: 80px;">
-              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 12px 0;">4. AÇÕES RÁPIDAS</h3>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-                <div class="glass-card btn-bounce" onclick="alert('Escolha e preencha os dilemas de decisão acima!')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(255,45,85,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">➕</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Novo protocolo</span>
-                  <span style="font-size: 8px; color: #8c96ab;">Iniciar decisão</span>
+              <!-- ==================== SUB-VIEW: DILEMAS & PROTOCOLOS ==================== -->
+              <div id="decidir-dilemas-view" class="decidir-sub-view">
+                <!-- Header Banner -->
+                <div style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 16px; margin-bottom: 20px; text-align: left;">
+                  <span style="font-size: 8px; font-weight: 700; color: #ff9f0a; text-transform: uppercase; letter-spacing: 0.8px;">Central Estratégica</span>
+                  <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">Protocolos de Decisão</h2>
+                  <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Não sabe o que escolher? O Método 3P mostra exatamente o que analisar antes de tomar qualquer decisão na sua obra e evitar prejuízos.</p>
                 </div>
-                <div class="glass-card btn-bounce" onclick="alert('Selecione um dos ambientes no carrossel de cotações para inspecionar!')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(38,208,124,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">🔍</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Consultar protocolo</span>
-                  <span style="font-size: 8px; color: #8c96ab;">Escolher ambiente</span>
+
+                <!-- ANTES DE APROVAR QUALQUER GASTO -->
+                <div class="glass-card" style="padding: 16px; margin-bottom: 20px; text-align: left; background: rgba(255, 106, 0, 0.04); border: 1.5px solid rgba(255, 106, 0, 0.25); border-radius: 16px;">
+                  <div style="display: flex; gap: 12px; align-items: center;">
+                    <span style="font-size: 24px;">⚠️</span>
+                    <div>
+                      <strong style="font-size: 11px; color: #ff9f0a; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">ANTES DE APROVAR QUALQUER GASTO</strong>
+                      <p style="font-size: 10px; color: #8c96ab; margin: 0; line-height: 1.3;">Consulte o protocolo correspondente. 5 minutos aqui podem evitar milhares de reais em retrabalho depois.</p>
+                    </div>
+                  </div>
                 </div>
-                <div class="glass-card btn-bounce" onclick="alert('Histórico de decisões registradas em cotações e orçamentos!')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(0,136,255,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">⏱️</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Minhas decisões</span>
-                  <span style="font-size: 8px; color: #8c96ab;">Ver histórico</span>
-                </div>
-                <div class="glass-card btn-bounce" onclick="window.app.switchTab('planejar')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(255,159,10,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
-                  <span style="font-size: 20px;">📖</span>
-                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Central 3P</span>
-                  <span style="font-size: 8px; color: #8c96ab;">Ver biblioteca</span>
+
+                <!-- DECISÕES QUE EVITAM PREJUÍZO -->
+                <div style="text-align: left; margin-bottom: 20px;">
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px;">DECISÕES QUE EVITAM PREJUÍZO</h3>
+                  
+                  <!-- Search box for quick filters -->
+                  <div class="search-input-container" style="position: relative; display: flex; align-items: center; margin-bottom: 16px;">
+                    <input type="text" id="decidir-search-input" class="form-control search-input" placeholder="Buscar protocolos por ambiente, acabamento..." oninput="window.app.decisoesController.filterDecidirCards()" style="padding: 10px 14px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff; width: 100%; outline: none;">
+                  </div>
+                  
+                  <!-- Environments grid -->
+                  <div class="environments-progress-grid" id="decidir-environments-grid" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 80px;">
+                    <!-- Cozinha -->
+                    <div class="environment-progress-card glass-card" data-env-name="cozinha" style="padding: 16px; display: flex; align-items: center; gap: 16px; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 16px;">
+                      <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">🍳</div>
+                      <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                          <h4 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #fff; margin: 0;">COZINHA</h4>
+                          <span style="font-size: 11px; font-weight: 700; color: #ff9f0a;" id="decidir-env-pct-cozinha">0%</span>
+                        </div>
+                        <p style="font-size: 10px; color: #8c96ab; margin: 0 0 10px 0; line-height: 1.4;">Saiba exatamente o que avaliar antes de aprovar móveis, acabamentos e equipamentos.</p>
+                        <button class="btn btn-secondary btn-mini" onclick="window.app.decisoesController.openEnvironmentProtocol('cozinha')" style="width: auto; padding: 6px 12px; font-size: 10px; border-color: rgba(255,159,10,0.3); color: #ff9f0a; background: transparent;">Ver Protocolos ➔</button>
+                      </div>
+                    </div>
+
+                    <!-- Banheiro -->
+                    <div class="environment-progress-card glass-card" data-env-name="banheiro" style="padding: 16px; display: flex; align-items: center; gap: 16px; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 16px;">
+                      <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">🛁</div>
+                      <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                          <h4 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #fff; margin: 0;">BANHEIRO</h4>
+                          <span style="font-size: 11px; font-weight: 700; color: #ff9f0a;" id="decidir-env-pct-banheiro">0%</span>
+                        </div>
+                        <p style="font-size: 10px; color: #8c96ab; margin: 0 0 10px 0; line-height: 1.4;">Evite escolhas que geram retrabalho, manutenção precoce e gastos desnecessários.</p>
+                        <button class="btn btn-secondary btn-mini" onclick="window.app.decisoesController.openEnvironmentProtocol('banheiro')" style="width: auto; padding: 6px 12px; font-size: 10px; border-color: rgba(255,159,10,0.3); color: #ff9f0a; background: transparent;">Ver Protocolos ➔</button>
+                      </div>
+                    </div>
+
+                    <!-- Quarto -->
+                    <div class="environment-progress-card glass-card" data-env-name="quarto" style="padding: 16px; display: flex; align-items: center; gap: 16px; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 16px;">
+                      <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">🛏️</div>
+                      <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                          <h4 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #fff; margin: 0;">QUARTO</h4>
+                          <span style="font-size: 11px; font-weight: 700; color: #ff9f0a;" id="decidir-env-pct-quarto">0%</span>
+                        </div>
+                        <p style="font-size: 10px; color: #8c96ab; margin: 0 0 10px 0; line-height: 1.4;">Tome decisões com clareza antes de gastar dinheiro em itens difíceis de corrigir depois.</p>
+                        <button class="btn btn-secondary btn-mini" onclick="window.app.decisoesController.openEnvironmentProtocol('quarto')" style="width: auto; padding: 6px 12px; font-size: 10px; border-color: rgba(255,159,10,0.3); color: #ff9f0a; background: transparent;">Ver Protocolos ➔</button>
+                      </div>
+                    </div>
+
+                    <!-- Sala -->
+                    <div class="environment-progress-card glass-card" data-env-name="sala" style="padding: 16px; display: flex; align-items: center; gap: 16px; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 16px;">
+                      <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">📺</div>
+                      <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                          <h4 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #fff; margin: 0;">SALA DE ESTAR</h4>
+                          <span style="font-size: 11px; font-weight: 700; color: #ff9f0a;" id="decidir-env-pct-sala">0%</span>
+                        </div>
+                        <p style="font-size: 10px; color: #8c96ab; margin: 0 0 10px 0; line-height: 1.4;">Crie ambientes funcionais e acolhedores sem extrapolar o orçamento.</p>
+                        <button class="btn btn-secondary btn-mini" onclick="window.app.decisoesController.openEnvironmentProtocol('sala')" style="width: auto; padding: 6px 12px; font-size: 10px; border-color: rgba(255,159,10,0.3); color: #ff9f0a; background: transparent;">Ver Protocolos ➔</button>
+                      </div>
+                    </div>
+
+                    <!-- Área Externa -->
+                    <div class="environment-progress-card glass-card" data-env-name="area_externa" style="padding: 16px; display: flex; align-items: center; gap: 16px; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 16px;">
+                      <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">🪴</div>
+                      <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                          <h4 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #fff; margin: 0;">ÁREA EXTERNA</h4>
+                          <span style="font-size: 11px; font-weight: 700; color: #ff9f0a;" id="decidir-env-pct-area_externa">0%</span>
+                        </div>
+                        <p style="font-size: 10px; color: #8c96ab; margin: 0 0 10px 0; line-height: 1.4;">Decisões certas para áreas externas seguras, duráveis e que valorizam sua obra.</p>
+                        <button class="btn btn-secondary btn-mini" onclick="window.app.decisoesController.openEnvironmentProtocol('area_externa')" style="width: auto; padding: 6px 12px; font-size: 10px; border-color: rgba(255,159,10,0.3); color: #ff9f0a; background: transparent;">Ver Protocolos ➔</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div> <!-- Closes app-viewport-content -->
 
-        <!-- FLOATING NAVIGATION TAB BAR -->
+              <!-- ==================== SUB-VIEW: BIBLIOTECA & PDFS ==================== -->
+              <div id="decidir-biblioteca-view" class="decidir-sub-view" style="display: none;">
+                <!-- Header Banner -->
+                <div style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 16px; margin-bottom: 20px; text-align: left;">
+                  <span style="font-size: 8px; font-weight: 700; color: #ff9f0a; text-transform: uppercase; letter-spacing: 0.8px;">Central de Apoio</span>
+                  <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">Biblioteca de Apoio</h2>
+                  <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Materiais, protocolos e estratégias para tomar as melhores decisões na sua reforma.</p>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="library-search-wrapper" style="margin-bottom: 16px; text-align: left;">
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 10px 0;">Buscar na Biblioteca</h3>
+                  <div class="search-input-container" style="position: relative; display: flex; align-items: center;">
+                    <input type="text" id="library-search-input" class="form-control search-input" placeholder="Buscar guias por palavra-chave (ex: porcelanato, cimento...)" oninput="window.app.conteudosController.searchLibrary()" style="padding: 10px 14px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff; width: 100%; outline: none;">
+                  </div>
+                </div>
+                
+                <!-- Filter Tags -->
+                <div class="library-tags-scroll" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; border: none; width: 100%;">
+                  <span class="tag-filter active" onclick="window.app.conteudosController.filterLibrary('all', this)" style="padding: 6px 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: var(--transition-smooth); color: #fff;">Todos</span>
+                  <span class="tag-filter" onclick="window.app.conteudosController.filterLibrary('planejamento', this)" style="padding: 6px 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: var(--transition-smooth); color: #fff;">Fase 1 (Planejar)</span>
+                  <span class="tag-filter" onclick="window.app.conteudosController.filterLibrary('financeiro', this)" style="padding: 6px 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: var(--transition-smooth); color: #fff;">Fase 2 (Prevenir)</span>
+                  <span class="tag-filter" onclick="window.app.conteudosController.filterLibrary('contratos', this)" style="padding: 6px 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: var(--transition-smooth); color: #fff;">Fase 3 (Proteger)</span>
+                </div>
+
+                <!-- Environment cards / PDF grid list (loaded dynamically) -->
+                <div style="text-align: left; margin-bottom: 20px;">
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px;">Guias por Ambiente</h3>
+                  
+                  <div class="library-pdf-grid" id="library-grid-container" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px;">
+                    <!-- Loaded dynamically -->
+                  </div>
+                </div>
+                
+                <!-- Bottom card banner: Aprofunde suas decisões -->
+                <div class="glass-card" style="padding: 16px; margin: 16px 0 80px 0; background: rgba(255, 106, 0, 0.03); border: 1.5px solid rgba(255, 106, 0, 0.25); border-radius: 16px; display: flex; align-items: center; gap: 12px; text-align: left;">
+                  <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(255,106,0,0.08); border: 1.5px solid rgba(255,106,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">📚</div>
+                  <div>
+                    <strong style="font-size: 11px; color: #ff9f0a; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">APROFUNDE SUAS DECISÕES</strong>
+                    <p style="font-size: 10px; color: #8c96ab; margin: 0; line-height: 1.3;">Acesse guias, modelos, contratos e estratégias para fazer escolhas inteligentes e proteger seu investimento até o final da obra.</p>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- Closes tab-decidir -->
+          </div> <!-- Closes app-viewport-content -->
+
+            <!-- FLOATING NAVIGATION TAB BAR -->
           <nav class="app-navigation-bar">
             <button id="nav-btn-painel" class="nav-item active" onclick="window.app.switchTab('painel')">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon">
@@ -1422,7 +1576,6 @@
           <span class="wizard-btn-text">Aplicar Método 3P</span>
           <span class="wizard-btn-ping"></span>
         </button>
-      </div>
       
       <!-- ==================== DRAWER MODAL: PERFIL DO USUÁRIO ==================== -->
       <div class="drawer-overlay" id="drawer-profile-overlay" onclick="window.app.closeProfileDrawer()">
@@ -2083,6 +2236,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> <!-- Closes drawer-admin-overlay -->
+</div> <!-- Closes app-container -->
 </body>
 </html>

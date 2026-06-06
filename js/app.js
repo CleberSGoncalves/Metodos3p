@@ -276,9 +276,7 @@ class AppOrchestrator {
       this.conteudosController.renderProtegerTab();
       this.conteudosController.switchProtegerStep(1, false); // highlight node 1 without scrolling
     } else if (tabId === 'decidir') {
-      this.decisoesController.renderDecidirEnvironmentsScroll();
-      this.decisoesController.renderDecidirPontos();
-      this.decisoesController.updateDecidirStats();
+      this.decisoesController.switchDecidirSubTab(this.decisoesController.activeDecidirSubTab || 'dilemas');
     }
 
     // Toggle floating wizard button visibility (only show on Painel / Dashboard tab)
@@ -1582,40 +1580,55 @@ class AppOrchestrator {
     this.closeWizardDrawer();
     
     let targetTab = 'painel';
-    let targetSubTab = null;
+    let targetTimelineStep = null;
     let focusInputId = null;
+    let openExpense = false;
     
     switch(stepNumber) {
       case 1:
-        targetTab = 'orcamento';
-        targetSubTab = 'projeto';
-        focusInputId = 'input-investment';
+        targetTab = 'planejar';
+        setTimeout(() => {
+          this.openWizardDrawer();
+        }, 300);
         break;
       case 2:
-        targetTab = 'orcamento';
-        targetSubTab = 'detalhado';
-        focusInputId = 'plan-input-desc';
+        targetTab = 'prevenir';
+        targetTimelineStep = 1;
         break;
       case 3:
-        targetTab = 'orcamento';
-        targetSubTab = 'pagamentos';
+        targetTab = 'prevenir';
+        targetTimelineStep = 3;
+        openExpense = true;
         break;
       case 4:
-        targetTab = 'cronograma';
-        focusInputId = 'crono-start-date';
+        targetTab = 'planejar';
+        focusInputId = 'pilar-status-eletrica';
         break;
       case 5:
-        targetTab = 'central';
+        targetTab = 'prevenir';
+        targetTimelineStep = 2;
         break;
     }
     
     this.switchTab(targetTab);
     
-    if (targetTab === 'orcamento' && targetSubTab) {
-      this.financeiroController.switchSubTab(targetSubTab);
-    } else if (targetTab === 'central') {
-      this.switchCentralSection('decisoes');
-      alert('A Matriz de Risco está passando por atualizações e será liberada em formato de protocolo interativo em breve!');
+    if (targetTimelineStep !== null) {
+      setTimeout(() => {
+        this.financeiroController.switchPrevenirStep(targetTimelineStep, true);
+        if (openExpense) {
+          setTimeout(() => {
+            this.openExpenseDrawer();
+            setTimeout(() => {
+              const expDesc = document.getElementById('exp-desc');
+              if (expDesc) {
+                expDesc.focus();
+                expDesc.classList.add('wizard-focus-attention');
+                setTimeout(() => expDesc.classList.remove('wizard-focus-attention'), 3000);
+              }
+            }, 300);
+          }, 200);
+        }
+      }, 300);
     }
     
     if (focusInputId) {
@@ -1627,18 +1640,6 @@ class AppOrchestrator {
           el.classList.add('wizard-focus-attention');
           setTimeout(() => el.classList.remove('wizard-focus-attention'), 3000);
         }
-      }, 450);
-    } else if (stepNumber === 3) {
-      setTimeout(() => {
-        this.openExpenseDrawer();
-        setTimeout(() => {
-          const expDesc = document.getElementById('exp-desc');
-          if (expDesc) {
-            expDesc.focus();
-            expDesc.classList.add('wizard-focus-attention');
-            setTimeout(() => expDesc.classList.remove('wizard-focus-attention'), 3000);
-          }
-        }, 300);
       }, 450);
     }
   }

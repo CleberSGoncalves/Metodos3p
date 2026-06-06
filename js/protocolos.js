@@ -7,6 +7,7 @@ class DecisionsController {
     this.app = app;
     this.activeEnvironment = null;
     this.activePhase = 'planejar';
+    this.activeDecidirSubTab = 'dilemas';
   }
 
   init() {
@@ -52,9 +53,41 @@ class DecisionsController {
       ]
     };
     
-    this.renderDecidirEnvironmentsScroll();
-    this.renderDecidirPontos();
-    this.updateDecidirStats();
+    this.switchDecidirSubTab(this.activeDecidirSubTab || 'dilemas');
+  }
+
+  switchDecidirSubTab(subTab) {
+    this.activeDecidirSubTab = subTab;
+    
+    // Toggle active segment buttons
+    const btnDilemas = document.getElementById('decidir-tab-dilemas');
+    const btnBiblioteca = document.getElementById('decidir-tab-biblioteca');
+    
+    if (subTab === 'dilemas') {
+      if (btnDilemas) btnDilemas.classList.add('active');
+      if (btnBiblioteca) btnBiblioteca.classList.remove('active');
+      
+      const vDilemas = document.getElementById('decidir-dilemas-view');
+      const vBiblioteca = document.getElementById('decidir-biblioteca-view');
+      if (vDilemas) vDilemas.style.display = 'block';
+      if (vBiblioteca) vBiblioteca.style.display = 'none';
+      
+      this.renderDecidirEnvironmentsScroll();
+      this.renderDecidirPontos();
+      this.updateDecidirStats();
+    } else if (subTab === 'biblioteca') {
+      if (btnDilemas) btnDilemas.classList.remove('active');
+      if (btnBiblioteca) btnBiblioteca.classList.add('active');
+      
+      const vDilemas = document.getElementById('decidir-dilemas-view');
+      const vBiblioteca = document.getElementById('decidir-biblioteca-view');
+      if (vDilemas) vDilemas.style.display = 'none';
+      if (vBiblioteca) vBiblioteca.style.display = 'block';
+      
+      if (this.app.conteudosController) {
+        this.app.conteudosController.renderPdfGrid();
+      }
+    }
   }
 
   // Renders the list of environments in the "Protocolos" section
@@ -467,6 +500,23 @@ class DecisionsController {
     this.renderDecidirEnvironmentsScroll();
     this.renderDecidirPontos();
     this.updateDecidirStats();
+  }
+
+  openEnvironmentProtocol(envId) {
+    if (envId !== 'casa_completa' && this.app.paywallController.isEnvironmentLocked(envId)) {
+      this.app.paywallController.triggerEnvironmentPurchase(envId);
+      return;
+    }
+    
+    this.selectDecidirEnvironment(envId);
+    
+    const drawer = document.getElementById('drawer-protocol-overlay');
+    if (drawer) drawer.classList.add('active');
+  }
+
+  closeEnvironmentProtocol() {
+    const drawer = document.getElementById('drawer-protocol-overlay');
+    if (drawer) drawer.classList.remove('active');
   }
 
   renderDecidirPontos() {
