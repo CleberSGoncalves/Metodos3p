@@ -1563,19 +1563,7 @@
           </nav>
         </section>
         
-        <!-- Botão Flutuante 'Comece Aqui' (Ancorado de forma Fixa) -->
-        <button id="dash-floating-wizard-btn" class="floating-wizard-btn btn-bounce" onclick="window.app.openWizardDrawer()" style="display: none;">
-          <span class="wizard-btn-icon">⚡</span>
-          <span class="wizard-btn-text">Comece Aqui</span>
-          <span class="wizard-btn-ping"></span>
-        </button>
-        
-        <!-- Botão Flutuante 'Aplicar Método 3P' (Aparece pós-onboarding) -->
-        <button id="dash-floating-checklist-btn" class="premium-floating-btn btn-bounce" onclick="window.app.switchTab('central'); window.app.switchCentralSection('checklists');" style="display: none;">
-          <span class="wizard-btn-icon" style="font-size: 16px;">👑</span>
-          <span class="wizard-btn-text">Aplicar Método 3P</span>
-          <span class="wizard-btn-ping"></span>
-        </button>
+
       
       <!-- ==================== DRAWER MODAL: PERFIL DO USUÁRIO ==================== -->
       <div class="drawer-overlay" id="drawer-profile-overlay" onclick="window.app.closeProfileDrawer()">
@@ -2164,10 +2152,7 @@
     updateOnlineStatus();
   </script>
 
-  <!-- ==================== FLOATING ADMIN BUTTON & MODAL ==================== -->
-  <div id="admin-floating-btn" style="display: none; position: absolute; bottom: 84px; right: 16px; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #0055ff 0%, #0088ff 100%); border: 1.5px solid rgba(255,255,255,0.15); box-shadow: 0 4px 15px rgba(0, 111, 255, 0.4); z-index: 99; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; transition: all 0.3s ease;" onclick="window.app.openAdminDashboard()">
-    🛠️
-  </div>
+
 
   <!-- ADMIN DASHBOARD OVERLAY -->
   <div class="drawer-overlay" id="drawer-admin-overlay" onclick="window.app.closeAdminDashboard()" style="z-index: 200;">

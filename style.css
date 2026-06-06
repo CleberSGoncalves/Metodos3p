@@ -4662,7 +4662,7 @@ label {
   /* FAB/Nando Chat positioning inside the bezel */
   .nando-fab {
     position: absolute !important;
-    bottom: 84px !important;
+    bottom: 160px !important;
     right: 16px !important;
   }
 
@@ -4728,7 +4728,7 @@ label {
 
 .nando-fab {
   position: fixed;
-  bottom: 24px;
+  bottom: 160px;
   right: 24px;
   width: 60px;
   height: 60px;
@@ -4779,7 +4779,7 @@ label {
 
 .nando-chat-window {
   position: fixed;
-  bottom: 24px;
+  bottom: 92px;
   right: 24px;
   width: 350px;
   height: 500px;
@@ -5618,3 +5618,11 @@ label {
   color: #bf5af2;
 }
 
+
+
+/* OVERRIDES: Ocultar botoes flutuantes e admin */
+.floating-wizard-btn,
+.premium-floating-btn,
+#admin-floating-btn {
+  display: none !important;
+}

@@ -355,7 +355,7 @@ class PaywallController {
       if (adminActivePanel) adminActivePanel.style.display = 'block';
 
       const adminBtn = document.getElementById('admin-floating-btn');
-      if (adminBtn) adminBtn.style.display = 'flex';
+      if (adminBtn) adminBtn.style.display = 'none';
 
       return;
     }

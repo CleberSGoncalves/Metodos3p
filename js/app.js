@@ -286,7 +286,7 @@ class AppOrchestrator {
     const hasFinishedSetup = localStorage.getItem('reformas_3p_onboarding_finished') === 'true';
     
     if (wizardBtn) {
-      wizardBtn.style.display = (tabId === 'painel') ? 'flex' : 'none';
+      wizardBtn.style.display = 'none';
       const wizardBtnText = wizardBtn.querySelector('.wizard-btn-text');
       const wizardBtnIcon = wizardBtn.querySelector('.wizard-btn-icon');
       if (wizardBtnText) {
@@ -298,7 +298,7 @@ class AppOrchestrator {
     }
     
     if (checklistBtn) {
-      checklistBtn.style.display = (tabId === 'painel' && hasFinishedSetup) ? 'flex' : 'none';
+      checklistBtn.style.display = 'none';
     }
   }
 
