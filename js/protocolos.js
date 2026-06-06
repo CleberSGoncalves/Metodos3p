@@ -508,10 +508,161 @@ class DecisionsController {
       return;
     }
     
-    this.selectDecidirEnvironment(envId);
+    if (envId !== 'casa_completa') {
+      this.activeEnvironment = envId;
+      localStorage.setItem('reformas_3p_active_env', envId);
+    }
+
+    const envData = envId === 'casa_completa' ? { name: 'Casa Completa', emoji: '🏠' } : METODO_3P_DATABASE.checklists[envId];
+    
+    // Populate the drawer
+    const drawerTitle = document.getElementById('drawer-protocol-title');
+    const drawerPhaseBar = document.getElementById('drawer-protocol-phase-bar');
+    const drawerContent = document.getElementById('drawer-protocol-content');
+    
+    if (drawerTitle) drawerTitle.textContent = `${envData.emoji} Protocolos: ${envData.name}`;
+    
+    // Reset phase buttons
+    if (drawerPhaseBar) {
+      drawerPhaseBar.querySelectorAll('.drawer-phase-btn').forEach(btn => btn.classList.remove('active'));
+      const firstBtn = drawerPhaseBar.querySelector('[data-phase="planejar"]');
+      if (firstBtn) firstBtn.classList.add('active');
+    }
+    
+    // Render protocol content for default phase (planejar)
+    this._renderDrawerProtocolPhase(envId, 'planejar', drawerContent);
     
     const drawer = document.getElementById('drawer-protocol-overlay');
     if (drawer) drawer.classList.add('active');
+  }
+
+  _renderDrawerProtocolPhase(envId, phase, container) {
+    if (!container) return;
+    
+    const GAMMA_LINKS = {
+      cozinha: {
+        planejar: [ { title: 'Protocolo de Decisão — Cozinha', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-COZINHA--yvyrdi7dit8yxd7' } ],
+        prevenir: [],
+        proteger: []
+      },
+      sala: {
+        planejar: [ { title: 'Protocolo de Decisão — Sala', url: 'https://gamma.app/docs/PROTOCOLO-DECISAO-SALA-0xaifmkls6novgn' } ],
+        prevenir: [],
+        proteger: []
+      },
+      quarto: {
+        planejar: [ { title: 'Protocolo de Decisão — Quarto', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-QUARTO-ndlbc3vlcqroiy2' } ],
+        prevenir: [],
+        proteger: []
+      },
+      banheiro: {
+        planejar: [ { title: 'Protocolo de Decisão — Banheiro', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-BANHEIRO-7ihshc0wsdnwjrl' } ],
+        prevenir: [],
+        proteger: []
+      },
+      area_externa: {
+        planejar: [ { title: 'Protocolo de Decisão — Área Externa', url: 'https://gamma.app/docs/PROTOCOLO-DECISAO-AREA-EXTERNA-jlggd1eqc2obftv' } ],
+        prevenir: [],
+        proteger: []
+      }
+    };
+    
+    let allLinks = [];
+    if (envId === 'casa_completa') {
+      Object.keys(GAMMA_LINKS).forEach(key => {
+        const phaseLinks = GAMMA_LINKS[key][phase] || [];
+        allLinks.push(...phaseLinks);
+      });
+    } else {
+      const envLinks = GAMMA_LINKS[envId] || {};
+      allLinks = envLinks[phase] || [];
+    }
+    
+    // Also show decision points table for this env
+    const points = envId === 'casa_completa' 
+      ? Object.values(this.decisionPoints).flat() 
+      : (this.decisionPoints[envId] || []);
+    
+    const phasePoints = points.filter(dp => {
+      // Filter by phase prefix in statusKey
+      if (phase === 'planejar') return dp.statusKey && dp.statusKey.includes('-pl-');
+      if (phase === 'prevenir') return dp.statusKey && dp.statusKey.includes('-pr-');
+      if (phase === 'proteger') return dp.statusKey && dp.statusKey.includes('-pt-');
+      return true;
+    });
+    
+    let html = '';
+    
+    // Protocol Documents
+    if (allLinks.length > 0) {
+      html += `<div style="margin-bottom: 16px;">`;
+      html += `<h5 style="font-size: 11px; font-weight: 700; color: #ff9f0a; text-transform: uppercase; margin: 0 0 10px 0;">📄 Protocolos de Referência</h5>`;
+      html += allLinks.map(pdf => `
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,106,0,0.2); border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; margin-bottom: 8px; transition: background 0.2s;" onclick="window.open('${pdf.url}', '_blank')" onmouseover="this.style.background='rgba(255,106,0,0.05)'" onmouseout="this.style.background='rgba(255,255,255,0.02)'">
+          <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255,106,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">📄</div>
+          <div style="flex: 1; text-align: left;">
+            <h5 style="font-size: 12px; font-weight: 700; color: #fff; margin: 0 0 2px 0;">${pdf.title}</h5>
+            <span style="font-size: 9px; font-weight: 600; color: #ff9f0a; background: rgba(255,106,0,0.1); padding: 2px 6px; border-radius: 4px;">Abrir no Gamma ➔</span>
+          </div>
+        </div>
+      `).join('');
+      html += `</div>`;
+    }
+    
+    // Decision Points for this phase
+    if (phasePoints.length > 0) {
+      html += `<div>`;
+      html += `<h5 style="font-size: 11px; font-weight: 700; color: #fff; text-transform: uppercase; margin: 0 0 10px 0;">🧠 Pontos de Decisão</h5>`;
+      html += phasePoints.map(dp => {
+        const isCompleted = !!this.app.conteudosController.tasksProgress[dp.statusKey];
+        return `
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px;">
+            <div style="flex: 1; text-align: left;">
+              <div style="font-size: 10px; color: #ff9f0a; font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">${dp.category}</div>
+              <div style="font-size: 12px; color: #fff; font-weight: 600;">${dp.topic}</div>
+            </div>
+            <button onclick="window.app.decisoesController.toggleDecisionPoint('${dp.statusKey}'); window.app.decisoesController._refreshDrawerProtocol();" style="background: ${isCompleted ? 'rgba(38,208,124,0.1)' : 'rgba(255,106,0,0.1)'}; border: 1px solid ${isCompleted ? 'rgba(38,208,124,0.3)' : 'rgba(255,106,0,0.3)'}; color: ${isCompleted ? '#26d07c' : '#ff9f0a'}; padding: 6px 10px; border-radius: 8px; font-size: 9px; font-weight: 700; cursor: pointer; white-space: nowrap;">${isCompleted ? '✓ Resolvido' : 'Decidir ✓'}</button>
+          </div>
+        `;
+      }).join('');
+      html += `</div>`;
+    }
+    
+    if (allLinks.length === 0 && phasePoints.length === 0) {
+      html = `
+        <div style="text-align: center; padding: 40px 20px; color: #8c96ab;">
+          <div style="font-size: 32px; margin-bottom: 12px; opacity: 0.5;">📭</div>
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 14px; margin-bottom: 8px;">Nenhum protocolo disponível</h4>
+          <p style="font-size: 12px;">Os guias para esta fase e ambiente estão sendo elaborados.</p>
+        </div>
+      `;
+    }
+    
+    container.innerHTML = html;
+  }
+
+  switchDrawerProtocolPhase(envId, phase) {
+    const drawerPhaseBar = document.getElementById('drawer-protocol-phase-bar');
+    const drawerContent = document.getElementById('drawer-protocol-content');
+    
+    if (drawerPhaseBar) {
+      drawerPhaseBar.querySelectorAll('.drawer-phase-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = drawerPhaseBar.querySelector(`[data-phase="${phase}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+    
+    this._renderDrawerProtocolPhase(envId, phase, drawerContent);
+  }
+
+  _refreshDrawerProtocol() {
+    // Re-render the current protocol drawer content without changing phase
+    const drawerContent = document.getElementById('drawer-protocol-content');
+    const activeBtn = document.querySelector('#drawer-protocol-phase-bar .drawer-phase-btn.active');
+    const phase = activeBtn ? activeBtn.getAttribute('data-phase') : 'planejar';
+    this._renderDrawerProtocolPhase(this.activeEnvironment || 'cozinha', phase, drawerContent);
+    this.renderDecidirPontos();
+    this.renderDecidirEnvironmentsScroll();
+    this.updateDecidirStats();
   }
 
   closeEnvironmentProtocol() {
@@ -596,6 +747,21 @@ class DecisionsController {
       envEmoji = envData.emoji;
       points = this.decisionPoints[envId] || [];
     }
+
+    // Update per-environment progress percentages shown in Decidir environment cards
+    Object.keys(this.decisionPoints).forEach(eId => {
+      const ePoints = this.decisionPoints[eId] || [];
+      let eCompleted = 0;
+      ePoints.forEach(dp => {
+        if (this.app.conteudosController.tasksProgress[dp.statusKey]) eCompleted++;
+      });
+      const ePct = ePoints.length > 0 ? Math.round((eCompleted / ePoints.length) * 100) : 0;
+      const pctEl = document.getElementById(`decidir-env-pct-${eId}`);
+      if (pctEl) {
+        pctEl.textContent = `${ePct}%`;
+        pctEl.style.color = ePct >= 100 ? '#32d74b' : ePct > 0 ? '#ff9f0a' : '#8c96ab';
+      }
+    });
     
     // Active Environment details
     const activeEmojiEl = document.getElementById('decidir-active-env-emoji');
@@ -663,5 +829,21 @@ class DecisionsController {
       const unlockedCount = this.app.selectedEnvironments.length;
       regDoubtCountEl.textContent = unlockedCount.toString();
     }
+  }
+  filterDecidirCards() {
+    const input = document.getElementById('decidir-search-input');
+    if (!input) return;
+    const query = input.value.toLowerCase().trim();
+    
+    const cards = document.querySelectorAll('#decidir-environments-grid .environment-progress-card');
+    cards.forEach(card => {
+      const envName = (card.getAttribute('data-env-name') || '').toLowerCase();
+      const text = (card.textContent || '').toLowerCase();
+      if (query === '' || envName.includes(query) || text.includes(query)) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
   }
 }

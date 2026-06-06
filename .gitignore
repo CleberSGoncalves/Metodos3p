@@ -10,3 +10,4 @@ node_modules/
 dist/
 client_secret_*.json
 .vercel
+.env*

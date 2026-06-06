@@ -849,9 +849,29 @@ class AppOrchestrator {
     // Show/hide direct install button based on deferredPrompt availability
     const directBtn = document.getElementById('pwa-android-direct-btn');
     if (directBtn) {
-      directBtn.style.display = this.deferredPrompt ? 'block' : 'none';
+      if (this.deferredPrompt) {
+        directBtn.style.display = 'flex';
+        directBtn.style.alignItems = 'center';
+        directBtn.style.justifyContent = 'center';
+      } else {
+        directBtn.style.display = 'none';
+      }
+    }
+
+    // Generate QR Code for the site URL
+    const qrImg = document.getElementById('pwa-qr-img');
+    const qrSection = document.getElementById('pwa-qr-section');
+    if (qrImg) {
+      const siteUrl = encodeURIComponent('https://metodo3p.kinomuse.com.br');
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${siteUrl}&color=111111&bgcolor=ffffff&margin=4`;
+      qrImg.onerror = () => {
+        // Fallback: hide QR section if API unavailable
+        if (qrSection) qrSection.style.display = 'none';
+      };
+      if (qrSection) qrSection.style.display = 'block';
     }
   }
+
 
   closePwaInstallModal() {
     const modal = document.getElementById('modal-pwa-install-overlay');

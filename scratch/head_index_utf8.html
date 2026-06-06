@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0b0d">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <!-- Build: v3.0.27 -->
+  <title>Reformas Sem Erro - Método 3P</title>
+  
+  <!-- Global JavaScript Error Catcher Overlay for debugging -->
+  <script>
+    window.addEventListener('error', function(e) {
+      const errDiv = document.createElement('div');
+      Object.assign(errDiv.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(15, 6, 7, 0.98)',
+        color: '#ff3b30',
+        padding: '30px',
+        zIndex: '999999',
+        fontFamily: 'monospace',
+        fontSize: '14px',
+        lineHeight: '1.6',
+        overflowY: 'auto',
+        textAlign: 'left'
+      });
+      errDiv.innerHTML = `
+        <h2 style="font-family: 'Sora', sans-serif; color: #ffffff; margin-bottom: 15px; border-bottom: 2px solid #ff3b30; padding-bottom: 8px;">🚨 ERRO DE EXECUÇÃO DETECTADO</h2>
+        <p style="font-size: 16px; color: #ffffff; margin-bottom: 12px;"><b>Mensagem:</b> ${e.message}</p>
+        <p><b>Arquivo:</b> ${e.filename}</p>
+        <p><b>Linha/Coluna:</b> ${e.lineno}:${e.colno}</p>
+        <br>
+        <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 8px; color: #8c96ab;">
+          <b>Stack Trace:</b><br>
+          <pre style="white-space: pre-wrap; margin-top: 8px;">${e.error ? e.error.stack : 'N/A'}</pre>
+        </div>
+        <br>
+        <button style="background: #ff6a00; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;" onclick="localStorage.clear(); location.reload();">Limpar Cache e Recarregar</button>
+      `;
+      document.body.appendChild(errDiv);
+    });
+  </script>
+  
+  <!-- Google Fonts: Sora (headers) & Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js CDN for beautiful, interactive, animated financial charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <link rel="stylesheet" href="style.css?v=3.0.25">
+  <link rel="manifest" href="manifest.json?v=1.0.7">
+  <!-- Google Sign-In SDK (Google Identity Services) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <!-- APRESENTAÇÃO DE ABERTURA (SPLASH SCREEN SELECTOR & PREVIEW) -->
+  <div id="app-splash-screen" class="app-splash-screen active">
+    <!-- Efeitos Visuais Dinâmicos -->
+    <div class="splash-bg"></div>
+    <div class="splash-grid"></div>
+    <div class="splash-particles" id="splash-particles"></div>
+    
+    <!-- Conteúdo da Splash -->
+    <div class="splash-content" id="splash-main-content">
+      <div class="splash-logo-wrapper">
+        <img id="splash-logo" src="icon-512.png" alt="Logo Método 3P" class="splash-logo">
+        <div class="splash-logo-glow"></div>
+        <div class="splash-lens-flare"></div>
+      </div>
+      <h1 class="splash-title" style="letter-spacing: 0.5px;">MÉTODO <span class="highlight-orange">3P</span></h1>
+      <p class="splash-subtitle">Sua reforma. Seu sonho. Nosso método.</p>
+      
+      <div class="splash-loading-bar" id="splash-loading-container">
+        <div class="splash-loading-fill" id="splash-loading-fill"></div>
+      </div>
+    </div>
+
+    <!-- Painel de Escolha da Apresentação (Seletor) -->
+    <div id="splash-selector-panel" class="splash-selector-panel" style="display: none;">
+      <div class="selector-header">
+        <span class="app-tag-pill">✨ TELA DE ABERTURA</span>
+        <h2>Personalize o seu App</h2>
+        <p>Escolha a introdução premium que deseja ver toda vez que abrir o aplicativo. Clique em testar para ver na tela:</p>
+      </div>
+      
+      <div class="selector-options">
+        <!-- Opção 1: Impacto Minimalista -->
+        <div class="selector-card" id="card-splash-minimalist" onclick="window.app.previewSplashStyle('minimalist')">
+          <div class="selector-card-icon">🖤</div>
+          <div class="selector-card-info">
+            <h4>1. Impacto Minimalista</h4>
+            <p>Design limpo e clássico. O logotipo surge suavemente com brilho sutil ao fundo.</p>
+          </div>
+          <button class="btn btn-mini btn-preview-splash">Testar</button>
+        </div>
+
+        <!-- Opção 2: Linhas de Construção -->
+        <div class="selector-card" id="card-splash-blueprint" onclick="window.app.previewSplashStyle('blueprint')">
+          <div class="selector-card-icon">📐</div>
+          <div class="selector-card-info">
+            <h4>2. Linhas de Construção</h4>
+            <p>Visual técnico e moderno de engenharia com malha de projeto/arquitetura.</p>
+          </div>
+          <button class="btn btn-mini btn-preview-splash">Testar</button>
+        </div>
+
+        <!-- Opção 3: Brilho Cinematográfico -->
+        <div class="selector-card" id="card-splash-cinematic" onclick="window.app.previewSplashStyle('cinematic')">
+          <div class="selector-card-icon">✨</div>
+          <div class="selector-card-info">
+            <h4>3. Brilho Cinematográfico</h4>
+            <p>Efeitos dramáticos de reflexos de lente e poeira brilhante flutuante.</p>
+          </div>
+          <button class="btn btn-mini btn-preview-splash">Testar</button>
+        </div>
+      </div>
+
+      <div class="selector-actions">
+        <button id="btn-confirm-splash" class="btn btn-primary" style="display: none;" onclick="window.app.confirmSplashStyle()">
+          Confirmar Tela de Abertura ➔
+        </button>
+        <p class="selector-footer-note">Você poderá redefinir isso a qualquer momento nas configurações do perfil.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <div id="app-container" class="app-container">
+        
+        <!-- ==================== SCREEN 1: ONBOARDING ==================== -->
+        <section id="screen-onboarding" class="app-screen active">
+          <div class="onboarding-bg-gradient"></div>
+          <div class="onboarding-content">
+            <div class="onboarding-header">
+              <span class="app-tag-pill">SISTEMA DE CONTROLE DE REFORMA</span>
+              <h1 class="logo-text" style="font-size: 32px; line-height: 1.2; letter-spacing: 0.5px; margin: 12px 0;">MÉTODO <span class="highlight-orange">3P</span></h1>
+              <p class="onboarding-subtitle" style="font-size: 13px; font-weight: 600; color: #8c96ab; margin-top: 6px;">Sua reforma. Seu sonho. Nosso método.</p>
+            </div>
+            
+            <!-- Slide 1: Welcome & Auth -->
+            <div class="onboarding-slide active" id="ob-slide-welcome">
+              <div class="visual-card-ob" style="padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+                <div class="mockup-svg-container" style="margin-bottom: 8px; filter: drop-shadow(0 8px 16px rgba(255, 106, 0, 0.2));">
+                  <svg width="120" height="150" viewBox="0 0 120 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Phone Body -->
+                    <rect x="10" y="5" width="100" height="140" rx="16" fill="#151a26" stroke="#252e3d" stroke-width="3"/>
+                    <!-- Camera notch -->
+                    <rect x="45" y="10" width="30" height="6" rx="3" fill="#252e3d"/>
+                    <!-- Dashboard Header -->
+                    <rect x="20" y="25" width="80" height="8" rx="3" fill="url(#headerGrad)"/>
+                    <!-- Stats Card 1 (Total Pago) -->
+                    <rect x="20" y="40" width="36" height="30" rx="6" fill="#1d2331" stroke="#2c374b" stroke-width="1"/>
+                    <circle cx="28" cy="48" r="4" fill="#64d2ff" opacity="0.8"/>
+                    <rect x="25" y="56" width="26" height="3" rx="1" fill="#64d2ff" opacity="0.8"/>
+                    <rect x="25" y="62" width="16" height="2" rx="1" fill="#8c96ab" opacity="0.6"/>
+                    <!-- Stats Card 2 (Falta Pagar) -->
+                    <rect x="64" y="40" width="36" height="30" rx="6" fill="#1d2331" stroke="#2c374b" stroke-width="1"/>
+                    <circle cx="72" cy="48" r="4" fill="#ff9f0a" opacity="0.8"/>
+                    <rect x="69" y="56" width="26" height="3" rx="1" fill="#ff9f0a" opacity="0.8"/>
+                    <rect x="69" y="62" width="16" height="2" rx="1" fill="#8c96ab" opacity="0.6"/>
+                    <!-- Mini Graph -->
+                    <rect x="20" y="78" width="80" height="32" rx="6" fill="#1b202e" stroke="#2c374b" stroke-width="1"/>
+                    <path d="M25 102 C 35 90, 45 98, 55 86 C 65 92, 75 80, 85 92 C 95 82, 95 82, 95 82" stroke="url(#lineGrad)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                    <circle cx="55" cy="86" r="3" fill="#ff9f0a"/>
+                    <!-- Progress Bar -->
+                    <rect x="20" y="118" width="80" height="4" rx="2" fill="#252e3d"/>
+                    <rect x="20" y="118" width="56" height="4" rx="2" fill="url(#barGrad)"/>
+                    <circle cx="76" cy="120" r="2.5" fill="#32d74b"/>
+                    <rect x="20" y="128" width="40" height="3" rx="1.5" fill="#8c96ab" opacity="0.6"/>
+                    <!-- Gradients -->
+                    <defs>
+                      <linearGradient id="headerGrad" x1="20" y1="29" x2="100" y2="29" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#ff6a00"/>
+                        <stop offset="1" stop-color="#ff9f0a"/>
+                      </linearGradient>
+                      <linearGradient id="lineGrad" x1="25" y1="90" x2="95" y2="90" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#ff6a00"/>
+                        <stop offset="0.5" stop-color="#ff9f0a"/>
+                        <stop offset="1" stop-color="#32d74b"/>
+                      </linearGradient>
+                      <linearGradient id="barGrad" x1="20" y1="120" x2="76" y2="120" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#ff6a00"/>
+                        <stop offset="1" stop-color="#32d74b"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+                <h3 style="font-size: 14px; margin: 0; color: #ffffff;">Sua obra sob controle</h3>
+                <p style="font-size: 11px; margin: 0; line-height: 1.4; color: var(--text-secondary); text-align: center;">Monitore despesas, faça diagnósticos de risco e acesse os manuais passo a passo off-line direto no canteiro de obras.</p>
+              </div>
+              
+              <div class="ob-actions">
+                <!-- Mensagem de autenticação obrigatória -->
+                <div id="ob-auth-message" style="text-align: center; margin-bottom: 12px; padding: 10px 14px; background: rgba(255,106,0,0.06); border: 1px solid rgba(255,106,0,0.2); border-radius: 12px; font-size: 12px; color: #ff9f0a;">
+                  🔐 Faça login com sua conta Google para salvar seus dados na nuvem e acessar de qualquer dispositivo.
+                </div>
+                <div id="gsi-google-btn-container" style="width: 100%; display: flex; justify-content: center; margin-bottom: 8px; min-height: 40px;"></div>
+                <button id="btn-show-infographic" class="btn btn-secondary" style="border-color: rgba(255, 106, 0, 0.4); background: rgba(255, 106, 0, 0.05); color: #ff9500;">
+                  🔍 Como Funciona (Infográfico)
+                </button>
+                <div class="terms-text">Ao entrar, você concorda com nossos termos e política de privacidade.</div>
+              </div>
+            </div>
+            
+            <!-- Slide 2: Setup Obra -->
+            <div class="onboarding-slide" id="ob-slide-setup">
+              <h2 class="slide-title">Configurar sua Obra</h2>
+              <p class="slide-description">Personalize o aplicativo para o seu tipo de reforma.</p>
+              
+              <div class="setup-form">
+                <div class="form-group">
+                  <label for="setup-name">Seu Nome</label>
+                  <input type="text" id="setup-name" class="form-control" placeholder="Ex: Cleber" value="Cleber">
+                </div>
+                
+                <div class="form-group">
+                  <label>Tipo de Reforma</label>
+                  <div class="radio-cards-group">
+                    <div class="radio-card active" onclick="window.app.setReformaType('casa_toda')">
+                      <span class="radio-icon">🏠</span>
+                      <div class="radio-details">
+                        <h4>Casa Toda</h4>
+                        <p>Planejamento unificado de múltiplos ambientes.</p>
+                      </div>
+                    </div>
+                    <div class="radio-card" onclick="window.app.setReformaType('ambientes')">
+                      <span class="radio-icon">🛋️</span>
+                      <div class="radio-details">
+                        <h4>Cômodo Específico</h4>
+                        <p>Foco e controle em ambientes isolados.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="window.app.nextOnboardingSlide(3)">Continuar</button>
+              </div>
+            </div>
+            
+            <!-- Slide 3: Orçamento & Ambientes -->
+            <div class="onboarding-slide" id="ob-slide-budget">
+              <h2 class="slide-title">Teto Financeiro</h2>
+              <p class="slide-description">Defina o limite máximo que guiará os alertas inteligentes do Painel de Controle.</p>
+              
+              <div class="setup-form">
+                <div class="form-group">
+                  <label for="setup-budget">Orçamento Total da Reforma (R$)</label>
+                  <div class="input-currency-wrapper">
+                    <span class="currency-prefix">R$</span>
+                    <input type="number" id="setup-budget" class="form-control currency-input" value="50000" placeholder="Ex: 50.000">
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label>Ambientes a Reformar</label>
+                  <div class="checkbox-grid">
+                    <label class="checkbox-card checked">
+                      <input type="checkbox" name="setup-environments" value="cozinha" checked onchange="window.app.toggleEnvironmentCheckbox(this)">
+                      <span class="chk-emoji">🍳</span>
+                      <span class="chk-name">Cozinha</span>
+                    </label>
+                    <label class="checkbox-card checked">
+                      <input type="checkbox" name="setup-environments" value="banheiro" checked onchange="window.app.toggleEnvironmentCheckbox(this)">
+                      <span class="chk-emoji">🛁</span>
+                      <span class="chk-name">Banheiro</span>
+                    </label>
+                    <label class="checkbox-card checked">
+                      <input type="checkbox" name="setup-environments" value="sala" checked onchange="window.app.toggleEnvironmentCheckbox(this)">
+                      <span class="chk-emoji">📺</span>
+                      <span class="chk-name">Sala</span>
+                    </label>
+                    <label class="checkbox-card checked">
+                      <input type="checkbox" name="setup-environments" value="quarto" checked onchange="window.app.toggleEnvironmentCheckbox(this)">
+                      <span class="chk-emoji">🛏️</span>
+                      <span class="chk-name">Quarto</span>
+                    </label>
+                    <label class="checkbox-card checked">
+                      <input type="checkbox" name="setup-environments" value="area_externa" checked onchange="window.app.toggleEnvironmentCheckbox(this)">
+                      <span class="chk-emoji">🪴</span>
+                      <span class="chk-name">Área Externa</span>
+                    </label>
+                  </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="window.app.finishOnboarding()">
+                  Acessar Painel de Controle ➔
+                </button>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <!-- ==================== SCREEN 2: MAIN WORKSPACE ==================== -->
+        <section id="screen-main" class="app-screen">
+          
+          <!-- App Header -->
+          <header class="app-header" style="height: 80px; padding: 0 16px; background: #0c0e14; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; z-index: 100;">
+            <!-- Left: Logo & Subtitles -->
+            <div class="header-logo-container" style="display: flex; align-items: center; gap: 8px;">
+              <!-- Orange Hexagon Logo Icon -->
+              <div class="logo-hexagon-icon" style="width: 32px; height: 32px; background: linear-gradient(135deg, #ff6a00, #ff9f0a); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(255, 106, 0, 0.3); flex-shrink: 0;">
+                <div style="width: 26px; height: 26px; background: #0c0e14; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; align-items: center; justify-content: center;">
+                  <span style="font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 800; color: #ff9f0a;">3P</span>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; text-align: left;">
+                <h1 style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; margin: 0; color: #ffffff; letter-spacing: 0.5px; line-height: 1.2;">
+                  MÉTODO <span style="color: var(--primary-orange);">3P</span>
+                </h1>
+                <span style="font-size: 7px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; line-height: 1;">Planejar • Prevenir • Proteger</span>
+                <span style="font-size: 6px; color: #8c96ab; font-weight: 500; margin-top: 1px; display: inline-block;">Sua reforma. Seu sonho. Nosso método.</span>
+              </div>
+            </div>
+            
+            <!-- Right: User Greeting, Bell, Avatar -->
+            <div class="header-right-container" style="display: flex; align-items: center; gap: 12px;">
+              <div style="text-align: right; display: flex; flex-direction: column; justify-content: center;" class="hide-mobile">
+                <span style="font-size: 12px; font-weight: 700; color: #ffffff; margin: 0;">Olá, <span id="header-user-name">Cleber</span>!</span>
+                <span style="font-size: 9px; color: #8c96ab; margin-top: 1px;">Sua reforma está <span style="color: #32d74b; font-weight: 600;">no controle.</span></span>
+              </div>
+              
+              <!-- Hidden indicators for JS compatibility -->
+              <div id="online-status-indicator" style="display: none;">
+                <span id="online-status-text">Online</span>
+              </div>
+              <div id="header-tier-display" style="display: none;">
+                <span id="tier-name-label"></span>
+              </div>
+              <span id="header-project-title" style="display: none;"></span>
+
+              <!-- Bell icon with dynamic badge -->
+              <div style="position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);" onclick="window.app.switchTab('central'); window.app.switchCentralSection('riscos');">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ffffff;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                <span id="dash-bell-badge" style="position: absolute; top: -3px; right: -3px; background: #ff9f0a; color: #000000; font-size: 8px; font-weight: bold; width: 14px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid #0c0e14;">3</span>
+              </div>
+              
+              <!-- Profile picture avatar -->
+              <div style="display: flex; align-items: center; gap: 4px; cursor: pointer;" onclick="window.app.openProfileDrawer()">
+                <div class="user-avatar-container" style="position: relative; width: 32px; height: 32px; border-radius: 50%; overflow: hidden; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;">
+                  <img id="header-user-avatar" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                  <span id="header-user-initial" style="font-weight: 700; color: #fff; font-size: 13px;">C</span>
+                </div>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #8c96ab;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+            </div>
+</header>
+          
+          <!-- MAIN SCROLLABLE VIEWPORT -->
+          <div class="app-viewport-content">
+            
+             <!-- =============== TAB 0: PAINEL CENTRAL (O COMANDO) =============== -->
+             <div id="tab-painel" class="tab-view active">
+              
+              <!-- STATUS DA OBRA CARD -->
+              <div class="status-obra-card glass-card" style="position: relative; overflow: hidden; padding: 20px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid rgba(50, 215, 75, 0.25); background: linear-gradient(135deg, rgba(9, 10, 15, 0.85) 0%, rgba(15, 18, 26, 0.95) 100%); box-shadow: 0 8px 32px rgba(50, 215, 75, 0.08); margin-bottom: 16px; border-radius: 16px; min-height: 110px;">
+                <!-- Left text side -->
+                <div style="flex: 1; z-index: 2; text-align: left; display: flex; align-items: center; gap: 16px;">
+                  <!-- Dynamic Status Icon -->
+                  <div id="dash-status-icon-container" style="width: 48px; height: 48px; border-radius: 50%; background: rgba(50, 215, 75, 0.12); border: 2px solid #32d74b; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 15px rgba(50, 215, 75, 0.25);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-size: 10px; font-weight: 700; color: #32d74b; text-transform: uppercase; letter-spacing: 0.8px;">STATUS DA OBRA</span>
+                    <h2 id="dash-status-title" style="font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 800; color: #32d74b; margin: 0; letter-spacing: 0.5px; line-height: 1.1;">NO CONTROLE</h2>
+                    <p id="dash-status-desc" style="font-size: 12px; color: #8c96ab; margin: 2px 0 0 0;">Tudo dentro do planejado.</p>
+                    
+                    <!-- Score 3P & Pill Row -->
+                    <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center; flex-wrap: wrap;">
+                      <div class="score-box" style="text-align: left; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 8px; padding: 4px 10px; min-width: 80px;">
+                        <span style="font-size: 8px; color: #8c96ab; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">SCORE 3P</span>
+                        <strong style="font-size: 14px; color: #32d74b; font-family: 'Sora', sans-serif; line-height: 1.1;">87 / 100</strong>
+                      </div>
+                      <div class="healthy-pill" style="padding: 4px 10px; font-size: 8px; height: 26px;">
+                        <span>📶</span> Reforma Saudável
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Right wireframe house image -->
+                <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 45%; height: 100%; z-index: 1; display: flex; align-items: center; justify-content: flex-end;">
+                  <img src="house_wireframe.png" alt="Construção" style="height: 100%; width: 100%; object-fit: cover; opacity: 0.75; mix-blend-mode: screen; pointer-events: none; filter: brightness(1.25);">
+                </div>
+              </div>
+
+              <!-- CENTRO DE CONTROLE 3P (Title only) -->
+              <div style="margin-bottom: 12px; text-align: left;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0;">CENTRO DE CONTROLE <span style="color: #ff9f0a;">3P</span></h3>
+              </div>
+
+              <!-- METRICS GRID CONTAINER -->
+              <div style="margin-bottom: 16px; width: 100%;">
+                <div class="dash-control-grid">
+                  <!-- Card 1: Orçamento Máximo -->
+                  <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(50, 215, 75, 0.2);">
+                    <div class="dash-control-icon-box" style="background: rgba(50, 215, 75, 0.08); border: 1px solid rgba(50, 215, 75, 0.2); color: #32d74b; box-shadow: 0 0 8px rgba(50, 215, 75, 0.15);">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><path d="M16 8h6v8h-6z"></path><circle cx="19" cy="12" r="1"></circle></svg>
+                    </div>
+                    <div class="dash-control-info">
+                      <span>ORÇAMENTO MÁXIMO</span>
+                      <strong id="dash-metric-budget" style="color: #32d74b;">R$ 0,00</strong>
+                    </div>
+                  </div>
+                  
+                  <!-- Card 2: Executado -->
+                  <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(100, 210, 255, 0.2);">
+                    <div class="dash-control-icon-box" style="background: rgba(100, 210, 255, 0.08); border: 1px solid rgba(100, 210, 255, 0.2); color: #64d2ff; box-shadow: 0 0 8px rgba(100, 210, 255, 0.15);">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <div class="dash-control-info">
+                      <span>EXECUTADO</span>
+                      <strong id="dash-metric-executed" style="color: #64d2ff;">R$ 0,00</strong>
+                      <span id="dash-metric-executed-pct" class="pct-sub">0% do total</span>
+                    </div>
+                  </div>
+                  
+                  <!-- Card 3: Falta Pagar -->
+                  <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(191, 90, 242, 0.2);">
+                    <div class="dash-control-icon-box" style="background: rgba(191, 90, 242, 0.08); border: 1px solid rgba(191, 90, 242, 0.2); color: #bf5af2; box-shadow: 0 0 8px rgba(191, 90, 242, 0.15);">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 3 5 5-5 5M7 21l-5-5 5-5M2 16h20M22 8H2"></path></svg>
+                    </div>
+                    <div class="dash-control-info">
+                      <span>FALTA PAGAR</span>
+                      <strong id="dash-metric-topay" style="color: #bf5af2;">R$ 0,00</strong>
+                      <span id="dash-metric-topay-pct" class="pct-sub">0% do total</span>
+                    </div>
+                  </div>
+                  
+                  <!-- Card 4: Conclusão Física -->
+                  <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(255, 159, 10, 0.2);">
+                    <div class="dash-control-icon-box" style="background: rgba(255, 159, 10, 0.08); border: 1px solid rgba(255, 159, 10, 0.2); color: #ff9f0a; box-shadow: 0 0 8px rgba(255, 159, 10, 0.15);">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="m19 9-5 5-4-4-3 3"></path></svg>
+                    </div>
+                    <div class="dash-control-info">
+                      <span>CONCLUSÃO FÍSICA</span>
+                      <strong id="dash-metric-physical" style="color: #ff9f0a;">0%</strong>
+                      <span id="dash-metric-physical-sub" class="pct-sub">da obra</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- TERMÔMETRO 3P -->
+              <div class="glass-card" style="padding: 16px; margin-bottom: 16px; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass); border-radius: 16px; text-align: left;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 6px;">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0;">TERMÔMETRO 3P</h3>
+                    <span style="cursor: pointer; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid #8c96ab; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; color: #8c96ab; font-weight: bold;" title="O termômetro indica a porcentagem da verba máxima que já foi comprometida com gastos reais e planejados.">i</span>
+                  </div>
+                  <span id="thermometer-desc" style="font-size: 11px; color: #8c96ab;">Você utilizou <strong id="thermometer-desc-pct" style="color: #ffffff;">0%</strong> do orçamento máximo.</span>
+                </div>
+                
+                <!-- Slide Bar with Pin Container -->
+                <div style="position: relative; margin: 20px 0 10px 0; padding: 10px 0;">
+                  <!-- Percentage Bubble Tooltip -->
+                  <div id="thermometer-pin-container" style="position: absolute; top: -16px; left: 0%; transform: translateX(-50%); transition: left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; align-items: center; z-index: 10;">
+                    <!-- White bubble -->
+                    <div id="thermometer-bubble" style="background: #ffffff; color: #000000; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); white-space: nowrap;">
+                      0%
+                    </div>
+                    <!-- Triangle down -->
+                    <div style="width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #ffffff; margin-top: -1px;"></div>
+                  </div>
+                  
+                  <!-- Gradient Bar -->
+                  <div id="thermometer-gradient-bar" style="width: 100%; height: 8px; border-radius: 4px; background: linear-gradient(90deg, #32d74b 0%, #ff9f0a 50%, #ff453a 100%); box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);"></div>
+                  
+                  <!-- White vertical indicator marker inside the bar -->
+                  <div id="thermometer-bar-marker" style="position: absolute; top: 10px; left: 0%; width: 2px; height: 8px; background: #ffffff; transform: translateX(-50%); transition: left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 0 4px rgba(255,255,255,0.8);"></div>
+                </div>
+                
+                <!-- Scale labels -->
+                <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted); font-weight: 700; margin-top: 4px; padding: 0 2px;">
+                  <span>0%</span>
+                  <span>50%</span>
+                  <span>100%</span>
+                </div>
+              </div>
+
+              <!-- PRÓXIMA MISSÃO -->
+              <div id="dash-action-card" class="glass-card" style="position: relative; overflow: hidden; padding: 20px; margin-bottom: 16px; border: 1.5px solid rgba(255, 106, 0, 0.35); background: linear-gradient(135deg, rgba(255, 106, 0, 0.05) 0%, rgba(9, 10, 15, 0.7) 100%); box-shadow: 0 8px 24px rgba(255, 106, 0, 0.04); border-radius: 16px; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 110px;">
+                <!-- Left Content: Icon, text, progress -->
+                <div style="display: flex; gap: 14px; flex: 1; z-index: 2; align-items: flex-start; max-width: 70%;">
+                  <!-- Target Icon -->
+                  <div style="width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(255, 106, 0, 0.4); background: rgba(255, 106, 0, 0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #ff9f0a;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <span style="font-size: 9px; font-weight: 700; color: #ff9f0a; text-transform: uppercase; letter-spacing: 0.8px;">PRÓXIMA MISSÃO</span>
+                    <h4 id="dash-action-title" style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 800; color: #ffffff; margin: 0; line-height: 1.2;">Definir orçamento da cozinha</h4>
+                    <p id="dash-action-desc" style="font-size: 11px; color: #8c96ab; margin: 0; line-height: 1.3;">Fase: Planejar</p>
+                    
+                    <!-- Passo Progress Bar inside -->
+                    <div style="margin-top: 8px;" id="dash-action-step-container">
+                      <div style="display: flex; justify-content: space-between; font-size: 9px; color: #8c96ab; font-weight: 600; margin-bottom: 4px;">
+                        <span id="dash-action-step-label">Passo 2 de 6</span>
+                      </div>
+                      <div style="width: 120px; height: 6px; background: rgba(255, 255, 255, 0.06); border-radius: 3px; overflow: hidden;">
+                        <div id="dash-action-step-fill" style="width: 33%; height: 100%; background: #ff6a00; border-radius: 3px; transition: width 0.3s ease;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right Background sketch image overlay -->
+                <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 40%; height: 100%; z-index: 1; opacity: 0.15; pointer-events: none; background: url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=400&q=50') center/cover;"></div>
+                
+                <!-- Right Button -->
+                <button id="dash-action-btn" onclick="window.app.switchTab('planejar')" class="btn-bounce" style="z-index: 2; background: linear-gradient(135deg, #ff6a00 0%, #ff9f0a 100%); border: none; border-radius: 12px; color: #ffffff; padding: 12px 20px; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 106, 0, 0.35); transition: all 0.2s ease; margin-left: auto;">
+                  <span>CONTINUAR</span>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+
+              <!-- FASES DO MÉTODO 3P -->
+              <div style="margin-bottom: 16px; text-align: left;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0;">FASES DO MÉTODO 3P</h3>
+                <div class="fases-container" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; flex-wrap: wrap;">
+                  <!-- Phase 1: Planejar -->
+                  <div class="glass-card" onclick="window.app.switchTab('orcamento')" style="flex: 1; min-width: 100px; padding: 12px; background: rgba(15, 18, 26, 0.4); border: 1px solid rgba(50, 215, 75, 0.15); border-radius: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; text-align: left;">
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(50, 215, 75, 0.08); border: 1px solid rgba(50, 215, 75, 0.2); display: flex; align-items: center; justify-content: center; color: #32d74b; flex-shrink: 0;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 2px;">
+                      <span style="font-size: 8px; font-weight: 700; color: #32d74b; text-transform: uppercase; letter-spacing: 0.5px;">1. PLANEJAR</span>
+                      <strong id="phase-p1-percent" style="font-size: 20px; font-weight: 800; color: #32d74b; font-family: 'Sora', sans-serif; line-height: 1.1;">0%</strong>
+                      <span style="font-size: 8px; color: var(--text-muted); line-height: 1.1;">Definir limites e prioridades</span>
+                      <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; margin-top: 4px;">
+                        <div id="phase-p1-bar" style="width: 0%; height: 100%; background: #32d74b; border-radius: 2px; transition: width 0.6s ease;"></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Arrow 1 -->
+                  <span class="phase-arrow hide-mobile" style="color: rgba(255,255,255,0.2); font-weight: 700; font-size: 14px;">➔</span>
+                  
+                  <!-- Phase 2: Prevenir -->
+                  <div class="glass-card" onclick="window.app.switchTab('central'); window.app.switchCentralSection('checklists');" style="flex: 1; min-width: 100px; padding: 12px; background: rgba(15, 18, 26, 0.4); border: 1px solid rgba(100, 210, 255, 0.15); border-radius: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; text-align: left;">
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(100, 210, 255, 0.08); border: 1px solid rgba(100, 210, 255, 0.2); display: flex; align-items: center; justify-content: center; color: #64d2ff; flex-shrink: 0;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 2px;">
+                      <span style="font-size: 8px; font-weight: 700; color: #64d2ff; text-transform: uppercase; letter-spacing: 0.5px;">2. PREVENIR</span>
+                      <strong id="phase-p2-percent" style="font-size: 20px; font-weight: 800; color: #64d2ff; font-family: 'Sora', sans-serif; line-height: 1.1;">0%</strong>
+                      <span style="font-size: 8px; color: var(--text-muted); line-height: 1.1;">Evitar erros e prejuízos</span>
+                      <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; margin-top: 4px;">
+                        <div id="phase-p2-bar" style="width: 0%; height: 100%; background: #64d2ff; border-radius: 2px; transition: width 0.6s ease;"></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Arrow 2 -->
+                  <span class="phase-arrow hide-mobile" style="color: rgba(255,255,255,0.2); font-weight: 700; font-size: 14px;">➔</span>
+                  
+                  <!-- Phase 3: Proteger -->
+                  <div class="glass-card" onclick="window.app.switchTab('central'); window.app.switchCentralSection('decisoes');" style="flex: 1; min-width: 100px; padding: 12px; background: rgba(15, 18, 26, 0.4); border: 1px solid rgba(191, 90, 242, 0.15); border-radius: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; text-align: left;">
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(191, 90, 242, 0.08); border: 1px solid rgba(191, 90, 242, 0.2); display: flex; align-items: center; justify-content: center; color: #bf5af2; flex-shrink: 0;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 2px;">
+                      <span style="font-size: 8px; font-weight: 700; color: #bf5af2; text-transform: uppercase; letter-spacing: 0.5px;">3. PROTEGER</span>
+                      <strong id="phase-p3-percent" style="font-size: 20px; font-weight: 800; color: #bf5af2; font-family: 'Sora', sans-serif; line-height: 1.1;">0%</strong>
+                      <span style="font-size: 8px; color: var(--text-muted); line-height: 1.1;">Garantir e proteger</span>
+                      <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; margin-top: 4px;">
+                        <div id="phase-p3-bar" style="width: 0%; height: 100%; background: #bf5af2; border-radius: 2px; transition: width 0.6s ease;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ALERTA PRINCIPAL (DESCOMPASSO) -->
+              <div id="dash-main-alert-box" class="glass-card" style="display: none; padding: 16px; margin-bottom: 16px; border: 1.5px solid rgba(255, 69, 58, 0.45); background: linear-gradient(135deg, rgba(255, 69, 58, 0.05) 0%, rgba(9, 10, 15, 0.5) 100%); box-shadow: 0 8px 24px rgba(255, 69, 58, 0.05); border-radius: 16px; text-align: left; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                <!-- Left Side: Icon & Texts -->
+                <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 250px;">
+                  <div style="width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(255, 69, 58, 0.4); background: rgba(255, 69, 58, 0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #ff453a;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-size: 9px; font-weight: 700; color: #ff453a; text-transform: uppercase; letter-spacing: 0.8px;">ALERTA PRINCIPAL</span>
+                    <h4 id="dash-alert-title" style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 2px 0 0 0;">Atenção: avanço físico abaixo do esperado</h4>
+                    <p id="dash-alert-desc" style="font-size: 11px; color: #8c96ab; margin: 2px 0 0 0; line-height: 1.3;">Você pagou 15% da obra, mas o avanço físico é de 0%. Atualize o progresso para evitar riscos de prejuízo.</p>
+                  </div>
+                </div>
+                
+                <!-- Right Side: Solution Button -->
+                <button onclick="window.app.switchTab('central'); window.app.switchCentralSection('riscos');" class="btn-bounce" style="background: transparent; border: 1px solid #ff453a; border-radius: 10px; color: #ff453a; padding: 10px 16px; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s ease; margin-left: auto;">
+                  <span>Ver solução</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+
+              <!-- Compatibility container for old DOM IDs referenced by standard JS -->
+              <div style="display: none;">
+                <span id="dash-status-pill"></span>
+                <span id="dash-metric-paid"></span>
+                <span id="dash-metric-paid-sub"></span>
+                <div id="dash-metric-paid-bar"></div>
+            </div>
+          </div>
+
+          <!-- =============== TAB 1: PLANEJAR (FASE 1) =============== -->
+          <div id="tab-planejar" class="tab-view">
+            <div class="pillar-header-banner" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px; background: transparent; padding-top: 0;">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="text-align: left;">
+                  <span style="font-size: 8px; font-weight: 700; color: #32d74b; text-transform: uppercase; letter-spacing: 0.8px;">Fase 1</span>
+                  <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">FASE 1 • PLANEJAR</h2>
+                  <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Definir limites, prioridades e o plano da sua reforma antes de gastar.</p>
+                </div>
+                <!-- Progress circle -->
+                <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg width="56" height="56" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
+                    <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
+                    <circle id="planejar-phase-circle" cx="18" cy="18" r="16" fill="none" stroke="#32d74b" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="35" style="transition: stroke-dashoffset 0.6s ease;"></circle>
+                  </svg>
+                  <div id="planejar-phase-pct" style="position: absolute; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 800; color: #32d74b;">65%</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- LIMITE DA REFORMA -->
+            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #32d74b; margin: 0; text-transform: uppercase;">💚 Limite da Reforma</h3>
+                <button class="btn btn-secondary btn-mini" onclick="window.app.openWizardDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(50,215,75,0.3); color: #32d74b; background: rgba(50,215,75,0.05);">✏️ Editar valores</button>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px;">
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Orçamento máximo</span>
+                  <strong id="planejar-total-verba" style="font-size: 12px; color: #32d74b; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Margem de segurança</span>
+                  <strong id="planejar-margem-verba" style="font-size: 12px; color: #0088ff; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;">10%</span>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Orçamento disponível</span>
+                  <strong id="planejar-disponivel-verba" style="font-size: 12px; color: #32d74b; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                  <span style="font-size: 7px; color: #8c96ab; display: block; margin-top: 2px;">Atualizado em 01/06</span>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Previsto até agora</span>
+                  <strong id="planejar-previsto-verba" style="font-size: 12px; color: #ff9f0a; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                  <span style="font-size: 7px; color: #8c96ab; display: block; margin-top: 2px;" id="planejar-previsto-verba-pct">0% do máximo</span>
+                </div>
+              </div>
+              <div style="font-size: 9px; color: #8c96ab; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 8px;">
+                ⓘ Esses valores alimentam o seu Painel de Controle automaticamente.
+              </div>
+            </div>
+
+            <!-- ITENS PRIORITÁRIOS -->
+            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">⭐ Itens Prioritários</h3>
+                <button class="btn btn-secondary btn-mini" onclick="alert('Adicione ou gerencie as suas prioridades abaixo!')" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(50,215,75,0.3); color: #32d74b; background: rgba(50,215,75,0.05); font-family: inherit;">✏️ Editar itens</button>
+              </div>
+              
+              <!-- Quick select tags from mockup -->
+              <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; scrollbar-width: none; -ms-overflow-style: none;">
+                <style>
+                  .quick-tag-btn {
+                    flex-shrink: 0; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 8px; font-size: 11px; color: #fff; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease;
+                  }
+                  .quick-tag-btn:active { transform: scale(0.95); background: rgba(50, 215, 75, 0.08); border-color: rgba(50, 215, 75, 0.3); }
+                </style>
+                <div onclick="window.app.financeiroController.addQuickPriority('Piso')" class="quick-tag-btn">
+                  <span>🔸</span> Piso
+                </div>
+                <div onclick="window.app.financeiroController.addQuickPriority('Marcenaria')" class="quick-tag-btn">
+                  <span>🗄️</span> Marcenaria
+                </div>
+                <div onclick="window.app.financeiroController.addQuickPriority('Bancadas')" class="quick-tag-btn">
+                  <span>📐</span> Bancadas
+                </div>
+                <div onclick="window.app.financeiroController.addQuickPriority('Iluminação')" class="quick-tag-btn">
+                  <span>💡</span> Iluminação
+                </div>
+                <div onclick="window.app.financeiroController.addQuickPriority('Mão de obra')" class="quick-tag-btn">
+                  <span>👷</span> Mão de obra
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 6px; margin-bottom: 12px;">
+                <input type="text" id="planejar-priority-input" placeholder="Adicionar item prioritário..." style="flex: 1; font-size: 11px; padding: 8px 12px; border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); color: #fff;" onkeydown="if(event.key === 'Enter') window.app.financeiroController.addPriorityItem()">
+                <button class="btn btn-primary" onclick="window.app.financeiroController.addPriorityItem()" style="padding: 0 16px; font-size: 14px; font-weight: bold; border-radius: 8px;">+</button>
+              </div>
+              <div id="planejar-priority-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto;">
+                <!-- Dynamic list generated by JS -->
+              </div>
+            </div>
+
+            <!-- PLANEJAMENTO POR AMBIENTE -->
+            <div style="text-align: left; margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0; display: flex; align-items: center; gap: 6px;">🏠 PLANEJAMENTO POR AMBIENTE</h3>
+                <span style="font-size: 10px; color: #32d74b; font-weight: 700; cursor: pointer;" onclick="window.app.openProfileDrawer()">Adicionar ambiente +</span>
+              </div>
+              <!-- Horizontal environments scroll row -->
+              <div class="environments-scroll-row" id="planejar-environments-scroll">
+                <!-- Generated dynamically in conteudos-v2.js -->
+              </div>
+            </div>
+
+            <!-- ETAPAS DO PLANEJAMENTO -->
+            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                  <h3 id="planejar-etapas-title" style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0;">📋 ETAPAS DO PLANEJAMENTO - COZINHA</h3>
+                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Siga cada etapa para planejar sua reforma com segurança.</p>
+                </div>
+                <div style="text-align: right;">
+                  <span id="planejar-etapas-count" style="font-size: 11px; font-weight: 700; color: #32d74b;">0 de 6 concluídas</span>
+                  <div style="width: 80px; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; margin-top: 4px;">
+                    <div id="planejar-etapas-progress-bar" style="width: 0%; height: 100%; background: #32d74b; border-radius: 2px; transition: width 0.3s ease;"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <div id="planejar-etapas-list" style="display: flex; flex-direction: column; gap: 8px;">
+                <!-- Generated dynamically in conteudos-v2.js -->
+              </div>
+            </div>
+
+            <!-- REGISTRO RÁPIDO -->
+            <div style="text-align: left; margin-bottom: 80px;">
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 12px 0;">⚡ REGISTRO RÁPIDO</h3>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                <div class="glass-card btn-bounce" onclick="window.app.switchTab('prevenir'); window.app.financeiroController.switchPrevenirStep(1);" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(50,215,75,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">💵</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Novo orçamento</span>
+                  <span style="font-size: 8px; color: #8c96ab;">Adicionar item</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="window.app.switchTab('prevenir'); window.app.financeiroController.switchPrevenirStep(2);" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(0,136,255,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">👥</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Novo fornecedor</span>
+                  <span style="font-size: 8px; color: #8c96ab;">Cadastrar</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="window.app.openExpenseDrawer()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(191,90,242,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">💳</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Registrar pagamento</span>
+                  <span style="font-size: 8px; color: #8c96ab;">Lançar pagamento</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="window.app.openExpenseDrawer()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(255,159,10,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">🛒</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Registrar compra</span>
+                  <span style="font-size: 8px; color: #8c96ab;">Lançar compra</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- =============== TAB 2: PREVENIR (FASE 2) =============== -->
+          <div id="tab-prevenir" class="tab-view">
+            <div class="pillar-header-banner" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px; background: transparent; padding-top: 0;">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="text-align: left;">
+                  <span style="font-size: 8px; font-weight: 700; color: #0088ff; text-transform: uppercase; letter-spacing: 0.8px;">Fase 2</span>
+                  <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">FASE 2 • PREVENIR</h2>
+                  <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Evite erros, controle gastos e escolha os melhores fornecedores.</p>
+                </div>
+                <!-- Progress circle -->
+                <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg width="56" height="56" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
+                    <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
+                    <circle id="prevenir-phase-circle" cx="18" cy="18" r="16" fill="none" stroke="#0088ff" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="58" style="transition: stroke-dashoffset 0.6s ease;"></circle>
+                  </svg>
+                  <div id="prevenir-phase-pct" style="position: absolute; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 800; color: #0088ff;">42%</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RESUMO FINANCEIRO DA FASE -->
+            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #0088ff; margin: 0 0 12px 0; display: flex; align-items: center; gap: 6px;">🛡️ Resumo Financeiro da Fase</h3>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px;">
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Orçamento disponível</span>
+                  <strong id="prevenir-disponivel" style="font-size: 12px; color: #32d74b; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;">Atualizado em 01/06</span>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Total previsto</span>
+                  <strong id="prevenir-previsto" style="font-size: 12px; color: #0088ff; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;" id="prevenir-previsto-pct">0% do disponível</span>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Total pago</span>
+                  <strong id="prevenir-pago" style="font-size: 12px; color: #bf5af2; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;" id="prevenir-pago-pct">0% do previsto</span>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Saldo a pagar</span>
+                  <strong id="prevenir-saldo" style="font-size: 12px; color: #ff9f0a; font-family: 'Sora', sans-serif; white-space: nowrap;">R$ 0,00</strong>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;" id="prevenir-saldo-pct">0% do previsto</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 8px; font-size: 9px; color: #8c96ab;">
+                <span>ⓘ Esses valores alimentam automaticamente o seu Painel de Controle.</span>
+                <span style="color: #0088ff; cursor: pointer; font-weight: 700;" onclick="window.app.switchTab('painel')">📊 Ver impacto no painel</span>
+              </div>
+            </div>
+
+            <!-- ETAPAS DA FASE PREVENIR (Timeline of steps) -->
+            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0;">🔧 ETAPAS DA FASE PREVENIR</h3>
+                <div style="text-align: right;">
+                  <span id="prevenir-timeline-progress-text" style="font-size: 11px; font-weight: 700; color: #0088ff;">42% concluído</span>
+                </div>
+              </div>
+              <!-- Timeline horizontal nodes -->
+              <div class="steps-timeline-container">
+                <div class="steps-timeline-line">
+                  <div id="prevenir-timeline-line-fill" class="steps-timeline-line-filled" style="width: 42%; background: #0088ff;"></div>
+                </div>
+                <div class="timeline-step-node completed active" id="prevenir-node-1" onclick="window.app.financeiroController.switchPrevenirStep(1, true)">
+                  <div class="timeline-step-circle">1</div>
+                  <span class="timeline-step-label">Orçamento Blindado</span>
+                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="prevenir-node-1-pct">33%</span>
+                </div>
+                <div class="timeline-step-node active" id="prevenir-node-2" onclick="window.app.financeiroController.switchPrevenirStep(2, true)">
+                  <div class="timeline-step-circle">2</div>
+                  <span class="timeline-step-label">Contratação</span>
+                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="prevenir-node-2-pct">40%</span>
+                </div>
+                <div class="timeline-step-node" id="prevenir-node-3" onclick="window.app.financeiroController.switchPrevenirStep(3, true)">
+                  <div class="timeline-step-circle">3</div>
+                  <span class="timeline-step-label">Compras</span>
+                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="prevenir-node-3-pct">0%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP CONTENT 1: ORÇAMENTO BLINDADO -->
+            <div id="prevenir-step-content-1" class="prevenir-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
+                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #0088ff; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">1</span> ORÇAMENTO BLINDADO
+                  </h4>
+                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Lista de itens orçados e comparados.</p>
+                </div>
+                <button class="btn btn-primary btn-mini" onclick="window.app.openExpenseDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px;">Adicionar item +</button>
+              </div>
+              
+              <div style="overflow-x: auto; margin-bottom: 12px;">
+                <table class="premium-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Ambiente</th>
+                      <th>Qtd.</th>
+                      <th>Previsto (R$)</th>
+                      <th>Menor Orçamento</th>
+                      <th>Fornecedor</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="prevenir-orcamento-table-body">
+                    <!-- Dynamic planned items -->
+                  </tbody>
+                </table>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #8c96ab; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 10px;">
+                <span>Total previsto: <strong id="prevenir-orcamento-total" style="color: #fff;">R$ 0,00</strong></span>
+                <span style="color: #32d74b;">Economia potencial: <strong id="prevenir-orcamento-economia">R$ 0,00</strong></span>
+              </div>
+            </div>
+
+            <!-- STEP CONTENT 2: CONTRATAÇÃO ESTRATÉGICA -->
+            <div id="prevenir-step-content-2" class="prevenir-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
+                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #0088ff; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">2</span> CONTRATAÇÃO ESTRATÉGICA
+                  </h4>
+                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Registro e comparação de fornecedores.</p>
+                </div>
+                <button class="btn btn-primary btn-mini" onclick="window.app.switchTab('decidir')" style="width: auto; padding: 4px 8px; font-size: 10px;">Adicionar fornecedor +</button>
+              </div>
+              
+              <div style="overflow-x: auto; margin-bottom: 12px;">
+                <table class="premium-table">
+                  <thead>
+                    <tr>
+                      <th>Fornecedor</th>
+                      <th>Serviço</th>
+                      <th>Valor Orçado</th>
+                      <th>Prazo</th>
+                      <th>Avaliação</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="prevenir-contratacao-table-body">
+                    <!-- Dynamic quote comparisons -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- STEP CONTENT 3: COMPRAS SEM ERRO -->
+            <div id="prevenir-step-content-3" class="prevenir-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
+                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #0088ff; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">3</span> COMPRAS SEM ERRO
+                  </h4>
+                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Controle de compras, entregas e pagamentos.</p>
+                </div>
+                <button class="btn btn-primary btn-mini" onclick="window.app.openExpenseDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px;">Nova compra +</button>
+              </div>
+              
+              <!-- Counters grid -->
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
+                <div style="background: rgba(0, 136, 255, 0.05); border: 1px solid rgba(0, 136, 255, 0.15); border-radius: 8px; padding: 6px; text-align: center;">
+                  <div style="font-size: 9px; color: #8c96ab;">Compras Registradas</div>
+                  <strong id="compras-count-total" style="font-size: 14px; color: #fff;">0 itens</strong>
+                </div>
+                <div style="background: rgba(191, 90, 242, 0.05); border: 1px solid rgba(191, 90, 242, 0.15); border-radius: 8px; padding: 6px; text-align: center;">
+                  <div style="font-size: 9px; color: #8c96ab;">Entregas Recebidas</div>
+                  <strong id="compras-count-delivered" style="font-size: 14px; color: #bf5af2;">0 itens</strong>
+                </div>
+                <div style="background: rgba(50, 215, 75, 0.05); border: 1px solid rgba(50, 215, 75, 0.15); border-radius: 8px; padding: 6px; text-align: center;">
+                  <div style="font-size: 9px; color: #8c96ab;">Total Pago</div>
+                  <strong id="compras-sum-paid" style="font-size: 14px; color: #32d74b;">R$ 0,00</strong>
+                </div>
+              </div>
+              
+              <div style="overflow-x: auto; margin-bottom: 12px;">
+                <table class="premium-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Fornecedor</th>
+                      <th>Data Compra</th>
+                      <th>Valor (R$)</th>
+                      <th>Pago</th>
+                      <th>Entrega</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="prevenir-compras-table-body">
+                    <!-- Dynamic expenses -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- AÇÕES RÁPIDAS DA FASE -->
+            <div style="text-align: left; margin-bottom: 80px;">
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 12px 0;">⚡ AÇÕES RÁPIDAS DA FASE</h3>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                <div class="glass-card btn-bounce" onclick="window.app.openExpenseDrawer()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(191,90,242,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">💳</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Registrar pagamento</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="window.app.switchTab('decidir')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(0,136,255,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">⚖️</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Comparar fornecedores</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="window.app.openExpenseDrawer()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(255,159,10,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">🛒</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Adicionar compra</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="window.app.switchTab('painel')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(38,208,124,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">📊</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Ver impacto no painel</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- =============== TAB 3: PROTEGER (FASE 3) =============== -->
+          <div id="tab-proteger" class="tab-view">
+            <div class="pillar-header-banner" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px; background: transparent; padding-top: 0;">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="text-align: left;">
+                  <span style="font-size: 8px; font-weight: 700; color: #bf5af2; text-transform: uppercase; letter-spacing: 0.8px;">Fase 3</span>
+                  <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">FASE 3 • PROTEGER</h2>
+                  <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Garanta que tudo seja entregue corretamente e documentado. Finalize sua obra com segurança total.</p>
+                </div>
+                <!-- Progress circle -->
+                <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg width="56" height="56" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
+                    <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
+                    <circle id="proteger-phase-circle" cx="18" cy="18" r="16" fill="none" stroke="#bf5af2" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="70" style="transition: stroke-dashoffset 0.6s ease;"></circle>
+                  </svg>
+                  <div id="proteger-phase-pct" style="position: absolute; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 800; color: #bf5af2;">30%</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RESUMO DE PROTEÇÃO -->
+            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #bf5af2; margin: 0 0 12px 0; display: flex; align-items: center; gap: 6px;">⭐ Resumo de Proteção</h3>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px;">
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Itens conferidos</span>
+                  <strong id="proteger-metric-checked-items" style="font-size: 12px; color: #32d74b; font-family: 'Sora', sans-serif; white-space: nowrap;">0 / 30</strong>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;" id="proteger-metric-checked-items-pct">0% concluído</span>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Garantias registradas</span>
+                  <strong id="proteger-metric-warranties" style="font-size: 12px; color: #0088ff; font-family: 'Sora', sans-serif; white-space: nowrap;">0</strong>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;">Ativas</span>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Documentos arquivados</span>
+                  <strong id="proteger-metric-documents" style="font-size: 12px; color: #bf5af2; font-family: 'Sora', sans-serif; white-space: nowrap;">0</strong>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;">Arquivos</span>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-bottom: 4px;">Conclusão final</span>
+                  <strong id="proteger-metric-final-progress" style="font-size: 12px; color: #ff9f0a; font-family: 'Sora', sans-serif; white-space: nowrap;">0%</strong>
+                  <span style="font-size: 8px; color: #8c96ab; display: block; margin-top: 2px;">Proteção da obra</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 8px; font-size: 9px; color: #8c96ab;">
+                <span>ⓘ Esses valores alimentam automaticamente o seu Painel de Controle.</span>
+                <span style="color: #bf5af2; cursor: pointer; font-weight: 700;" onclick="window.app.switchTab('painel')">📊 Ver impacto no painel</span>
+              </div>
+            </div>
+
+            <!-- ETAPAS DA FASE PROTEGER (Timeline of steps) -->
+            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0;">🛡️ ETAPAS DA FASE PROTEGER</h3>
+                <div style="text-align: right;">
+                  <span id="proteger-timeline-progress-text" style="font-size: 11px; font-weight: 700; color: #bf5af2;">30% concluído</span>
+                </div>
+              </div>
+              <!-- Timeline horizontal nodes -->
+              <div class="steps-timeline-container">
+                <div class="steps-timeline-line">
+                  <div id="proteger-timeline-line-fill" class="steps-timeline-line-filled" style="width: 30%; background: #bf5af2;"></div>
+                </div>
+                <div class="timeline-step-node completed active" id="proteger-node-1" onclick="window.app.conteudosController.switchProtegerStep(1, true)">
+                  <div class="timeline-step-circle">1</div>
+                  <span class="timeline-step-label">Checklist de Entrega</span>
+                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="proteger-node-1-pct">50%</span>
+                </div>
+                <div class="timeline-step-node active" id="proteger-node-2" onclick="window.app.conteudosController.switchProtegerStep(2, true)">
+                  <div class="timeline-step-circle">2</div>
+                  <span class="timeline-step-label">Garantias & Check-out</span>
+                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="proteger-node-2-pct">25%</span>
+                </div>
+                <div class="timeline-step-node" id="proteger-node-3" onclick="window.app.conteudosController.switchProtegerStep(3, true)">
+                  <div class="timeline-step-circle">3</div>
+                  <span class="timeline-step-label">Relatório Final</span>
+                  <span class="timeline-step-label" style="font-size: 8px; opacity: 0.7;" id="proteger-node-3-pct">0%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP CONTENT 1: CHECKLIST FINAL DE ENTREGA -->
+            <div id="proteger-step-content-1" class="proteger-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
+                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #bf5af2; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">1</span> CHECKLIST FINAL DE ENTREGA
+                  </h4>
+                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Confira cada item do ambiente e registre o status de entrega.</p>
+                </div>
+                <button class="btn btn-secondary btn-mini" onclick="window.app.conteudosController.openPdfReader('pdf-doc')" style="width: auto; padding: 4px 8px; font-size: 10px; border-color: rgba(191,90,242,0.3); color: #bf5af2; background: rgba(191,90,242,0.05);">Ver PDF de apoio</button>
+              </div>
+              
+              <div style="overflow-x: auto; margin-bottom: 12px;">
+                <table class="premium-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Ambiente</th>
+                      <th>Status</th>
+                      <th>Observações</th>
+                      <th>Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody id="proteger-checklist-table-body">
+                    <!-- Dynamic checklist tasks -->
+                  </tbody>
+                </table>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #8c96ab; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 10px;">
+                <span onclick="window.app.switchTab('planejar')" style="color: #bf5af2; cursor: pointer; font-weight: 700;">Ver checklist completo ➔</span>
+                <span style="color: #32d74b;">Itens concluídos: <strong id="proteger-checklist-concluidos-text">0 de 30 (0%)</strong></span>
+              </div>
+            </div>
+
+            <!-- STEP CONTENT 2: GARANTIAS E CHECK-OUT -->
+            <div id="proteger-step-content-2" class="proteger-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
+                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #bf5af2; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">2</span> GARANTIAS E CHECK-OUT
+                  </h4>
+                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Registre garantias, contratos e documentos importantes.</p>
+                </div>
+                <button class="btn btn-primary btn-mini" onclick="window.app.conteudosController.openAddWarrantyDrawer()" style="width: auto; padding: 4px 8px; font-size: 10px;">Adicionar garantia</button>
+              </div>
+              
+              <div style="overflow-x: auto; margin-bottom: 12px;">
+                <table class="premium-table">
+                  <thead>
+                    <tr>
+                      <th>Fornecedor</th>
+                      <th>Serviço / Produto</th>
+                      <th>Garantia</th>
+                      <th>Início</th>
+                      <th>Término</th>
+                      <th>Documento</th>
+                      <th>Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody id="proteger-garantias-table-body">
+                    <!-- Dynamic warranties -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- STEP CONTENT 3: RELATÓRIO FINAL DA OBRA -->
+            <div id="proteger-step-content-3" class="proteger-step-content glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; display: block; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                  <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 6px;">
+                    <span style="display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: #bf5af2; color: #fff; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">3</span> RELATÓRIO FINAL DA OBRA
+                  </h4>
+                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Gere o relatório final com o resumo completo da sua reforma.</p>
+                </div>
+                <button class="btn btn-primary btn-mini" onclick="window.app.financeiroController.exportDataBackup()" style="width: auto; padding: 4px 8px; font-size: 10px;">Gerar relatório</button>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 14px;">
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab;">VALOR PLANEJADO</span>
+                  <strong id="report-metric-budget" style="font-size: 11px; color: #32d74b; display: block; margin-top: 2px;">R$ 0,00</strong>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab;">VALOR EXECUTADO</span>
+                  <strong id="report-metric-executed" style="font-size: 11px; color: #0088ff; display: block; margin-top: 2px;">R$ 0,00</strong>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab;">ECONOMIA OBTIDA</span>
+                  <strong id="report-metric-economy" style="font-size: 11px; color: #32d74b; display: block; margin-top: 2px;">R$ 0,00</strong>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab;">PRAZO PLANEJADO</span>
+                  <strong style="font-size: 11px; color: #fff; display: block; margin-top: 2px;">90 dias</strong>
+                </div>
+                <div>
+                  <span style="font-size: 8px; color: #8c96ab;">PRAZO REAL</span>
+                  <strong style="font-size: 11px; color: #32d74b; display: block; margin-top: 2px;">87 dias</strong>
+                </div>
+              </div>
+              
+              <h5 style="font-size: 10px; color: #8c96ab; margin-bottom: 8px;">DOCUMENTOS INCLUSOS NO RELATÓRIO</h5>
+              <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;">
+                <div style="background: rgba(50,215,75,0.04); border: 1px solid rgba(50,215,75,0.15); border-radius: 8px; padding: 6px; text-align: center;">
+                  <span style="font-size: 16px;">📄</span>
+                  <div style="font-size: 8px; color: #fff; font-weight: bold; margin-top: 2px;">Notas Fiscais</div>
+                  <div style="font-size: 7px; color: #8c96ab;" id="report-doc-count-nfs">0 arquivos</div>
+                </div>
+                <div style="background: rgba(0,136,255,0.04); border: 1px solid rgba(0,136,255,0.15); border-radius: 8px; padding: 6px; text-align: center;">
+                  <span style="font-size: 16px;">📝</span>
+                  <div style="font-size: 8px; color: #fff; font-weight: bold; margin-top: 2px;">Contratos</div>
+                  <div style="font-size: 7px; color: #8c96ab;" id="report-doc-count-contracts">0 arquivos</div>
+                </div>
+                <div style="background: rgba(191,90,242,0.04); border: 1px solid rgba(191,90,242,0.15); border-radius: 8px; padding: 6px; text-align: center;">
+                  <span style="font-size: 16px;">🛡️</span>
+                  <div style="font-size: 8px; color: #fff; font-weight: bold; margin-top: 2px;">Garantias</div>
+                  <div style="font-size: 7px; color: #8c96ab;" id="report-doc-count-warranties">0 arquivos</div>
+                </div>
+                <div style="background: rgba(255,159,10,0.04); border: 1px solid rgba(255,159,10,0.15); border-radius: 8px; padding: 6px; text-align: center;">
+                  <span style="font-size: 16px;">💳</span>
+                  <div style="font-size: 8px; color: #fff; font-weight: bold; margin-top: 2px;">Comprovantes</div>
+                  <div style="font-size: 7px; color: #8c96ab;" id="report-doc-count-receipts">0 arquivos</div>
+                </div>
+                <div style="background: rgba(38,208,124,0.04); border: 1px solid rgba(38,208,124,0.15); border-radius: 8px; padding: 6px; text-align: center;">
+                  <span style="font-size: 16px;">📸</span>
+                  <div style="font-size: 8px; color: #fff; font-weight: bold; margin-top: 2px;">Fotos Obra</div>
+                  <div style="font-size: 7px; color: #8c96ab;" id="report-doc-count-photos">0 arquivos</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- AÇÕES RÁPIDAS DA FASE -->
+            <div style="text-align: left; margin-bottom: 80px;">
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 12px 0;">⚡ AÇÕES RÁPIDAS DA FASE</h3>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                <div class="glass-card btn-bounce" onclick="window.app.conteudosController.openAddWarrantyDrawer()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(191,90,242,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">📁</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Adicionar documento</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="alert('Funcionalidade para tirar foto e anexar no diário de obra disponível nos checklists!')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(0,136,255,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">📷</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Tirar foto</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="alert('Abra os checklists nos ambientes para anotar observações qualitativas!')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(255,159,10,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">📝</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Anotar observação</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="window.app.financeiroController.exportDataBackup()" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(38,208,124,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">📤</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Compartilhar relatório</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- =============== TAB 4: DECIDIR (PROTOCOLOS) =============== -->
+          <div id="tab-decidir" class="tab-view">
+            <div class="pillar-header-banner" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px; background: transparent; padding-top: 0;">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="text-align: left;">
+                  <span style="font-size: 8px; font-weight: 700; color: #ff2d55; text-transform: uppercase; letter-spacing: 0.8px;">Fase Decidir</span>
+                  <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin: 2px 0 0 0;">FASE • DECIDIR</h2>
+                  <p style="font-size: 11px; color: #8c96ab; margin: 4px 0 0 0;">Protocolos de Decisão Inteligente. Responda às perguntas antes de gastar.</p>
+                </div>
+                <!-- Usage badge -->
+                <div style="background: rgba(255,45,85,0.1); border: 1.5px solid rgba(255,45,85,0.3); border-radius: 12px; padding: 6px 12px; text-align: center; min-width: 90px;">
+                  <span style="font-size: 8px; color: #8c96ab; font-weight: 700; display: block;">USO DOS PROTOCOLOS</span>
+                  <strong style="font-size: 15px; color: #ff2d55; font-family: 'Sora', sans-serif;" id="decidir-metric-used-count">0</strong>
+                  <span style="font-size: 7px; color: #8c96ab; display: block; margin-top: 1px;">protocolos utilizados</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Intro banner -->
+            <div class="glass-card" style="padding: 14px; margin-bottom: 16px; background: rgba(255, 45, 85, 0.03); border: 1px solid rgba(255, 45, 85, 0.15); display: flex; align-items: center; justify-content: space-between; gap: 12px; border-radius: 16px; text-align: left;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 24px;">🧠</span>
+                <div style="text-align: left;">
+                  <h4 style="font-size: 12px; font-weight: 700; color: #fff; margin: 0 0 2px 0;">Decida com método. Evite arrependimentos e prejuízos.</h4>
+                  <p style="font-size: 10px; color: #8c96ab; margin: 0;">Nossos protocolos foram criados para proteger o seu dinheiro e o seu tempo.</p>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-mini" onclick="window.app.conteudosController.openPdfReader('pdf-doc')" style="width: auto; padding: 6px 10px; font-size: 10px; border-color: rgba(255,45,85,0.3); color: #ff2d55; background: transparent;">Como funciona</button>
+            </div>
+
+            <!-- 1. ESCOLHA O AMBIENTE -->
+            <div style="text-align: left; margin-bottom: 16px;">
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 10px 0;">1. ESCOLHA O AMBIENTE</h3>
+              <div class="environments-scroll-row" id="decidir-environments-scroll">
+                <!-- Generated dynamically in protocolos.js -->
+              </div>
+            </div>
+
+            <!-- PROTOCOLO ATIVO CARD -->
+            <div class="glass-card decidir-active-theme" style="padding: 16px; margin-bottom: 16px; text-align: left; border: 1.5px solid rgba(255, 45, 85, 0.25); display: flex; align-items: center; justify-content: space-between; gap: 16px; border-radius: 16px; background: rgba(255,45,85,0.02);">
+              <div style="display: flex; gap: 14px; align-items: center; flex: 1;">
+                <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(255,45,85,0.08); border: 1px solid rgba(255,45,85,0.2); display: flex; align-items: center; justify-content: center; font-size: 24px;" id="decidir-active-env-emoji">🍳</div>
+                <div>
+                  <span style="font-size: 8px; font-weight: 700; color: #ff2d55; text-transform: uppercase; letter-spacing: 0.8px;">PROTOCOLO ATIVO</span>
+                  <h4 id="decidir-active-env-name" style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #ffffff; margin: 2px 0 0 0;">Cozinha</h4>
+                  <p style="font-size: 10px; color: #8c96ab; margin: 2px 0 0 0;">Protocolo de Decisão Inteligente</p>
+                </div>
+              </div>
+              
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="text-align: right;">
+                  <span id="decidir-active-steps-count" style="font-size: 11px; font-weight: 700; color: #ff2d55;">0 de 3 concluídas</span>
+                </div>
+                <!-- Progress circle mini -->
+                <div style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg width="44" height="44" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
+                    <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
+                    <circle id="decidir-active-circle" cx="18" cy="18" r="16" fill="none" stroke="#ff2d55" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="100" style="transition: stroke-dashoffset 0.6s ease;"></circle>
+                  </svg>
+                  <div id="decidir-active-pct" style="position: absolute; font-family: 'Sora', sans-serif; font-size: 10px; font-weight: 800; color: #ff2d55;">0%</div>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-mini" id="decidir-active-full-btn" onclick="alert('Escolha e preencha os dilemas de decisão abaixo!')" style="width: auto; padding: 8px 12px; font-size: 10px; background: linear-gradient(135deg, #ff2d55 0%, #ff375f 100%); border: none; box-shadow: 0 4px 12px rgba(255,45,85,0.3);">Ver protocolo completo ➔</button>
+            </div>
+
+            <!-- 2. PONTOS DE DECISÃO DO PROTOCOLO -->
+            <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left; background: rgba(15, 18, 26, 0.4); border: 1px solid var(--border-glass);">
+              <h3 id="decidir-pontos-title" style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 4px 0;">2. PONTOS DE DECISÃO DO PROTOCOLO - COZINHA</h3>
+              <p style="font-size: 10px; color: #8c96ab; margin: 0 0 12px 0;">Responda cada pergunta, registre suas escolhas e anexe orçamentos quando necessário.</p>
+              
+              <div style="overflow-x: auto;">
+                <table class="premium-table">
+                  <thead>
+                    <tr>
+                      <th>Etapa</th>
+                      <th>Tópico</th>
+                      <th>Status</th>
+                      <th>Ação</th>
+                      <th>Registro</th>
+                    </tr>
+                  </thead>
+                  <tbody id="decidir-pontos-table-body">
+                    <!-- Dynamic decision points -->
+                  </tbody>
+                </table>
+              </div>
+              <div style="font-size: 10px; color: #ff2d55; font-weight: 700; cursor: pointer; text-align: left; margin-top: 10px;" onclick="window.app.switchTab('planejar')">
+                Ver todas as decisões do ambiente ➔
+              </div>
+            </div>
+
+            <!-- 3. COMPARAÇÕES E REGISTROS -->
+            <div style="text-align: left; margin-bottom: 16px;">
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 12px 0;">3. COMPARAÇÕES E REGISTROS</h3>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+                <div class="glass-card" style="padding: 12px 8px; text-align: center; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 12px;">
+                  <span style="font-size: 20px;">📋</span>
+                  <strong id="decidir-reg-pdf-count" style="font-size: 13px; color: #fff; display: block; margin-top: 4px;">0</strong>
+                  <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Orçamentos anexados</span>
+                  <span style="font-size: 8px; color: #ff2d55; font-weight: 700; display: block; margin-top: 4px; cursor: pointer;" onclick="window.app.switchTab('prevenir'); window.app.financeiroController.switchPrevenirStep(3);">Ver orçamentos ➔</span>
+                </div>
+                <div class="glass-card" style="padding: 12px 8px; text-align: center; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 12px;">
+                  <span style="font-size: 20px;">⚖️</span>
+                  <strong id="decidir-reg-comp-count" style="font-size: 13px; color: #26d07c; display: block; margin-top: 4px;">0</strong>
+                  <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Comparações realizadas</span>
+                  <span style="font-size: 8px; color: #ff2d55; font-weight: 700; display: block; margin-top: 4px; cursor: pointer;" onclick="window.app.switchTab('prevenir'); window.app.financeiroController.switchPrevenirStep(2);">Ver comparações ➔</span>
+                </div>
+                <div class="glass-card" style="padding: 12px 8px; text-align: center; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 12px;">
+                  <span style="font-size: 20px;">🗳️</span>
+                  <strong id="decidir-reg-choice-count" style="font-size: 13px; color: #0088ff; display: block; margin-top: 4px;">0</strong>
+                  <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Decisões tomadas</span>
+                  <span style="font-size: 8px; color: #ff2d55; font-weight: 700; display: block; margin-top: 4px; cursor: pointer;" onclick="alert('Para ver o histórico de decisões, consulte a lista de cotações em Prevenir!')">Ver decisões ➔</span>
+                </div>
+                <div class="glass-card" style="padding: 12px 8px; text-align: center; background: rgba(15,18,26,0.45); border: 1px solid var(--border-glass); border-radius: 12px;">
+                  <span style="font-size: 20px;">💡</span>
+                  <strong id="decidir-reg-doubt-count" style="font-size: 13px; color: #ff9f0a; display: block; margin-top: 4px;">0</strong>
+                  <span style="font-size: 9px; color: #8c96ab; display: block; margin-top: 2px;">Dúvidas resolvidas</span>
+                  <span style="font-size: 8px; color: #ff2d55; font-weight: 700; display: block; margin-top: 4px; cursor: pointer;" onclick="window.app.openProfileDrawer()">Ver coleções ➔</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. AÇÕES RÁPIDAS -->
+            <div style="text-align: left; margin-bottom: 80px;">
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 12px 0;">4. AÇÕES RÁPIDAS</h3>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                <div class="glass-card btn-bounce" onclick="alert('Escolha e preencha os dilemas de decisão acima!')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(255,45,85,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">➕</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Novo protocolo</span>
+                  <span style="font-size: 8px; color: #8c96ab;">Iniciar decisão</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="alert('Selecione um dos ambientes no carrossel de cotações para inspecionar!')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(38,208,124,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">🔍</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Consultar protocolo</span>
+                  <span style="font-size: 8px; color: #8c96ab;">Escolher ambiente</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="alert('Histórico de decisões registradas em cotações e orçamentos!')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(0,136,255,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">⏱️</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Minhas decisões</span>
+                  <span style="font-size: 8px; color: #8c96ab;">Ver histórico</span>
+                </div>
+                <div class="glass-card btn-bounce" onclick="window.app.switchTab('planejar')" style="padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(15,18,26,0.45); border: 1px solid rgba(255,159,10,0.15); border-radius: 12px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;">
+                  <span style="font-size: 20px;">📖</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #fff;">Central 3P</span>
+                  <span style="font-size: 8px; color: #8c96ab;">Ver biblioteca</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- Closes app-viewport-content -->
+
+        <!-- FLOATING NAVIGATION TAB BAR -->
+          <nav class="app-navigation-bar">
+            <button id="nav-btn-painel" class="nav-item active" onclick="window.app.switchTab('painel')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              <span>Painel</span>
+            </button>
+            <button id="nav-btn-planejar" class="nav-item" onclick="window.app.switchTab('planejar')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><line x1="9" y1="9" x2="15" y2="9"></line><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line>
+              </svg>
+              <span>Planejar</span>
+            </button>
+            <button id="nav-btn-prevenir" class="nav-item" onclick="window.app.switchTab('prevenir')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 11 11 13 15 9"></polyline>
+              </svg>
+              <span>Prevenir</span>
+            </button>
+            <button id="nav-btn-proteger" class="nav-item" onclick="window.app.switchTab('proteger')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>Proteger</span>
+            </button>
+            <button id="nav-btn-decidir" class="nav-item" onclick="window.app.switchTab('decidir')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon">
+                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-3.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2zM14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-3.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2z"></path>
+              </svg>
+              <span>Decidir</span>
+            </button>
+          </nav>
+        </section>
+        
+        <!-- Botão Flutuante 'Comece Aqui' (Ancorado de forma Fixa) -->
+        <button id="dash-floating-wizard-btn" class="floating-wizard-btn btn-bounce" onclick="window.app.openWizardDrawer()" style="display: none;">
+          <span class="wizard-btn-icon">⚡</span>
+          <span class="wizard-btn-text">Comece Aqui</span>
+          <span class="wizard-btn-ping"></span>
+        </button>
+        
+        <!-- Botão Flutuante 'Aplicar Método 3P' (Aparece pós-onboarding) -->
+        <button id="dash-floating-checklist-btn" class="premium-floating-btn btn-bounce" onclick="window.app.switchTab('central'); window.app.switchCentralSection('checklists');" style="display: none;">
+          <span class="wizard-btn-icon" style="font-size: 16px;">👑</span>
+          <span class="wizard-btn-text">Aplicar Método 3P</span>
+          <span class="wizard-btn-ping"></span>
+        </button>
+      </div>
+      
+      <!-- ==================== DRAWER MODAL: PERFIL DO USUÁRIO ==================== -->
+      <div class="drawer-overlay" id="drawer-profile-overlay" onclick="window.app.closeProfileDrawer()">
+        <div class="drawer-container" onclick="event.stopPropagation()">
+          <div class="drawer-drag-indicator"></div>
+          <div class="drawer-header">
+            <h3>Meu Perfil & Configurações</h3>
+            <button class="btn-close-drawer" onclick="window.app.closeProfileDrawer()">✖</button>
+          </div>
+          
+          <div class="drawer-body">
+            <div class="profile-card glass-card" style="margin-bottom: 16px;">
+              <div class="profile-header" style="display: flex; gap: 12px; align-items: center;">
+                <div class="profile-avatar-container" style="position: relative; width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-glass); flex-shrink: 0;">
+                  <img id="profile-user-avatar" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                  <span id="profile-user-initial" style="font-weight: 700; color: #fff; font-size: 18px;">C</span>
+                </div>
+                <div>
+                  <h3 id="profile-name">Cleber</h3>
+                  <p id="profile-email">cleber.user@gmail.com</p>
+                </div>
+              </div>
+              
+              <div class="profile-stats-row" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; text-align: center; border-top: 1px solid var(--border-glass); padding-top: 12px;">
+                <div class="profile-stat-col">
+                  <span class="stat-num" id="profile-stat-rooms" style="font-size: 16px; font-weight: 700; color: #fff;">5</span><br>
+                  <span class="stat-lbl" style="font-size: 10px; color: var(--text-secondary);">Cômodos</span>
+                </div>
+                <div class="profile-stat-col">
+                  <span class="stat-num" id="profile-stat-expenses" style="font-size: 16px; font-weight: 700; color: #fff;">0</span><br>
+                  <span class="stat-lbl" style="font-size: 10px; color: var(--text-secondary);">Gasto Real</span>
+                </div>
+                <div class="profile-stat-col">
+                  <span class="stat-num" id="profile-stat-tasks" style="font-size: 16px; font-weight: 700; color: #fff;">0%</span><br>
+                  <span class="stat-lbl" style="font-size: 10px; color: var(--text-secondary);">Físico</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Premium Upgrade Panel / In-App Monetization -->
+            <div class="glass-card premium-upgrade-card" id="premium-sell-panel" style="margin-bottom: 16px;">
+              <div class="upgrade-stars" style="color: var(--primary-gold); margin-bottom: 6px;">⭐⭐⭐⭐⭐</div>
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 6px;">Diga adeus ao prejuízo!</h3>
+              <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; margin-bottom: 12px;">Desbloqueie todo o poder do Método 3P e garanta que sua reforma acabe dentro do orçamento e no prazo.</p>
+              
+              <div class="upgrade-features-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 11px; margin-bottom: 12px;">
+                <div class="feature-item">✓ Acesso a todos os 5 ambientes e checklists completos.</div>
+                <div class="feature-item">✓ Comparação inteligente e alertas de risco ativos.</div>
+                <div class="feature-item">✓ Desbloqueio de mais de 60 PDFs/Guias técnicos offline.</div>
+              </div>
+              
+              <div class="pricing-options-stack" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+                <div class="pricing-option" onclick="window.app.selectPaywallProduct('one_room')" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); border-radius: 10px; padding: 10px; cursor: pointer;">
+                  <input type="radio" name="paywall-select" id="pay-opt-room" value="one_room" checked style="display: none;">
+                  <label for="pay-opt-room" style="cursor: pointer; display: block; font-size: 11px;">
+                    <div style="font-weight: 700; color: #fff;">Desbloquear 1 Ambiente Único</div>
+                    <div style="font-size: 9px; color: var(--text-secondary);">R$ 97,00 à vista</div>
+                  </label>
+                </div>
+                
+                <div class="pricing-option popular" onclick="window.app.selectPaywallProduct('full_house')" style="background: rgba(243, 156, 18, 0.05); border: 1px solid var(--primary-gold); border-radius: 10px; padding: 10px; cursor: pointer;">
+                  <input type="radio" name="paywall-select" id="pay-opt-house" value="full_house" style="display: none;">
+                  <label for="pay-opt-house" style="cursor: pointer; display: block; font-size: 11px;">
+                    <div style="font-weight: 800; color: var(--primary-gold);">Acesso Casa Completa (Premium)</div>
+                    <div style="font-size: 9px; color: var(--text-secondary);">R$ 297,00 ou 12x R$ 29,70</div>
+                  </label>
+                </div>
+              </div>
+              
+              <button class="btn btn-primary btn-gold" onclick="window.app.purchaseSelectedTier()" style="font-size: 12px; padding: 10px;">
+                QUERO PROTEGER MINHA OBRA ➔
+              </button>
+            </div>
+            
+            <!-- Premium Active Panel (Shown if user is premium) -->
+            <div class="glass-card premium-active-card" id="premium-active-panel" style="display: none; background: rgba(38,208,124,0.05); border: 1px solid var(--color-success); border-radius: 16px; padding: 14px; margin-bottom: 16px;">
+              <div class="premium-badge-icon" style="font-size: 24px; text-align: center;">👑</div>
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #fff; text-align: center; margin-top: 6px;">Você é Premium (Casa Completa)!</h3>
+              <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; text-align: center; margin-top: 4px;">Todas as ferramentas, ambientes, árvore de decisão e mais de 60 PDFs estão 100% livres de restrições.</p>
+            </div>
+
+            <!-- Admin Active Panel (Shown if user is Administrator) -->
+            <div class="glass-card premium-active-card" id="admin-active-panel" style="display: none; background: rgba(0, 127, 255, 0.08); border: 1.5px solid #007fff; border-radius: 16px; padding: 14px; margin-bottom: 16px; text-align: center;">
+              <div style="font-size: 24px; text-align: center;">🛠️</div>
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: #fff; text-align: center; margin-top: 6px;">Acesso Administrador Ativo!</h3>
+              <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; text-align: center; margin-top: 4px; margin-bottom: 8px;">Você possui bypass completo de paywall e acesso às ferramentas administrativas flutuantes de monitoramento.</p>
+              <button onclick="window.app.openAdminDashboard()" style="background: #007fff; color: #fff; font-weight: 700; border: none; border-radius: 8px; padding: 8px 12px; font-size: 11px; cursor: pointer; font-family: inherit;">Abrir Painel Admin</button>
+            </div>
+            
+            <!-- ⚙️ Configurações & Acompanhamento de Obra -->
+            <div class="glass-card" style="margin-bottom: 16px; padding: 14px; text-align: left;">
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0; display: flex; align-items: center; gap: 8px;">⚙️ Configurações de Acompanhamento</h3>
+              
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <label style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 12px; color: var(--text-secondary);">
+                  <span>🔔 Ativar Notificações de Alertas</span>
+                  <input type="checkbox" id="pref-notifications" checked onchange="window.app.togglePreference('notifications', this.checked)" style="width: 16px; height: 16px; accent-color: var(--primary-orange);">
+                </label>
+                
+                <label style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 12px; color: var(--text-secondary);">
+                  <span>📈 Monitorar Descompasso Ativo</span>
+                  <input type="checkbox" id="pref-descompasso" checked onchange="window.app.togglePreference('descompasso', this.checked)" style="width: 16px; height: 16px; accent-color: var(--primary-orange);">
+                </label>
+                
+                <label style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 12px; color: var(--text-secondary);">
+                  <span>⚠️ Avisar Estouro de Orçamento</span>
+                  <input type="checkbox" id="pref-overruns" checked onchange="window.app.togglePreference('overruns', this.checked)" style="width: 16px; height: 16px; accent-color: var(--primary-orange);">
+                </label>
+                
+                <div style="margin: 8px 0; border-top: 1px dashed var(--border-glass);"></div>
+                
+                <div style="display: flex; gap: 8px;">
+                  <button onclick="window.app.exportDataBackup()" style="flex: 1; padding: 10px; font-size: 11px; font-weight: 700; color: #fff; background: rgba(255, 106, 0, 0.15); border: 1px solid rgba(255, 106, 0, 0.3); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: var(--transition-smooth); font-family: inherit;">
+                    📥 Exportar
+                  </button>
+                  <button onclick="document.getElementById('backup-file-input').click()" style="flex: 1; padding: 10px; font-size: 11px; font-weight: 700; color: #fff; background: rgba(38, 208, 124, 0.15); border: 1px solid rgba(38, 208, 124, 0.3); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: var(--transition-smooth); font-family: inherit;">
+                    📤 Importar
+                  </button>
+                  <input type="file" id="backup-file-input" onchange="window.app.importDataBackup(this)" style="display: none;" accept=".json">
+                </div>
+              </div>
+            </div>
+            <!-- Suporte e Contato -->
+            <div class="glass-card" style="margin-bottom: 16px; padding: 14px; text-align: left;">
+              <h3 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0; display: flex; align-items: center; gap: 8px;">💬 Central de Suporte</h3>
+              <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">Precisa de ajuda ou teve algum problema na plataforma? Nossa equipe está pronta para te atender.</p>
+              <a href="https://wa.me/5511950653611" target="_blank" style="text-decoration: none; display: block;">
+                <button style="width: 100%; background: #25D366; color: #fff; border: none; padding: 12px; border-radius: 10px; font-size: 12px; font-weight: 700; font-family: 'Sora', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+                  </svg>
+                  Falar no WhatsApp
+                </button>
+              </a>
+            </div>
+            
+            <!-- System Options -->
+            <div class="glass-card profile-menu-card" style="display: flex; flex-direction: column; gap: 6px; padding: 8px;">
+              <button class="menu-item" id="btn-install-pwa" onclick="window.app.installPwa()" style="display: block; background: rgba(255, 106, 0, 0.05); border: 1px solid rgba(255, 106, 0, 0.2); color: #ff9500; border-radius: 10px; padding: 10px; width: 100%; font-size: 12px; font-weight: 700; cursor: pointer; text-align: left;">
+                📲 Instalar App no Celular
+              </button>
+              <button class="menu-item" onclick="window.app.resetProjectData()" style="background: rgba(255,59,48,0.05); border: 1px solid rgba(255,59,48,0.2); color: var(--color-danger); border-radius: 10px; padding: 10px; width: 100%; font-size: 12px; font-weight: 700; cursor: pointer; text-align: left;">
+                🗑️ Reiniciar Dados da Reforma
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ==================== DRAWER MODAL: LANÇAR GASTO ==================== -->
+      <div class="drawer-overlay" id="drawer-expense-overlay" onclick="window.app.closeExpenseDrawer()">
+        <div class="drawer-container" onclick="event.stopPropagation()">
+          <div class="drawer-drag-indicator"></div>
+          <div class="drawer-header">
+            <h3>+ Lançar Novo Gasto</h3>
+            <button class="btn-close-drawer" onclick="window.app.closeExpenseDrawer()">✖</button>
+          </div>
+          
+          <div class="drawer-body">
+            <div class="form-group">
+              <label for="exp-desc">Descrição / Item comprado</label>
+              <input type="text" id="exp-desc" class="form-control" placeholder="Ex: Saco de Cimento Mauá">
+            </div>
+            
+            <div class="form-group">
+              <label for="exp-amount">Valor (R$)</label>
+              <div class="input-currency-wrapper">
+                <span class="currency-prefix">R$</span>
+                <input type="number" id="exp-amount" class="form-control currency-input" placeholder="0,00" step="0.01">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="exp-category">Categoria do Gasto</label>
+              <select id="exp-category" class="form-control">
+                <option value="material">Material de Construção</option>
+                <option value="mao_de_obra">Mão de Obra</option>
+                <option value="acabamento">Acabamento</option>
+                <option value="decoracao">Decoração</option>
+                <option value="emergencias">Emergências / Extras</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="exp-status">Status do Lançamento</label>
+              <select id="exp-status" class="form-control">
+                <option value="pago" selected>Pago (Despesa realizada)</option>
+                <option value="a_pagar">A Pagar (Gasto comprometido)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="exp-date">Data do Pagamento</label>
+              <input type="date" id="exp-date" class="form-control">
+            </div>
+            
+            <button class="btn btn-primary" onclick="window.app.addExpenseSubmit()">Confirmar Lançamento</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ==================== DRAWER MODAL: PDF READER ==================== -->
+      <div class="drawer-overlay" id="drawer-pdf-overlay" onclick="window.app.closePdfDrawer()">
+        <div class="drawer-container large" onclick="event.stopPropagation()">
+          <div class="drawer-drag-indicator"></div>
+          <div class="drawer-header">
+            <h3 id="pdf-reader-title">Guia Técnico</h3>
+            <button class="btn-close-drawer" onclick="window.app.closePdfDrawer()">✖</button>
+          </div>
+          
+          <div class="drawer-body pdf-viewer-body">
+            <div class="pdf-meta-header">
+              <span class="pdf-tag" id="pdf-reader-category">PLANEJAMENTO</span>
+              <span class="pdf-pages-badge">📄 14 Páginas • Leitura Offline</span>
+            </div>
+            <div class="pdf-simulated-pages">
+              <!-- Content injected here -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ==================== MODAL: EXPLANATION FOR DESCOMPASSO ==================== -->
+      <div class="modal-overlay" id="modal-parallel-overlay" onclick="window.app.closeParallelExplanation()">
+        <div class="modal-card" onclick="event.stopPropagation()">
+          <h3>🧱 Obra Física vs. 💰 Avanço Financeiro</h3>
+          <p>O maior causador de estresse e perda de dinheiro em reformas é o descompasso entre o dinheiro que você já pagou e a obra física que realmente está pronta.</p>
+          <div class="explain-comparison-row">
+            <div class="row-badge spent-color">💰 Dinheiro Gasto</div>
+            <p>Calculado com base em todas as despesas lançadas contra o orçamento total estipulado no setup.</p>
+          </div>
+          <div class="explain-comparison-row">
+            <div class="row-badge physical-color">🧱 Obra Pronta</div>
+            <p>Calculado matematicamente com base em todas as tarefas concluídas nos checklists de cada ambiente.</p>
+          </div>
+          <div class="alert-explain-box danger">
+            <strong>Se o Dinheiro Gasto (Ex: 60%) > Obra Pronta (Ex: 40%):</strong>
+            <p>Aviso de PERIGO! Você pagou por serviços que ainda não foram entregues física ou qualitativamente. O pedreiro pode sumir ou exigir mais dinheiro e deixar a obra inacabada. Pare de fazer pagamentos antecipados imediatamente!</p>
+          </div>
+          <button class="btn btn-primary" onclick="window.app.closeParallelExplanation()">Entendido, prosseguir</button>
+        </div>
+      </div>
+      
+      <!-- ==================== MODAL: PAYWALL COMPLETO / CHECKOUT ==================== -->
+      <div class="modal-overlay" id="modal-paywall-overlay" onclick="window.app.closePaywallModal()">
+        <div class="modal-card paywall-modal" onclick="event.stopPropagation()">
+          <div class="paywall-header">
+            <span class="gold-sparkle">✨ ACESSO COMPLETO</span>
+            <h2>Desbloqueie o Método 3P</h2>
+            <p>Não seja refém da sua obra. Garanta o controle financeiro total, checklists de todos os ambientes e os mais de 60 PDFs do especialista.</p>
+          </div>
+          
+          <div class="paywall-media-preview" style="text-align: center; padding: 0 20px; margin-bottom: 14px;">
+            <div id="paywall-preview-card" class="premium-interactive-preview" style="background: linear-gradient(135deg, rgba(255, 106, 0, 0.12), rgba(15, 18, 26, 0.95)); border: 1px solid rgba(255, 106, 0, 0.35); border-radius: 12px; padding: 14px 16px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.45); transition: all 0.3s ease;">
+              <div id="pw-preview-icon" style="font-size: 28px; margin-bottom: 4px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">👑</div>
+              <h4 id="pw-preview-title" style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 800; color: #ffffff; margin: 0 0 3px 0; text-transform: uppercase; letter-spacing: 0.5px;">MÉTODO 3P: CASA COMPLETA</h4>
+              <p id="pw-preview-desc" style="font-size: 11px; color: var(--text-secondary); margin: 0; line-height: 1.4; opacity: 0.9;">Acesso ilimitado e offline a todas as ferramentas financeiras, checklists e biblioteca de PDFs.</p>
+            </div>
+          </div>
+          
+          <div class="paywall-body">
+            <div class="paywall-benefits">
+              <div class="benefit-item">🍳 Checklists de Cozinha, Banheiro, Sala, Quarto e Área Externa</div>
+              <div class="benefit-item">📊 Gráficos unificados, fluxo de caixa e alertas inteligentes</div>
+              <div class="benefit-item">📲 Mais de 60 PDFs/Guias completos off-line direto no canteiro</div>
+              <div class="benefit-item">🧠 Todas as árvores de decisão e matrizes de risco ativas</div>
+            </div>
+            
+            <div class="paywall-product-selector">
+              <div class="product-card active" id="pw-card-room" onclick="window.app.selectPaywallProductInModal('one_room')">
+                <h4>1 Cômodo Individual</h4>
+                <p>Escolha um cômodo específico para gerenciar na reforma.</p>
+                <div class="p-card-price">R$ 97,00</div>
+              </div>
+              <div class="product-card" id="pw-card-house" onclick="window.app.selectPaywallProductInModal('full_house')">
+                <span class="best-value-rib">MELHOR OPÇÃO</span>
+                <h4>Casa Completa (Premium)</h4>
+                <p>Todos os cômodos e biblioteca 100% livres de restrições.</p>
+                <div class="p-card-price">R$ 297,00</div>
+              </div>
+            </div>
+            
+            <!-- Dynamic Choice for Environment if 1 Room selected -->
+            <div class="form-group" id="paywall-room-selector-group">
+              <label for="paywall-room-select">Escolha o ambiente para desbloquear:</label>
+              <select id="paywall-room-select" class="form-control">
+                <option value="cozinha">Cozinha (Recomendado)</option>
+                <option value="banheiro">Banheiro</option>
+                <option value="sala">Sala</option>
+                <option value="quarto">Quarto</option>
+                <option value="area_externa">Área Externa</option>
+              </select>
+            </div>
+            
+            <!-- Simulated Payment Checkout Flow -->
+            <div class="checkout-simulation-box">
+              <label>Escolha o Meio de Pagamento (Simulação Hotmart):</label>
+              <div class="payment-methods-grid">
+                <button class="pay-method-btn active" id="pay-btn-pix" onclick="window.app.setPaymentMethod('pix')">Pix (Instantâneo)</button>
+                <button class="pay-method-btn" id="pay-btn-apple" onclick="window.app.setPaymentMethod('apple')">Apple Pay / GPay</button>
+                <button class="pay-method-btn" id="pay-btn-card" onclick="window.app.setPaymentMethod('card')">Cartão de Crédito</button>
+              </div>
+            </div>
+            
+            <button class="btn btn-primary btn-gold" id="paywall-submit-btn" onclick="window.app.paywallController.executeCheckout()" style="font-weight: 800; background: var(--primary-gradient); width: 100%; border: none; padding: 12px; border-radius: 8px; margin-top: 15px;">
+              🔒 COMPRAR E ATIVAR AGORA ➔
+            </button>
+            <div style="text-align: center; margin-top: 8px;">
+              <span onclick="window.app.paywallController.simulateCheckout()" style="font-size: 11px; color: #ff9f0a; text-decoration: underline; cursor: pointer; opacity: 0.85;">[Simular Ativação de Teste Local]</span>
+            </div>
+            <p class="paywall-security-text" style="font-size: 10px; color: var(--text-secondary); text-align: center; margin-top: 12px; opacity: 0.7;">🛡️ Ambiente de teste seguro. Pagamentos simulados para fins de prototipagem.</p>
+          </div>
+        </div>
+      </div>
+
+  <!-- ==================== MODAL: FULL-SCREEN INFOGRAPHIC VIEWER ==================== -->
+  <div class="modal-overlay" id="modal-infographic-overlay" onclick="window.app.closeInfographic()">
+    <div class="modal-card" onclick="event.stopPropagation()" style="max-width: 95%; max-height: 95%; width: auto; background: rgba(10, 11, 15, 0.95); border: 1px solid var(--primary-orange-glow); box-shadow: var(--shadow-orange-glow); padding: 16px;">
+      <h3 style="margin-bottom: 12px; font-family: 'Sora', sans-serif;">📊 Funcionamento do Método 3P</h3>
+      <div style="flex: 1; overflow-y: auto; text-align: center; display: flex; align-items: center; justify-content: center; max-height: 70vh;">
+        <img src="infografico.png" alt="Infográfico Método 3P" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;">
+      </div>
+      <div style="display: flex; gap: 10px; margin-top: 12px;">
+        <button class="btn btn-secondary" onclick="window.app.closeInfographic(); window.app.switchTab('library'); window.app.conteudosController.openPdfReader('pdf-doc');" style="flex: 1; padding: 12px 14px; border-color: rgba(255, 106, 0, 0.4); color: #ff9500; background: rgba(255, 106, 0, 0.05); font-size: 13px;">
+          📖 Ler Manual do App
+        </button>
+        <button class="btn btn-primary" onclick="window.app.closeInfographic()" style="flex: 1; padding: 12px 14px; font-size: 13px;">
+          Voltar para a Inicial
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- ==================== MODAL: PWA INSTALLATION INSTRUCTIONS ==================== -->
+  <div class="modal-overlay" id="modal-pwa-install-overlay" onclick="window.app.closePwaInstallModal()">
+    <div class="modal-card" onclick="event.stopPropagation()" style="max-width: 400px; width: 100%; border: 1px solid var(--border-glass-light); padding: 20px; background: rgba(15, 18, 27, 0.95); backdrop-filter: blur(20px);">
+      <h3 style="margin-bottom: 6px; font-family: 'Sora', sans-serif; text-align: center; color: #ffffff; font-size: 16px;">📲 Instalar App no Celular</h3>
+      <p style="font-size: 11px; color: var(--text-secondary); text-align: center; margin-bottom: 16px; line-height: 1.4;">Acesse rapidamente pela tela de início e use offline, com consumo reduzido de dados!</p>
+      
+      <!-- Segmented Control for Android / iOS -->
+      <div class="tool-segmented-control" style="margin-bottom: 16px; background: rgba(255,255,255,0.03); padding: 4px; border-radius: 12px; display: flex; gap: 4px; border: 1px solid var(--border-glass);">
+        <button class="segment-btn active" id="pwa-tab-android" onclick="window.app.switchPwaInstallTab('android')" style="flex: 1; padding: 8px; font-size: 11px; border-radius: 8px; border: none; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s;">🤖 Android</button>
+        <button class="segment-btn" id="pwa-tab-ios" onclick="window.app.switchPwaInstallTab('ios')" style="flex: 1; padding: 8px; font-size: 11px; border-radius: 8px; border: none; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.2s;">🍎 iPhone / iOS</button>
+      </div>
+      
+      <!-- Android Instructions -->
+      <div id="pwa-instructions-android" style="display: block;">
+        <ol style="margin: 0; padding-left: 20px; font-size: 12px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 12px; text-align: left; line-height: 1.5;">
+          <li>Toque no ícone de menu <strong>três pontinhos (⋮)</strong> no canto superior direito do navegador Chrome.</li>
+          <li>Selecione a opção <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>.</li>
+          <li>Confirme tocando em <strong>"Instalar"</strong>. O aplicativo será instalado em segundos!</li>
+        </ol>
+        <button class="btn btn-primary" id="pwa-android-direct-btn" onclick="window.app.triggerDirectPwaInstall()" style="width: 100%; margin-top: 16px; font-size: 12px; padding: 12px; font-weight: 700; display: none;">
+          INSTALAR DIRETAMENTE
+        </button>
+      </div>
+      
+      <!-- iOS Instructions -->
+      <div id="pwa-instructions-ios" style="display: none;">
+        <ol style="margin: 0; padding-left: 20px; font-size: 12px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 12px; text-align: left; line-height: 1.5;">
+          <li>Abra este site no navegador <strong>Safari</strong> do seu iPhone.</li>
+          <li>Toque no botão de <strong>Compartilhar (quadrado com seta para cima 📤)</strong> na barra inferior.</li>
+          <li>Role a lista de opções e selecione <strong>"Adicionar à Tela de Início" (botão ➕)</strong>.</li>
+          <li>Toque em <strong>"Adicionar"</strong> no canto superior direito.</li>
+        </ol>
+      </div>
+      
+      <div style="margin-top: 20px; border-top: 1px solid var(--border-glass); padding-top: 14px; display: flex; gap: 10px;">
+        <button class="btn btn-secondary" onclick="window.app.closePwaInstallModal()" style="width: 100%; padding: 10px; font-size: 11px; font-weight: 700; border-color: rgba(255,255,255,0.1); color: var(--text-secondary); background: transparent;">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DRAWER MODAL: ASSISTENTE PASSO A PASSO (MÉTODO 3P) ==================== -->
+  <div class="drawer-overlay" id="drawer-wizard-overlay" onclick="window.app.closeWizardDrawer()">
+    <div class="drawer-container" onclick="event.stopPropagation()">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 20px;">🚀</span>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif;">Checklist do Método 3P</h3>
+        </div>
+        <button class="btn-close-drawer" onclick="window.app.closeWizardDrawer()">✖</button>
+      </div>
+      
+      <div class="drawer-body" style="padding-top: 10px;">
+        <!-- Barra de Progresso Geral do Método -->
+        <div class="glass-card" style="padding: 14px; margin-bottom: 16px; background: linear-gradient(135deg, rgba(255, 106, 0, 0.05) 0%, rgba(15, 18, 26, 0.8) 100%); border-color: rgba(255, 106, 0, 0.15);">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">
+            <span>ESTRUTURAÇÃO DO MÉTODO 3P:</span>
+            <span id="wizard-progress-percent" style="color: var(--primary-orange);">0% CONCLUÍDO</span>
+          </div>
+          <div class="progress-bar-container" style="height: 6px; background: rgba(255,255,255,0.05);">
+            <div class="progress-bar spent-bar" id="wizard-progress-bar" style="width: 0%; background: var(--primary-gradient); transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);"></div>
+          </div>
+        </div>
+        
+        <!-- Lista de 5 Passos Reativos -->
+        <div style="display: flex; flex-direction: column; gap: 10px;" id="wizard-steps-list-container">
+          <!-- Passo 1 -->
+          <div class="wizard-step-row" id="w-step-1">
+            <div class="step-left">
+              <div class="step-num-badge">1</div>
+              <div class="step-details-text">
+                <h4>Passo 1: Estipular Verba</h4>
+                <p>Defina o teto máximo de investimento e reserve a margem de 10%.</p>
+              </div>
+            </div>
+            <div class="step-right" id="w-action-container-1">
+              <button class="btn-step-action" onclick="window.app.navigateToWizardStep(1)">Definir ➔</button>
+            </div>
+          </div>
+
+          <!-- Passo 2 -->
+          <div class="wizard-step-row" id="w-step-2">
+            <div class="step-left">
+              <div class="step-num-badge">2</div>
+              <div class="step-details-text">
+                <h4>Passo 2: Prever Custos</h4>
+                <p>Cadastre os materiais e serviços planejados antes de fechar negócios.</p>
+              </div>
+            </div>
+            <div class="step-right" id="w-action-container-2">
+              <button class="btn-step-action" onclick="window.app.navigateToWizardStep(2)">Planejar ➔</button>
+            </div>
+          </div>
+
+          <!-- Passo 3 -->
+          <div class="wizard-step-row" id="w-step-3">
+            <div class="step-left">
+              <div class="step-num-badge">3</div>
+              <div class="step-details-text">
+                <h4>Passo 3: Caixa e Realizado</h4>
+                <p>Lance os gastos reais pagos ou a pagar à medida que a obra avança.</p>
+              </div>
+            </div>
+            <div class="step-right" id="w-action-container-3">
+              <button class="btn-step-action" onclick="window.app.navigateToWizardStep(3)">Lançar ➔</button>
+            </div>
+          </div>
+
+          <!-- Passo 4 -->
+          <div class="wizard-step-row" id="w-step-4">
+            <div class="step-left">
+              <div class="step-num-badge">4</div>
+              <div class="step-details-text">
+                <h4>Passo 4: Linha do Tempo</h4>
+                <p>Configure a data de início da reforma e monitore o cronograma de entrega.</p>
+              </div>
+            </div>
+            <div class="step-right" id="w-action-container-4">
+              <button class="btn-step-action" onclick="window.app.navigateToWizardStep(4)">Ajustar ➔</button>
+            </div>
+          </div>
+
+          <!-- Passo 5 -->
+          <div class="wizard-step-row" id="w-step-5">
+            <div class="step-left">
+              <div class="step-num-badge">5</div>
+              <div class="step-details-text">
+                <h4>Passo 5: Matriz de Cotações</h4>
+                <p>Compare fornecedores ponderando preço contra riscos de contratação.</p>
+              </div>
+            </div>
+            <div class="step-right" id="w-action-container-5">
+              <button class="btn-step-action" onclick="window.app.navigateToWizardStep(5)">Comparar ➔</button>
+            </div>
+          </div>
+        </div>
+        
+        <p style="font-size: 10px; color: var(--text-muted); text-align: center; margin-top: 16px; line-height: 1.4; padding: 0 10px;">
+          💡 <b>Dica Método 3P:</b> Complete todos os passos para reduzir o risco de retrabalho ou estouro financeiro em até 95%!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NANDO VIRTUAL AGENT UI -->
+  <div class="nando-fab" id="nando-fab">
+    <div class="nando-fab-avatar">
+      <img src="nando.png" alt="Nando">
+    </div>
+    <div class="nando-fab-badge">1</div>
+  </div>
+
+  <div class="nando-chat-window" id="nando-chat-window">
+    <div class="nando-header">
+      <div class="nando-header-info">
+        <div class="nando-header-avatar">
+          <img src="nando.png" alt="Nando">
+        </div>
+        <div>
+          <h3 style="margin: 0; font-size: 15px; font-weight: 700;">Nando (Consultor 3P)</h3>
+          <p style="margin: 0; font-size: 10px; color: rgba(255,255,255,0.7);">Online agora</p>
+        </div>
+      </div>
+      <button class="nando-close-btn" id="nando-close-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="nando-messages" id="nando-messages">
+      <!-- Messages injected here -->
+    </div>
+    <div class="nando-suggestions" id="nando-suggestions">
+      <button class="nando-suggest-chip" onclick="window.app.chatController.askQuestion('Quanto custa liberar um cômodo?')">💰 Quanto custa liberar?</button>
+      <button class="nando-suggest-chip" onclick="window.app.chatController.askQuestion('Como está meu orçamento?')">📊 Meu Orçamento</button>
+      <button class="nando-suggest-chip" onclick="window.app.chatController.askQuestion('Como está o andamento físico da obra?')">🏗️ Progresso da Obra</button>
+      <button class="nando-suggest-chip" onclick="window.app.chatController.askQuestion('Onde lanço meus gastos de obra?')">💸 Onde lanço gastos?</button>
+      <button class="nando-suggest-chip" onclick="window.app.chatController.askQuestion('Como funciona o Método 3P?')">🧠 Método 3P</button>
+    </div>
+    <div class="nando-input-area">
+      <input type="text" id="nando-input" placeholder="Tire sua dúvida sobre a obra..." autocomplete="off">
+      <button id="nando-send-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </div>
+  </div>
+  <!-- END NANDO UI -->
+
+  <!-- Main JavaScript modules -->
+  <script src="js/supabase.js?v=2.0.4"></script>
+  <script src="js/database.js?v=2.0.4"></script>
+  <script src="js/financeiro.js?v=3.0.19"></script>
+  <script src="js/protocolos.js?v=3.0.12"></script>
+  <script src="js/conteudos-v2.js?v=3.0.11"></script>
+  <script src="js/paywall.js?v=2.0.4"></script>
+  <script src="js/chat.js?v=2.0.0"></script>
+  <script src="js/app.js?v=3.0.25"></script>
+  
+  <script>
+    // System simulated clock update
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const clockEl = document.getElementById('status-clock');
+      if (clockEl) clockEl.textContent = `${hours}:${minutes}`;
+    }
+    setInterval(updateClock, 60000);
+    updateClock();
+    
+    // Register PWA service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js?v=3.0.25').then(reg => {
+          console.log('ServiceWorker registered successfully.', reg.scope);
+          reg.update();
+        }).catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
+      });
+    }
+
+    // Indicador Online/Offline em tempo real
+    function updateOnlineStatus() {
+      const indicator = document.getElementById('online-status-indicator');
+      const text = document.getElementById('online-status-text');
+      if (!indicator || !text) return;
+      
+      if (navigator.onLine) {
+        indicator.style.background = 'rgba(50,215,75,0.1)';
+        indicator.style.borderColor = 'rgba(50,215,75,0.25)';
+        indicator.style.color = '#32d74b';
+        const dot = indicator.querySelector('div');
+        if (dot) dot.style.background = '#32d74b';
+        text.textContent = 'Online';
+      } else {
+        indicator.style.background = 'rgba(255,159,10,0.1)';
+        indicator.style.borderColor = 'rgba(255,159,10,0.25)';
+        indicator.style.color = '#ff9f0a';
+        const dot = indicator.querySelector('div');
+        if (dot) dot.style.background = '#ff9f0a';
+        text.textContent = 'Offline';
+      }
+    }
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+  </script>
+
+  <!-- ==================== FLOATING ADMIN BUTTON & MODAL ==================== -->
+  <div id="admin-floating-btn" style="display: none; position: absolute; bottom: 84px; right: 16px; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #0055ff 0%, #0088ff 100%); border: 1.5px solid rgba(255,255,255,0.15); box-shadow: 0 4px 15px rgba(0, 111, 255, 0.4); z-index: 99; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; transition: all 0.3s ease;" onclick="window.app.openAdminDashboard()">
+    🛠️
+  </div>
+
+  <!-- ADMIN DASHBOARD OVERLAY -->
+  <div class="drawer-overlay" id="drawer-admin-overlay" onclick="window.app.closeAdminDashboard()" style="z-index: 200;">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="background: #0f121a; border-left: 1px solid rgba(255,255,255,0.08);">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px;">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #0088ff;">🛠️ Painel de Controle Admin</h3>
+          <p style="margin: 3px 0 0 0; font-size: 11px; color: #8c96ab;">Visualização global de cadastros, compras e inclusão de PDFs</p>
+        </div>
+        <button class="btn-close-drawer" onclick="window.app.closeAdminDashboard()">✖</button>
+      </div>
+
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+        
+        <!-- Add Custom Link Section -->
+        <div class="glass-card" style="padding: 14px; text-align: left; background: rgba(0, 127, 255, 0.03); border: 1px solid rgba(0, 127, 255, 0.15);">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0 0 10px 0;">➕ Cadastrar Novo PDF com Link Manual</h4>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <input type="text" id="admin-pdf-title" class="form-control" placeholder="Título do Guia (Ex: 61. Guia Técnico de Pias)" style="padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff;">
+            <input type="text" id="admin-pdf-desc" class="form-control" placeholder="Descrição curta do conteúdo" style="padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff;">
+            <input type="text" id="admin-pdf-url" class="form-control" placeholder="URL do Link Manual (Ex: https://gama.app/... ou drive.google.com/...)" style="padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff;">
+            
+            <div style="display: flex; gap: 8px;">
+              <select id="admin-pdf-cat" class="form-control" style="flex: 1; padding: 10px; font-size: 12px; background: rgba(12,14,20,0.95); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff; height: 38px;">
+                <option value="tecnico">Técnico (Reboco, Impermeabilização)</option>
+                <option value="planejamento">Planejamento (Layout, Layouts)</option>
+                <option value="financeiro">Financeiro (Custos, Orçamento)</option>
+                <option value="contratos">Contratos (Minutas, Leis)</option>
+                <option value="materiais">Materiais (Pisos, Cimento)</option>
+              </select>
+              <input type="number" id="admin-pdf-pages" class="form-control" placeholder="Págs" style="width: 70px; padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff; text-align: center;">
+            </div>
+
+            <button onclick="window.app.addCustomPdfByAdmin()" style="width: 100%; background: #007fff; color: #fff; font-weight: 700; border: none; border-radius: 8px; padding: 10px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 4px;">Salvar e Publicar Guia</button>
+          </div>
+        </div>
+
+        <!-- Users and Purchases Section -->
+        <div class="glass-card" style="padding: 14px; text-align: left; flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h4 style="font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #ffffff; margin: 0;">👥 Usuários Cadastrados & Compras</h4>
+            <button onclick="window.app.refreshAdminUsersList()" style="background: transparent; border: none; color: #0088ff; font-size: 11px; cursor: pointer; font-weight: 700;">🔄 Atualizar</button>
+          </div>
+
+          <!-- Statistics Summary Row -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); border-radius: 8px; padding: 6px; text-align: center;">
+              <div style="font-size: 10px; color: #8c96ab;">Total Contas</div>
+              <strong id="admin-stat-total-users" style="font-size: 14px; color: #fff;">0</strong>
+            </div>
+            <div style="background: rgba(38,208,124,0.05); border: 1px solid rgba(38,208,124,0.15); border-radius: 8px; padding: 6px; text-align: center;">
+              <div style="font-size: 10px; color: #8c96ab;">Casa Completa</div>
+              <strong id="admin-stat-full-house" style="font-size: 14px; color: #26d07c;">0</strong>
+            </div>
+            <div style="background: rgba(255,159,10,0.05); border: 1px solid rgba(255,159,10,0.15); border-radius: 8px; padding: 6px; text-align: center;">
+              <div style="font-size: 10px; color: #8c96ab;">Acesso Parcial</div>
+              <strong id="admin-stat-one-room" style="font-size: 14px; color: #ff9f0a;">0</strong>
+            </div>
+          </div>
+
+          <!-- User Grid List Scrollable -->
+          <div id="admin-users-list-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; max-height: 250px; padding-right: 4px; scrollbar-width: thin;">
+            <div style="font-size: 11px; color: #8c96ab; text-align: center; padding: 20px;">Carregando banco de dados Supabase...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
