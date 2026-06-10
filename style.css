@@ -2146,11 +2146,11 @@ label {
    MODAL DRAWER LAYER (Slide up from bottom)
    ========================================================================== */
 .drawer-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   z-index: 1000;
@@ -2228,6 +2228,26 @@ label {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+/* Fullscreen mode specifically for PDF reader drawer overlay and container */
+#drawer-pdf-overlay {
+  position: fixed !important;
+  z-index: 999999 !important; /* Ensure it is on top of everything */
+  background: rgba(0, 0, 0, 0.85) !important;
+}
+
+#drawer-pdf-overlay .drawer-container {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
+  padding: 12px 16px 20px 16px !important;
+  background-color: #12131a !important; /* Very premium deep dark theme */
+  border-top: none !important;
+}
+
+#drawer-pdf-overlay .drawer-drag-indicator {
+  display: none !important;
 }
 
 /* ==========================================================================
@@ -2322,11 +2342,11 @@ label {
    MODAL CARD LAYER (Centered dialog boxes)
    ========================================================================== */
 .modal-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(5px);
   z-index: 1100;

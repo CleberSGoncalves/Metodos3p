@@ -820,7 +820,62 @@ class ContentsController {
     const zoomLevelEl = document.getElementById('pdf-zoom-level');
     if (zoomLevelEl) zoomLevelEl.textContent = '100%';
 
-    const pdf = METODO_3P_DATABASE.library.find(p => p.id === id);
+    let pdf = METODO_3P_DATABASE.library.find(p => p.id === id);
+    
+    // Fallback dictionary for Protocol Decision PDFs (PDs)
+    const protocolPdfs = {
+      'prot-coz': {
+        id: 'prot-coz',
+        title: 'Protocolo de Decisão — Cozinha',
+        category: 'planejamento',
+        url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-COZINHA.pdf',
+        env: 'cozinha'
+      },
+      'prot-sal': {
+        id: 'prot-sal',
+        title: 'Protocolo de Decisão — Sala',
+        category: 'planejamento',
+        url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DECISAO-SALA.pdf',
+        env: 'sala'
+      },
+      'prot-qua': {
+        id: 'prot-qua',
+        title: 'Protocolo de Decisão — Quarto',
+        category: 'planejamento',
+        url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-QUARTO.pdf',
+        env: 'quarto'
+      },
+      'prot-ban': {
+        id: 'prot-ban',
+        title: 'Protocolo de Decisão — Banheiro',
+        category: 'planejamento',
+        url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-BANHEIRO.pdf',
+        env: 'banheiro'
+      },
+      'prot-ext': {
+        id: 'prot-ext',
+        title: 'Protocolo de Decisão — Área Externa',
+        category: 'planejamento',
+        url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DECISAO-AREA-EXTERNA.pdf',
+        env: 'area_externa'
+      }
+    };
+
+    if (!pdf && protocolPdfs[id]) {
+      pdf = protocolPdfs[id];
+    }
+    
+    // Additional generic fallback for checklist steps (e.g. "pdf-1" matching "pdf-1-cozinha")
+    if (!pdf && typeof id === 'string') {
+      const activeEnv = this.app.decisoesController ? this.app.decisoesController.activeEnvironment : null;
+      if (activeEnv) {
+        pdf = METODO_3P_DATABASE.library.find(p => p.id === `${id}-${activeEnv}`);
+      }
+      if (!pdf) {
+        pdf = METODO_3P_DATABASE.library.find(p => p.id.startsWith(id));
+      }
+    }
+
     if (!pdf) return;
     
     // Check environment paywall lock first
@@ -850,7 +905,7 @@ class ContentsController {
           // It's a local PDF file, embed it securely via Canvas
           const encodedUrl = encodeURI(pdf.url);
           simulatedPages.innerHTML = `
-            <div id="pdf-render-container" style="width: 100%; height: 80vh; overflow: auto; background: #2a2a2a; border-radius: 12px; text-align: center; padding: 20px 0; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;">
+            <div id="pdf-render-container" style="width: 100%; height: calc(100vh - 130px); overflow: auto; background: #12131a; border-radius: 0; text-align: center; padding: 20px 0; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;">
                <div id="pdf-canvas-wrapper" style="width: 100%; transition: width 0.3s ease; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
                  <div id="pdf-loading-indicator" style="color: #fff; font-size: 14px; font-weight: bold; margin-top: 50px;">
                    <span style="display: inline-block; animation: pulse 1.5s infinite;">Carregando visualizador seguro...</span>
