@@ -850,7 +850,7 @@ class ContentsController {
           // It's a local PDF file, embed it securely via Canvas
           const encodedUrl = encodeURI(pdf.url);
           simulatedPages.innerHTML = `
-            <div id="pdf-render-container" style="width: 100%; height: 80vh; overflow: auto; background: #2a2a2a; border-radius: 12px; text-align: center; padding: 20px 0; -webkit-overflow-scrolling: touch;">
+            <div id="pdf-render-container" style="width: 100%; height: 80vh; overflow: auto; background: #2a2a2a; border-radius: 12px; text-align: center; padding: 20px 0; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y;">
                <div id="pdf-canvas-wrapper" style="width: 100%; transition: width 0.3s ease; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
                  <div id="pdf-loading-indicator" style="color: #fff; font-size: 14px; font-weight: bold; margin-top: 50px;">
                    <span style="display: inline-block; animation: pulse 1.5s infinite;">Carregando visualizador seguro...</span>
@@ -859,6 +859,83 @@ class ContentsController {
             </div>
           `;
           this.renderSecurePdf(encodedUrl);
+
+          // Setup pinch to zoom and double-tap touch events
+          const containerEl = document.getElementById('pdf-render-container');
+          if (containerEl) {
+            let initialDist = 0;
+            let initialZoom = 1.0;
+            let lastTap = 0;
+            
+            containerEl.addEventListener('touchstart', (e) => {
+              if (e.touches.length === 2) {
+                e.preventDefault();
+                initialDist = Math.hypot(
+                  e.touches[0].clientX - e.touches[1].clientX,
+                  e.touches[0].clientY - e.touches[1].clientY
+                );
+                initialZoom = this.pdfZoom || 1.0;
+              }
+            }, { passive: false });
+            
+            containerEl.addEventListener('touchmove', (e) => {
+              if (e.touches.length === 2 && initialDist > 0) {
+                e.preventDefault();
+                const dist = Math.hypot(
+                  e.touches[0].clientX - e.touches[1].clientX,
+                  e.touches[0].clientY - e.touches[1].clientY
+                );
+                const factor = dist / initialDist;
+                
+                let newZoom = initialZoom * factor;
+                if (newZoom < 0.5) newZoom = 0.5;
+                if (newZoom > 3.0) newZoom = 3.0;
+                
+                this.pdfZoom = newZoom;
+                
+                const zoomLevelEl = document.getElementById('pdf-zoom-level');
+                if (zoomLevelEl) zoomLevelEl.textContent = `${Math.round(this.pdfZoom * 100)}%`;
+                
+                const wrapper = document.getElementById('pdf-canvas-wrapper');
+                if (wrapper) {
+                  wrapper.style.transition = 'none';
+                  wrapper.style.width = `${this.pdfZoom * 100}%`;
+                }
+              }
+            }, { passive: false });
+            
+            containerEl.addEventListener('touchend', (e) => {
+              if (e.touches.length < 2) {
+                initialDist = 0;
+                const wrapper = document.getElementById('pdf-canvas-wrapper');
+                if (wrapper) {
+                  wrapper.style.transition = 'width 0.3s ease';
+                }
+              }
+              
+              // Double tap toggle zoom (100% <=> 175%)
+              const currentTime = new Date().getTime();
+              const tapLength = currentTime - lastTap;
+              if (tapLength < 300 && tapLength > 0) {
+                e.preventDefault();
+                if (this.pdfZoom > 1.2) {
+                  this.pdfZoom = 1.0;
+                } else {
+                  this.pdfZoom = 1.75;
+                }
+                
+                const zoomLevelEl = document.getElementById('pdf-zoom-level');
+                if (zoomLevelEl) zoomLevelEl.textContent = `${Math.round(this.pdfZoom * 100)}%`;
+                
+                const wrapper = document.getElementById('pdf-canvas-wrapper');
+                if (wrapper) {
+                  wrapper.style.transition = 'width 0.3s ease';
+                  wrapper.style.width = `${this.pdfZoom * 100}%`;
+                }
+              }
+              lastTap = currentTime;
+            });
+          }
         }
       }
       
@@ -992,17 +1069,18 @@ class ContentsController {
         await page.render(renderContext).promise;
         
         // Draw Dynamic Watermark with User Email (Anti-Screenshot Measure)
+        // Make the watermark extremely subtle (thin, light grey and spaced out) so it is perfectly readable
         const userEmail = (this.app.userEmail || "Material Protegido").toUpperCase();
         context.save();
-        context.font = "bold " + (viewport.width * 0.03) + "px Arial"; // Scale font with canvas
-        context.fillStyle = "rgba(180, 180, 180, 0.35)"; // Semi-transparent grey
+        context.font = "normal " + (viewport.width * 0.016) + "px Arial"; // Thinner, slightly smaller font
+        context.fillStyle = "rgba(120, 120, 120, 0.04)"; // Extremely subtle opacity (4%) to keep text perfectly legible
         context.translate(canvas.width / 2, canvas.height / 2);
         context.rotate(-Math.PI / 4); // 45 degrees diagonal
         context.textAlign = "center";
         
-        // Repeat watermark across the page
-        const spacingX = viewport.width * 0.4;
-        const spacingY = viewport.height * 0.2;
+        // Repeat watermark across the page with much larger spacing (less dense grid)
+        const spacingX = viewport.width * 0.75;
+        const spacingY = viewport.height * 0.35;
         for(let i = -canvas.width; i < canvas.width; i += spacingX) {
           for(let j = -canvas.height; j < canvas.height; j += spacingY) {
             context.fillText(userEmail, i, j);
