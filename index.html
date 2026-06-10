@@ -405,7 +405,7 @@
               <!-- STATUS DA OBRA CARD -->
               <div class="status-obra-card glass-card" style="position: relative; overflow: hidden; padding: 20px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid rgba(50, 215, 75, 0.25); background: linear-gradient(135deg, rgba(9, 10, 15, 0.85) 0%, rgba(15, 18, 26, 0.95) 100%); box-shadow: 0 8px 32px rgba(50, 215, 75, 0.08); margin-bottom: 16px; border-radius: 16px; min-height: 110px;">
                 <!-- Left text side -->
-                <div style="flex: 1; z-index: 2; text-align: left; display: flex; align-items: center; gap: 16px;">
+                <div style="flex: 1; z-index: 2; text-align: left; display: flex; align-items: center; gap: 16px; max-width: 60%;">
                   <!-- Dynamic Status Icon -->
                   <div id="dash-status-icon-container" style="width: 48px; height: 48px; border-radius: 50%; background: rgba(50, 215, 75, 0.12); border: 2px solid #32d74b; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 15px rgba(50, 215, 75, 0.25);">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -443,7 +443,7 @@
               <div style="margin-bottom: 16px; width: 100%;">
                 <div class="dash-control-grid">
                   <!-- Card 1: Orçamento Máximo -->
-                  <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(50, 215, 75, 0.2);">
+                  <div class="dash-control-card glass-card" onclick="window.app.openPlanejarDrawer('orcamento')" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(50, 215, 75, 0.2); cursor: pointer;">
                     <div class="dash-control-icon-box" style="background: rgba(50, 215, 75, 0.08); border: 1px solid rgba(50, 215, 75, 0.2); color: #32d74b; box-shadow: 0 0 8px rgba(50, 215, 75, 0.15);">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><path d="M16 8h6v8h-6z"></path><circle cx="19" cy="12" r="1"></circle></svg>
                     </div>
@@ -474,18 +474,6 @@
                       <span>FALTA PAGAR</span>
                       <strong id="dash-metric-topay" style="color: #bf5af2;">R$ 0,00</strong>
                       <span id="dash-metric-topay-pct" class="pct-sub">0% do total</span>
-                    </div>
-                  </div>
-                  
-                  <!-- Card 4: Conclusão Física -->
-                  <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(255, 159, 10, 0.2);">
-                    <div class="dash-control-icon-box" style="background: rgba(255, 159, 10, 0.08); border: 1px solid rgba(255, 159, 10, 0.2); color: #ff9f0a; box-shadow: 0 0 8px rgba(255, 159, 10, 0.15);">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="m19 9-5 5-4-4-3 3"></path></svg>
-                    </div>
-                    <div class="dash-control-info">
-                      <span>CONCLUSÃO FÍSICA</span>
-                      <strong id="dash-metric-physical" style="color: #ff9f0a;">0%</strong>
-                      <span id="dash-metric-physical-sub" class="pct-sub">da obra</span>
                     </div>
                   </div>
                 </div>
@@ -528,16 +516,16 @@
                 </div>
               </div>
 
-              <!-- PRÓXIMA MISSÃO -->
+              <!-- PRÓXIMA ETAPA -->
               <div id="dash-action-card" class="glass-card" style="position: relative; overflow: hidden; padding: 20px; margin-bottom: 16px; border: 1.5px solid rgba(255, 106, 0, 0.35); background: linear-gradient(135deg, rgba(255, 106, 0, 0.05) 0%, rgba(9, 10, 15, 0.7) 100%); box-shadow: 0 8px 24px rgba(255, 106, 0, 0.04); border-radius: 16px; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 110px;">
                 <!-- Left Content: Icon, text, progress -->
-                <div style="display: flex; gap: 14px; flex: 1; z-index: 2; align-items: flex-start; max-width: 70%;">
+                <div style="display: flex; gap: 14px; flex: 1; position: relative; z-index: 2; align-items: flex-start; max-width: 70%;">
                   <!-- Target Icon -->
                   <div style="width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(255, 106, 0, 0.4); background: rgba(255, 106, 0, 0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #ff9f0a;">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
                   </div>
                   <div style="display: flex; flex-direction: column; gap: 4px;">
-                    <span style="font-size: 9px; font-weight: 700; color: #ff9f0a; text-transform: uppercase; letter-spacing: 0.8px;">PRÓXIMA MISSÃO</span>
+                    <span style="font-size: 9px; font-weight: 700; color: #ff9f0a; text-transform: uppercase; letter-spacing: 0.8px;">PRÓXIMA ETAPA</span>
                     <h4 id="dash-action-title" style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 800; color: #ffffff; margin: 0; line-height: 1.2;">Definir orçamento da cozinha</h4>
                     <p id="dash-action-desc" style="font-size: 11px; color: #8c96ab; margin: 0; line-height: 1.3;">Fase: Planejar</p>
                     
@@ -557,7 +545,7 @@
                 <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 40%; height: 100%; z-index: 1; opacity: 0.15; pointer-events: none; background: url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=400&q=50') center/cover;"></div>
                 
                 <!-- Right Button -->
-                <button id="dash-action-btn" onclick="window.app.switchTab('planejar')" class="btn-bounce" style="z-index: 2; background: linear-gradient(135deg, #ff6a00 0%, #ff9f0a 100%); border: none; border-radius: 12px; color: #ffffff; padding: 12px 20px; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 106, 0, 0.35); transition: all 0.2s ease; margin-left: auto;">
+                <button id="dash-action-btn" onclick="window.app.switchTab('planejar')" class="btn-bounce" style="position: relative; z-index: 2; background: linear-gradient(135deg, #ff6a00 0%, #ff9f0a 100%); border: none; border-radius: 12px; color: #ffffff; padding: 12px 20px; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 106, 0, 0.35); transition: all 0.2s ease; margin-left: auto;">
                   <span>CONTINUAR</span>
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </button>
@@ -700,7 +688,7 @@
                 
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;" class="planejar-actions-grid">
                   <!-- Card 1: Definir Orçamento -->
-                  <div class="glass-card btn-bounce" onclick="window.app.openWizardDrawer(); window.app.navigateToWizardStep(1);" style="padding: 14px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; background: rgba(15,18,26,0.45); border: 1.5px solid rgba(50,215,75,0.25); border-radius: 14px; cursor: pointer; min-height: 110px; text-align: left;">
+                  <div class="glass-card btn-bounce" onclick="window.app.openPlanejarDrawer('orcamento');" style="padding: 14px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; background: rgba(15,18,26,0.45); border: 1.5px solid rgba(50,215,75,0.25); border-radius: 14px; cursor: pointer; min-height: 110px; text-align: left;">
                     <div style="display: flex; align-items: center; gap: 8px;">
                       <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(50,215,75,0.1); border: 1px solid rgba(50,215,75,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <span style="font-size: 16px;">💰</span>
@@ -1715,7 +1703,7 @@
       
       <!-- ==================== DRAWER MODAL: LANÇAR GASTO ==================== -->
       <div class="drawer-overlay" id="drawer-expense-overlay" onclick="window.app.closeExpenseDrawer()">
-        <div class="drawer-container" onclick="event.stopPropagation()">
+        <div class="drawer-container large" onclick="event.stopPropagation()" style="max-height: 95vh; overflow-x: hidden;">
           <div class="drawer-drag-indicator"></div>
           <div class="drawer-header">
             <h3>+ Lançar Novo Gasto</h3>
@@ -1873,6 +1861,11 @@
             </button>
             <div style="text-align: center; margin-top: 8px;">
               <span onclick="window.app.paywallController.simulateCheckout()" style="font-size: 11px; color: #ff9f0a; text-decoration: underline; cursor: pointer; opacity: 0.85;">[Simular Ativação de Teste Local]</span>
+            </div>
+            <div style="text-align: center; margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;">
+              <button class="btn btn-secondary" onclick="window.app.switchAccount()" style="font-size: 12px; padding: 8px 16px; border-color: rgba(255,255,255,0.15); color: #ffffff; width: 100%; border-radius: 8px;">
+                🔄 Trocar Conta (Logout)
+              </button>
             </div>
             <p class="paywall-security-text" style="font-size: 10px; color: var(--text-secondary); text-align: center; margin-top: 12px; opacity: 0.7;">🛡️ Ambiente de teste seguro. Pagamentos simulados para fins de prototipagem.</p>
           </div>
@@ -2261,6 +2254,626 @@
       </div>
     </div>
   </div> <!-- Closes drawer-admin-overlay -->
+
+  <!-- ==================== DRAWER MODAL: PLANEJAR - ORÇAMENTO ==================== -->
+  <div class="drawer-overlay" id="drawer-planejar-orcamento-overlay" onclick="window.app.closePlanejarDrawer('orcamento')">
+    <div class="drawer-container" onclick="event.stopPropagation()" style="max-height: 90vh; overflow-y: auto;">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #32d74b;">💰 Definir Orçamento da Reforma</h3>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #8c96ab;">Defina o investimento e a margem de segurança</p>
+        </div>
+        <button class="btn-close-drawer" onclick="window.app.closePlanejarDrawer('orcamento')">✖</button>
+      </div>
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
+        <div class="form-group">
+          <label style="font-size: 10px; color: #8c96ab; display: block; margin-bottom: 6px; font-weight: 700; text-transform: uppercase;">Valor do Investimento Total (R$)</label>
+          <input type="number" id="form-orcamento-valor" class="form-control" placeholder="Ex: 80000" style="padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff; width: 100%;">
+        </div>
+        <div class="form-group">
+          <label style="font-size: 10px; color: #8c96ab; display: block; margin-bottom: 6px; font-weight: 700; text-transform: uppercase;">Margem de Segurança (%)</label>
+          <input type="number" id="form-orcamento-margem" class="form-control" value="10" placeholder="Ex: 10" style="padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff; width: 100%;">
+          <span style="font-size: 9px; color: #ff9f0a; margin-top: 4px; display: block;">⚠️ O Método 3P exige uma margem de segurança para imprevistos (mínimo de 10% recomendado).</span>
+        </div>
+        <button class="btn btn-primary" onclick="window.app.financeiroController.saveOrcamentoForm()" style="width: 100%; padding: 10px; background: #32d74b; border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer;">Salvar Orçamento</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== DRAWER MODAL: PLANEJAR - PRIORIDADES ==================== -->
+  <div class="drawer-overlay" id="drawer-planejar-prioridades-overlay" onclick="window.app.closePlanejarDrawer('prioridades')">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="max-height: 90vh; overflow-y: auto;">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #32d74b;">🎯 Prioridades da Reforma</h3>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #8c96ab;">Classifique a importância de cada escopo para decidir cortes inteligentes se necessário.</p>
+        </div>
+        <button class="btn-close-drawer" onclick="window.app.closePlanejarDrawer('prioridades')">✖</button>
+      </div>
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
+        <div style="font-size: 11px; color: #8c96ab; line-height: 1.4; margin-bottom: 8px;">
+          Selecione a relevância de cada área. Em caso de estouro de orçamento, as categorias classificadas como **Baixa** ou **Média** serão as primeiras candidatas a renegociação ou adiamento.
+        </div>
+        
+        <div id="form-prioridades-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto; padding-right: 4px;">
+          <!-- Loaded dynamically by renderPrioritiesFormList -->
+        </div>
+
+        <button class="btn btn-primary" onclick="window.app.financeiroController.savePrioritiesForm()" style="width: 100%; padding: 10px; background: #32d74b; border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer; margin-top: 10px;">Salvar Prioridades</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DRAWER MODAL: PREVENIR - COMPARAR ==================== -->
+  <div class="drawer-overlay" id="drawer-prevenir-comparar-overlay" onclick="window.app.closePrevenirDrawer('comparar')">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="max-height: 90vh; overflow-y: auto;">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #0088ff;">⚖️ Comparar Antes de Comprar</h3>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #8c96ab;">Compare preços de produtos locais e prestadores de serviços</p>
+        </div>
+        <button class="btn-close-drawer" onclick="window.app.closePrevenirDrawer('comparar')">✖</button>
+      </div>
+      
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
+        <!-- Segment selection buttons with sleek glass pill styling -->
+        <div style="display: flex; gap: 10px; margin-bottom: 5px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 10px; border: 1px solid var(--border-glass);">
+          <button id="btn-comp-products" class="btn active" onclick="window.app.switchCompareTab('products')" style="flex: 1; padding: 10px; font-size: 11px; font-weight: 700; border-radius: 8px; transition: all 0.3s ease; border: none; cursor: pointer; color: #fff; background: var(--primary-gradient);">
+            🔍 Comparar Produtos (Gemini AI)
+          </button>
+          <button id="btn-comp-providers" class="btn" onclick="window.app.switchCompareTab('providers')" style="flex: 1; padding: 10px; font-size: 11px; font-weight: 700; border-radius: 8px; transition: all 0.3s ease; border: none; cursor: pointer; color: #8c96ab; background: transparent;">
+            👷 Comparar Prestadores (Serviços)
+          </button>
+        </div>
+
+        <!-- Section 1: Comparar Produtos -->
+        <div id="comp-products-section" style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="glass-card" style="padding: 16px; background: rgba(255,255,255,0.02); border-color: rgba(0,136,255,0.15);">
+            <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0;">🔍 Busca de Preços com Gemini AI</h4>
+            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+              <input type="text" id="comp-product-query" class="form-control" placeholder="Ex: Argamassa AC3 Votoran 20kg" style="flex: 1; padding: 10px; font-size: 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 8px; color: #fff;">
+              <button class="btn btn-primary" onclick="window.app.financeiroController.searchProductQuotes()" style="padding: 10px 20px; background: #0088ff; border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer;">Buscar</button>
+            </div>
+            <p style="font-size: 9px; color: #8c96ab; margin: 0;">O assistente Gemini irá buscar em tempo real os melhores preços de lojas locais e e-commerce.</p>
+          </div>
+          
+          <!-- Gemini Results Container -->
+          <div id="comp-products-results" style="display: none; flex-direction: column; gap: 12px;">
+            <!-- Loaded dynamically with 3 stores, cards, and option to select/apply -->
+          </div>
+        </div>
+
+        <!-- Section 2: Comparar Prestadores -->
+        <div id="comp-providers-section" style="display: none; flex-direction: column; gap: 16px;">
+          <!-- Indicadores de Cotação -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+            <div class="glass-card" style="padding: 8px; text-align: center; background: rgba(255,255,255,0.01);">
+              <span style="font-size: 8px; color: #8c96ab; display: block; font-weight: 700; text-transform: uppercase;">Menor Cot.</span>
+              <strong id="quote-metric-min" style="font-size: 11px; color: #32d74b; font-family: 'Sora', sans-serif;">R$ 0,00</strong>
+            </div>
+            <div class="glass-card" style="padding: 8px; text-align: center; background: rgba(255,255,255,0.01);">
+              <span style="font-size: 8px; color: #8c96ab; display: block; font-weight: 700; text-transform: uppercase;">Maior Cot.</span>
+              <strong id="quote-metric-max" style="font-size: 11px; color: #ff3b30; font-family: 'Sora', sans-serif;">R$ 0,00</strong>
+            </div>
+            <div class="glass-card" style="padding: 8px; text-align: center; background: rgba(255,255,255,0.01);">
+              <span style="font-size: 8px; color: #8c96ab; display: block; font-weight: 700; text-transform: uppercase;">Economia</span>
+              <strong id="quote-metric-economy" style="font-size: 11px; color: #0088ff; font-family: 'Sora', sans-serif;">R$ 0,00</strong>
+            </div>
+            <div class="glass-card" style="padding: 8px; text-align: center; background: rgba(255,255,255,0.01);">
+              <span style="font-size: 8px; color: #8c96ab; display: block; font-weight: 700; text-transform: uppercase;">Diferença</span>
+              <strong id="quote-metric-diff-pct" style="font-size: 11px; color: #ff9f0a; font-family: 'Sora', sans-serif;">0%</strong>
+            </div>
+          </div>
+
+          <!-- Form to Add Quote -->
+          <div class="glass-card" style="padding: 14px; background: rgba(255,255,255,0.02); border-color: rgba(0,136,255,0.15);">
+            <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0;">➕ Nova Cotação de Prestador</h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 10px;">
+              <div>
+                <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Serviço (Ex: Pintura, Demolição)</label>
+                <input type="text" id="quote-item" class="form-control" placeholder="Ex: Pintura da Sala, Instalação Elétrica" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+              </div>
+              <div>
+                <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Prestador / Fornecedor</label>
+                <input type="text" id="quote-supplier" class="form-control" placeholder="Ex: Pedreiro João, Silva Reformas" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+              </div>
+              <div>
+                <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Valor Cobrado (R$)</label>
+                <input type="number" id="quote-value" class="form-control" placeholder="Ex: 1500" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+              </div>
+              <div>
+                <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Prazo de Conclusão</label>
+                <input type="text" id="quote-deadline" class="form-control" placeholder="Ex: 5 dias úteis, 2 semanas" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+              </div>
+              <div>
+                <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Condição de Pagamento</label>
+                <input type="text" id="quote-payment" class="form-control" placeholder="Ex: 50% entrada + 50% fim" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+              </div>
+              <div>
+                <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Orçamento Anexo</label>
+                <input type="text" id="quote-attachment" class="form-control" placeholder="Ex: orcamento_silva.pdf" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+              </div>
+            </div>
+            <div style="margin-bottom: 10px;">
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Observações / Referências</label>
+              <textarea id="quote-obs" class="form-control" placeholder="Outras informações importantes..." style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%; min-height: 40px; font-family: inherit; resize: vertical;"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="window.app.financeiroController.saveQuote()" style="width: 100%; padding: 10px; background: #0088ff; border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer;">Salvar Cotação</button>
+          </div>
+
+          <!-- Quote Table -->
+          <div class="glass-card" style="padding: 14px;">
+            <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">👷 Cotações de Prestadores</h4>
+            <div style="overflow-x: auto; width: 100%;">
+              <table class="responsive-table" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; font-size: 9px; color: #8c96ab;">
+                    <th style="padding-bottom: 6px; text-transform: uppercase;">Serviço</th>
+                    <th style="padding-bottom: 6px; text-transform: uppercase;">Prestador</th>
+                    <th style="padding-bottom: 6px; text-transform: uppercase;">Valor</th>
+                    <th style="padding-bottom: 6px; text-transform: uppercase;">Prazo</th>
+                    <th style="padding-bottom: 6px; text-transform: uppercase;">Forma Pgto</th>
+                    <th style="padding-bottom: 6px; text-transform: uppercase;">Anotações</th>
+                    <th style="padding-bottom: 6px; text-transform: uppercase; width: 60px; text-align: center;">Excluir</th>
+                  </tr>
+                </thead>
+                <tbody id="prevenir-quotes-tbody" style="font-size: 11px; color: #fff;">
+                  <!-- Loaded dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DRAWER MODAL: PREVENIR - COMPRAS ==================== -->
+  <div class="drawer-overlay" id="drawer-prevenir-compras-overlay" onclick="window.app.closePrevenirDrawer('compras')">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="max-height: 95vh; height: 95vh; overflow-y: auto; overflow-x: hidden;">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #0088ff;">🛒 Controlar Compras & Despesas</h3>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #8c96ab;">Acompanhe o orçamento previsto versus o real executado na obra.</p>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="btn btn-secondary btn-mini" onclick="window.app.openExpenseDrawer()" style="width: auto; padding: 6px 10px; font-size: 10px; border-color: rgba(0,136,255,0.3); color: #0088ff; background: rgba(0,136,255,0.05); font-weight: 700;">➕ Lançar Gasto / Compra</button>
+          <button class="btn-close-drawer" onclick="window.app.closePrevenirDrawer('compras')">✖</button>
+        </div>
+      </div>
+      
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
+        <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+          <div class="glass-card" style="padding: 8px; text-align: center; background: rgba(255,255,255,0.01);">
+            <span style="font-size: 8px; color: #8c96ab; display: block; font-weight: 700; text-transform: uppercase;">Total Lançados</span>
+            <strong id="compras-count-total" style="font-size: 11px; color: #fff; font-family: 'Sora', sans-serif;">0 itens</strong>
+          </div>
+          <div class="glass-card" style="padding: 8px; text-align: center; background: rgba(255,255,255,0.01);">
+            <span style="font-size: 8px; color: #8c96ab; display: block; font-weight: 700; text-transform: uppercase;">Entregas Recebidas</span>
+            <strong id="compras-count-delivered" style="font-size: 11px; color: #0088ff; font-family: 'Sora', sans-serif;">0 itens</strong>
+          </div>
+          <div class="glass-card" style="padding: 8px; text-align: center; background: rgba(255,255,255,0.01);">
+            <span style="font-size: 8px; color: #8c96ab; display: block; font-weight: 700; text-transform: uppercase;">Total Pago</span>
+            <strong id="compras-sum-paid" style="font-size: 11px; color: #32d74b; font-family: 'Sora', sans-serif;">R$ 0,00</strong>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding: 14px;">
+          <div style="overflow-x: auto; width: 100%;">
+            <table class="responsive-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; font-size: 9px; color: #8c96ab;">
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Item / Descrição</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Categoria</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Data Compra</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Valor Previsto</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Valor Real</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Pago</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Entrega</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase; width: 60px;">Excluir</th>
+                </tr>
+              </thead>
+              <tbody id="prevenir-compras-table-body" style="font-size: 11px; color: #fff;">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DRAWER MODAL: PREVENIR - FORNECEDORES ==================== -->
+  <div class="drawer-overlay" id="drawer-prevenir-fornecedores-overlay" onclick="window.app.closePrevenirDrawer('fornecedores')">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="max-height: 90vh; overflow-y: auto;">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #0088ff;">👷 Fornecedores & Prestadores Aprovados</h3>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #8c96ab;">Cadastre as equipes contratadas para sua reforma.</p>
+        </div>
+        <button class="btn-close-drawer" onclick="window.app.closePrevenirDrawer('fornecedores')">✖</button>
+      </div>
+      
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
+        <!-- Supplier Form -->
+        <div class="glass-card" style="padding: 14px; background: rgba(255,255,255,0.02); border-color: rgba(0,136,255,0.15);">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0;">➕ Novo Fornecedor Aprovado</h4>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 10px;">
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Nome do Prestador / Empresa</label>
+              <input type="text" id="sup-name" class="form-control" placeholder="Ex: João Gesseiro, Pintores XYZ" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Contato (Telefone / WhatsApp)</label>
+              <input type="text" id="sup-contact" class="form-control" placeholder="Ex: (11) 98888-8888" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Especialidade / Serviço</label>
+              <input type="text" id="sup-service" class="form-control" placeholder="Ex: Aplicação de Gesso, Pintura Geral" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Valor Total Contratado (R$)</label>
+              <input type="number" id="sup-value" class="form-control" placeholder="Ex: 4500" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Prazo Estimado de Entrega</label>
+              <input type="text" id="sup-deadline" class="form-control" placeholder="Ex: 10 dias úteis" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Contrato formalizado?</label>
+              <select id="sup-contract" class="form-control" style="padding: 8px; font-size: 11px; background: rgba(12,14,20,0.95); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; height: 33px; width: 100%;">
+                <option value="sim">Sim, assinado ✓</option>
+                <option value="nao">Não, acordo verbal ⚠️</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Avaliação Inicial (Nota 3P)</label>
+              <select id="sup-rating" class="form-control" style="padding: 8px; font-size: 11px; background: rgba(12,14,20,0.95); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; height: 33px; width: 100%;">
+                <option value="5">★★★★★ (Excelente indicação)</option>
+                <option value="4">★★★★☆ (Boa reputação)</option>
+                <option value="3">★★★☆☆ (Médio / Sem referências)</option>
+                <option value="2">★★☆☆☆ (Risco / Críticas)</option>
+                <option value="1">★☆☆☆☆ (Não recomendado)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Status</label>
+              <select id="sup-status" class="form-control" style="padding: 8px; font-size: 11px; background: rgba(12,14,20,0.95); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; height: 33px; width: 100%;">
+                <option value="ativo">🟢 Ativo (Trabalhando na obra)</option>
+                <option value="inativo">🔴 Inativo (Finalizado / Cancelado)</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-bottom: 10px;">
+            <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Observações (Endereço, combinados especiais, etc.)</label>
+            <input type="text" id="sup-obs" class="form-control" placeholder="Escreva aqui..." style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+          </div>
+          <button class="btn btn-primary" onclick="window.app.financeiroController.saveSupplierAprovado()" style="width: 100%; padding: 10px; background: #0088ff; border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer;">Salvar Fornecedor</button>
+        </div>
+
+        <!-- Supplier Table -->
+        <div class="glass-card" style="padding: 14px;">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">👷 Equipes Cadastradas</h4>
+          <div style="overflow-x: auto; width: 100%;">
+            <table class="responsive-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; font-size: 9px; color: #8c96ab;">
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Nome</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Contato</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Serviço</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Valor total</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Contrato?</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Nota 3P</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Status</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase; width: 60px;">Excluir</th>
+                </tr>
+              </thead>
+              <tbody id="prevenir-suppliers-tbody" style="font-size: 11px; color: #fff;">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DRAWER MODAL: PREVENIR - PAGAMENTOS ==================== -->
+  <div class="drawer-overlay" id="drawer-prevenir-pagamentos-overlay" onclick="window.app.closePrevenirDrawer('pagamentos')">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="max-height: 95vh; height: 95vh; overflow-y: auto; overflow-x: hidden;">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #0088ff;">💳 Registrar Pagamentos & Caixa</h3>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #8c96ab;">Monitore os pagamentos efetuados e compromissos futuros da obra.</p>
+        </div>
+        <button class="btn-close-drawer" onclick="window.app.closePrevenirDrawer('pagamentos')">✖</button>
+      </div>
+      
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
+        <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+          <div class="glass-card" style="padding: 12px; text-align: center; background: rgba(38,208,124,0.05); border-color: rgba(38,208,124,0.25);">
+            <span style="font-size: 9px; color: #8c96ab; display: block; font-weight: 700; text-transform: uppercase;">Total Pago</span>
+            <strong id="pag-metric-total-paid" style="font-size: 16px; color: #26d07c; font-family: 'Sora', sans-serif;">R$ 0,00</strong>
+          </div>
+          <div class="glass-card" style="padding: 12px; text-align: center; background: rgba(255,159,10,0.05); border-color: rgba(255,159,10,0.25);">
+            <span style="font-size: 9px; color: #8c96ab; display: block; font-weight: 700; text-transform: uppercase;">Total Pendente / A Pagar</span>
+            <strong id="pag-metric-total-pending" style="font-size: 16px; color: #ff9f0a; font-family: 'Sora', sans-serif;">R$ 0,00</strong>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding: 14px;">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">🗓️ Histórico de Pagamentos & Caixa</h4>
+          <div style="overflow-x: auto; width: 100%;">
+            <table class="responsive-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; font-size: 9px; color: #8c96ab;">
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Descrição</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Valor (R$)</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Data Lançamento</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Status do Pagamento</th>
+                </tr>
+              </thead>
+              <tbody id="prevenir-pagamentos-tbody" style="font-size: 11px; color: #fff;">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DRAWER MODAL: PROTEGER - GARANTIAS ==================== -->
+  <div class="drawer-overlay" id="drawer-proteger-garantias-overlay" onclick="window.app.closeProtegerDrawer('garantias')">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="max-height: 90vh; overflow-y: auto;">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #bf5af2;">🛡️ Organizar Garantias & Documentos</h3>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #8c96ab;">Conserve manuais, notas fiscais, recibos e prazos de validade.</p>
+        </div>
+        <button class="btn-close-drawer" onclick="window.app.closeProtegerDrawer('garantias')">✖</button>
+      </div>
+      
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
+        <!-- Document Add Form -->
+        <div class="glass-card" style="padding: 14px; background: rgba(255,255,255,0.02); border-color: rgba(191,90,242,0.15);">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0;">➕ Cadastrar Documento / Garantia</h4>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 10px;">
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Tipo de Documento</label>
+              <select id="warr-type" class="form-control" style="padding: 8px; font-size: 11px; background: rgba(12,14,20,0.95); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; height: 33px; width: 100%;">
+                <option value="Garantia">🛡️ Termo de Garantia</option>
+                <option value="Nota Fiscal">🧾 Nota Fiscal (NF-e)</option>
+                <option value="Contrato">📁 Minuta de Contrato</option>
+                <option value="Recibo">💵 Recibo de Pagamento</option>
+                <option value="Manual">📖 Manual de Instrução</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Fornecedor / Fabricante</label>
+              <input type="text" id="warr-supplier" class="form-control" placeholder="Ex: Deca, Suvinil, Leroy Merlin" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Item / Produto / Serviço</label>
+              <input type="text" id="warr-item" class="form-control" placeholder="Ex: Torneira Monocomando, Geladeira Inox" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Prazo de Validade (Ex: 1 ano, 6 meses)</label>
+              <input type="text" id="warr-duration" class="form-control" placeholder="Ex: 2 anos, 1 ano, 90 dias" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Data de Compra / Emissão</label>
+              <input type="date" id="warr-date" class="form-control" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Anexo / Nome do Arquivo</label>
+              <input type="text" id="warr-file" class="form-control" placeholder="Ex: nota_deca_torneiras.pdf" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+          </div>
+          <div style="margin-bottom: 10px;">
+            <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Observações / Condições Especiais</label>
+            <input type="text" id="warr-obs" class="form-control" placeholder="Escreva termos específicos, assistência técnica, etc." style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+          </div>
+          <button class="btn btn-primary" onclick="window.app.conteudosController.saveWarrantyFromForm()" style="width: 100%; padding: 10px; background: #bf5af2; border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer;">Salvar Documento</button>
+        </div>
+
+        <!-- Warranty Table -->
+        <div class="glass-card" style="padding: 14px;">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">📂 Documentação Registrada</h4>
+          <div style="overflow-x: auto; width: 100%;">
+            <table class="responsive-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; font-size: 9px; color: #8c96ab;">
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Tipo</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Fornecedor</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Item / Produto</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Validade</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Emissão</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Documento</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase; width: 60px;">Excluir</th>
+                </tr>
+              </thead>
+              <tbody id="proteger-garantias-table-body" style="font-size: 11px; color: #fff;">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DRAWER MODAL: PROTEGER - CONTRATOS ==================== -->
+  <div class="drawer-overlay" id="drawer-proteger-contratos-overlay" onclick="window.app.closeProtegerDrawer('contratos')">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="max-height: 90vh; overflow-y: auto;">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #bf5af2;">📁 Incluir Contratos Formalizados</h3>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #8c96ab;">Documente os contratos para ter segurança jurídica na cobrança.</p>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="btn btn-secondary btn-mini" onclick="window.app.conteudosController.openAddContratoModal()" style="width: auto; padding: 6px 10px; font-size: 10px; border-color: rgba(191,90,242,0.3); color: #bf5af2; background: rgba(191,90,242,0.05); font-weight: 700;">➕ Novo Contrato</button>
+          <button class="btn-close-drawer" onclick="window.app.closeProtegerDrawer('contratos')">✖</button>
+        </div>
+      </div>
+      
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
+        <div class="glass-card" style="padding: 14px;">
+          <div style="overflow-x: auto; width: 100%;">
+            <table class="responsive-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; font-size: 9px; color: #8c96ab;">
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Serviço / Escopo</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Empresa / Profissional</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Valor total</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase; width: 60px;">Excluir</th>
+                </tr>
+              </thead>
+              <tbody id="proteger-contratos-tbody" style="font-size: 11px; color: #fff;">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DRAWER MODAL: PROTEGER - PENDENCIAS ==================== -->
+  <div class="drawer-overlay" id="drawer-proteger-pendencias-overlay" onclick="window.app.closeProtegerDrawer('pendencias')">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="max-height: 90vh; overflow-y: auto;">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #bf5af2;">🔍 Acompanhamento de Pendências & Avanço</h3>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #8c96ab;">Monitore o avanço das 10 etapas da obra e registre ajustes.</p>
+        </div>
+        <button class="btn-close-drawer" onclick="window.app.closeProtegerDrawer('pendencias')">✖</button>
+      </div>
+      
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: left;">
+        <!-- Dynamic Physical Progress Stages -->
+        <div class="glass-card" style="padding: 14px;">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">📊 Avanço Físico (10 Etapas Oficiais)</h4>
+          <div id="proteger-acompanhamento-list" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Loaded dynamically by renderAcompanhamentoObra -->
+          </div>
+        </div>
+
+        <!-- Pendencias Form & Table -->
+        <div class="glass-card" style="padding: 14px; background: rgba(255,255,255,0.02); border-color: rgba(191,90,242,0.15);">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0;">➕ Nova Pendência / Ajuste Fino</h4>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 10px;">
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Descrição do Ajuste</label>
+              <input type="text" id="pend-detail" class="form-control" placeholder="Ex: Moldura de gesso trincada na sala" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Responsável pela Correção</label>
+              <input type="text" id="pend-responsible" class="form-control" placeholder="Ex: Gesseiro João, Pintor Carlos" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Prazo Limite para Ajuste</label>
+              <input type="text" id="pend-deadline" class="form-control" placeholder="Ex: Até sexta-feira, 2 dias" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Status Inicial</label>
+              <select id="pend-status" class="form-control" style="padding: 8px; font-size: 11px; background: rgba(12,14,20,0.95); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; height: 33px; width: 100%;">
+                <option value="Aberta">🔴 Aberta (Aguardando início)</option>
+                <option value="Em andamento">🟡 Em andamento</option>
+                <option value="Resolvida">🟢 Resolvida (Corrigido)</option>
+                <option value="Cancelada">⚪ Cancelada</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-bottom: 10px;">
+            <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Foto / Arquivo da Pendência</label>
+            <input type="text" id="pend-photo" class="form-control" placeholder="Ex: foto_trinca_gesso.jpg" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+          </div>
+          <button class="btn btn-primary" onclick="window.app.conteudosController.savePendenciaFromForm()" style="width: 100%; padding: 10px; background: #bf5af2; border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer;">Salvar Pendência</button>
+        </div>
+
+        <div class="glass-card" style="padding: 14px;">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">📋 Lista de Pendências Cadastradas</h4>
+          <div style="overflow-x: auto; width: 100%;">
+            <table class="responsive-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; font-size: 9px; color: #8c96ab;">
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Ajuste / Detalhe</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Responsável</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Prazo</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase;">Status</th>
+                  <th style="padding-bottom: 6px; text-transform: uppercase; width: 60px;">Excluir</th>
+                </tr>
+              </thead>
+              <tbody id="proteger-pendencias-tbody" style="font-size: 11px; color: #fff;">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DRAWER MODAL: PROTEGER - CHECKLIST ==================== -->
+  <div class="drawer-overlay" id="drawer-proteger-checklist-overlay" onclick="window.app.closeProtegerDrawer('checklist')">
+    <div class="drawer-container large" onclick="event.stopPropagation()" style="max-height: 90vh; overflow-y: auto;">
+      <div class="drawer-drag-indicator"></div>
+      <div class="drawer-header">
+        <div>
+          <h3 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #bf5af2;">📋 Checklist de Acompanhamento Final</h3>
+          <p style="margin: 2px 0 0 0; font-size: 11px; color: #8c96ab;">Realize a vistoria final técnica antes de liberar o último pagamento.</p>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <span style="font-size: 11px; font-weight: 700; color: #bf5af2;" id="proteger-checklist-concluidos-text">0 de 10 (0%)</span>
+          <button class="btn-close-drawer" onclick="window.app.closeProtegerDrawer('checklist')">✖</button>
+        </div>
+      </div>
+      
+      <div class="drawer-body" style="padding: 16px; display: flex; flex-direction: column; gap: 20px; text-align: left;">
+        <div class="glass-card" style="padding: 14px;">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0;">🔍 Vistoria Técnica de Recebimento</h4>
+          <div style="display: flex; flex-direction: column; gap: 10px;" id="vistoria-checklist-container">
+            <!-- Loaded dynamically by renderProtegerChecklistTable -->
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding: 14px;">
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: #ffffff; margin: 0 0 12px 0;">🏁 Parecer e Encerramento</h4>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 10px;">
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Parecer Final</label>
+              <select id="vistoria-resultado" class="form-control" style="padding: 8px; font-size: 11px; background: rgba(12,14,20,0.95); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; height: 33px; width: 100%;">
+                <option value="aprovado">🟢 Aprovada sem ressalvas</option>
+                <option value="ajustes">🟡 Aprovada com ajustes pendentes</option>
+                <option value="reprovado">🔴 Reprovada (Não receber a obra)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Fotos Finais / Relatório Anexo</label>
+              <input type="text" id="vistoria-fotos" class="form-control" placeholder="Ex: vistoria_final.pdf" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+            </div>
+          </div>
+          <div style="margin-bottom: 10px;">
+            <label style="font-size: 9px; color: #8c96ab; display: block; margin-bottom: 4px;">Observações da Vistoria</label>
+            <input type="text" id="vistoria-obs" class="form-control" placeholder="Ex: Detalhes de retoque na moldura do gesso da sala" style="padding: 8px; font-size: 11px; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glass); border-radius: 6px; color: #fff; width: 100%;">
+          </div>
+          <button class="btn btn-primary" onclick="window.app.conteudosController.finalizarReforma()" style="width: 100%; padding: 10px; background: #32d74b; border: none; border-radius: 8px; color: #fff; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px;">🏁 Finalizar Reforma</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div> <!-- Closes app-container -->
 </body>
 </html>

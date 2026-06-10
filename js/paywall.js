@@ -42,10 +42,18 @@ class PaywallController {
     }
     
     this.updatePaywallUI();
+
+    // STRICT PAYWALL GATE: Show paywall modal if free and not admin, and onboarding is completed
+    const onboardingFinished = localStorage.getItem('reformas_3p_onboarding_finished') === 'true';
+    if (this.userTier === 'free' && !this.isAdminUser() && onboardingFinished) {
+      setTimeout(() => {
+        this.showPaywallModal();
+      }, 500);
+    }
   }
 
   isAdminUser() {
-    const adminEmails = ['carlasf.executive@gmail.com', 'binhole@gmail.com'];
+    const adminEmails = ['carlasg66@gmail.com', 'binhole@gmail.com'];
     const currentEmail = this.app.userEmail || localStorage.getItem('reformas_3p_user_email');
     return currentEmail && adminEmails.includes(currentEmail.toLowerCase().trim());
   }
@@ -102,9 +110,37 @@ class PaywallController {
     return true;
   }
 
+  populatePaywallRoomsDropdown() {
+    const select = document.getElementById('paywall-room-select');
+    if (!select) return;
+    
+    select.innerHTML = '';
+    
+    const rooms = [
+      { id: 'cozinha', name: 'Cozinha (Recomendado)', emoji: '🍳' },
+      { id: 'banheiro', name: 'Banheiro', emoji: '🚿' },
+      { id: 'sala', name: 'Sala', emoji: '🛋️' },
+      { id: 'quarto', name: 'Quarto', emoji: '🛏️' },
+      { id: 'area_externa', name: 'Área Externa', emoji: '🌳' }
+    ];
+    
+    rooms.forEach(room => {
+      const option = document.createElement('option');
+      option.value = room.id;
+      option.textContent = `${room.emoji} ${room.name}`;
+      if (this.unlockedRooms.includes(room.id)) {
+        option.disabled = true;
+        option.textContent += ' (Já Adquirido)';
+      }
+      select.appendChild(option);
+    });
+  }
+
   showPaywallModal() {
     const modal = document.getElementById('modal-paywall-overlay');
     if (modal) modal.classList.add('active');
+    
+    this.populatePaywallRoomsDropdown();
     
     // Pre-select default modal product values
     this.selectPaywallProductInModal(this.selectedProduct);
@@ -112,6 +148,12 @@ class PaywallController {
   }
 
   closePaywallModal() {
+    if (this.userTier === 'free' && !this.isAdminUser()) {
+      if (this.app) {
+        this.app.triggerPushNotification("⚠️ ACESSO BLOQUEADO", "Por favor, adquira um ambiente ou a casa toda para prosseguir.", "warning");
+      }
+      return;
+    }
     const modal = document.getElementById('modal-paywall-overlay');
     if (modal) modal.classList.remove('active');
   }

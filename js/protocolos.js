@@ -27,29 +27,29 @@ class DecisionsController {
     // Register decisionPoints
     this.decisionPoints = {
       cozinha: [
-        { id: 'coz-dp-1', category: 'Layout', topic: 'Layout da Bancada e Triângulo de Trabalho', docId: 'pdf-doc', statusKey: 'coz-pl-1' },
-        { id: 'coz-dp-2', category: 'Materiais', topic: 'Escolha de Rejunte (Epóxi vs Acrílico)', docId: 'pdf-1', statusKey: 'coz-pt-1' },
-        { id: 'coz-dp-3', category: 'Equipamentos', topic: 'Dimensionamento de Tomadas e Cargas (20A)', docId: 'pdf-7', statusKey: 'coz-pl-2' }
+        { id: 'coz-dp-1', category: 'Layout', topic: 'Layout da Bancada e Triângulo de Trabalho', docId: 'pdf-1-cozinha', statusKey: 'coz-pl-1' },
+        { id: 'coz-dp-2', category: 'Materiais', topic: 'Escolha de Rejunte (Epóxi vs Acrílico)', docId: 'pdf-6-cozinha', statusKey: 'coz-pt-1' },
+        { id: 'coz-dp-3', category: 'Equipamentos', topic: 'Dimensionamento de Tomadas e Cargas (20A)', docId: 'pdf-7-cozinha', statusKey: 'coz-pl-2' }
       ],
       banheiro: [
-        { id: 'ban-dp-1', category: 'Layout', topic: 'Eixo do Vaso e Distâncias Laterais', docId: 'pdf-doc', statusKey: 'ban-pl-1' },
-        { id: 'ban-dp-2', category: 'Materiais', topic: 'Impermeabilização Estrutural do Box', docId: 'pdf-1', statusKey: 'ban-pr-1' },
-        { id: 'ban-dp-3', category: 'Equipamentos', topic: 'Ponto do Chuveiro e Disjuntor Dedicado', docId: 'pdf-7', statusKey: 'ban-pl-3' }
+        { id: 'ban-dp-1', category: 'Layout', topic: 'Eixo do Vaso e Distâncias Laterais', docId: 'pdf-1-banheiro', statusKey: 'ban-pl-1' },
+        { id: 'ban-dp-2', category: 'Materiais', topic: 'Impermeabilização Estrutural do Box', docId: 'pdf-6-banheiro', statusKey: 'ban-pr-1' },
+        { id: 'ban-dp-3', category: 'Equipamentos', topic: 'Ponto do Chuveiro e Disjuntor Dedicado', docId: 'pdf-7-banheiro', statusKey: 'ban-pl-3' }
       ],
       sala: [
-        { id: 'sal-dp-1', category: 'Layout', topic: 'Layout de Painel de TV e Tomadas de Sinal', docId: 'pdf-doc', statusKey: 'sal-pt-1' },
-        { id: 'sal-dp-2', category: 'Materiais', topic: 'Tipo de Porcelanato (Retificado vs Polido)', docId: 'pdf-6', statusKey: 'sal-pr-1' },
-        { id: 'sal-dp-3', category: 'Equipamentos', topic: 'Dispositivos de Proteção contra Surtos (DPS)', docId: 'pdf-7', statusKey: 'sal-pt-1' }
+        { id: 'sal-dp-1', category: 'Layout', topic: 'Layout de Painel de TV e Tomadas de Sinal', docId: 'pdf-1-sala', statusKey: 'sal-pt-1' },
+        { id: 'sal-dp-2', category: 'Materiais', topic: 'Tipo de Porcelanato (Retificado vs Polido)', docId: 'pdf-6-sala', statusKey: 'sal-pr-1' },
+        { id: 'sal-dp-3', category: 'Equipamentos', topic: 'Dispositivos de Proteção contra Surtos (DPS)', docId: 'pdf-7-sala', statusKey: 'sal-pt-1' }
       ],
       quarto: [
-        { id: 'qua-dp-1', category: 'Layout', topic: 'Layout de Guarda-Roupa e Paredes Hidráulicas', docId: 'pdf-doc', statusKey: 'qua-pl-1' },
-        { id: 'qua-dp-2', category: 'Materiais', topic: 'Piso Vinílico vs Laminado (Conforto Acústico)', docId: 'pdf-6', statusKey: 'qua-pr-1' },
-        { id: 'qua-dp-3', category: 'Equipamentos', topic: 'Pontos de Ar Condicionado e Drenos', docId: 'pdf-7', statusKey: 'qua-pl-3' }
+        { id: 'qua-dp-1', category: 'Layout', topic: 'Layout de Guarda-Roupa e Paredes Hidráulicas', docId: 'pdf-1-quarto', statusKey: 'qua-pl-1' },
+        { id: 'qua-dp-2', category: 'Materiais', topic: 'Piso Vinílico vs Laminado (Conforto Acústico)', docId: 'pdf-6-quarto', statusKey: 'qua-pr-1' },
+        { id: 'qua-dp-3', category: 'Equipamentos', topic: 'Pontos de Ar Condicionado e Drenos', docId: 'pdf-7-quarto', statusKey: 'qua-pl-3' }
       ],
       area_externa: [
-        { id: 'ext-dp-1', category: 'Layout', topic: 'Caimento de Ralos e Escoamento de Chuvas', docId: 'pdf-doc', statusKey: 'ext-pl-1' },
-        { id: 'ext-dp-2', category: 'Materiais', topic: 'Impermeabilização de Laje Externa (Manta)', docId: 'pdf-1', statusKey: 'ext-pr-1' },
-        { id: 'ext-dp-3', category: 'Equipamentos', topic: 'Iluminação Externa Blindada contra Vapor (IP65)', docId: 'pdf-8', statusKey: 'ext-pl-2' }
+        { id: 'ext-dp-1', category: 'Layout', topic: 'Caimento de Ralos e Escoamento de Chuvas', docId: 'pdf-1-area_externa', statusKey: 'ext-pl-1' },
+        { id: 'ext-dp-2', category: 'Materiais', topic: 'Impermeabilização de Laje Externa (Manta)', docId: 'pdf-6-area_externa', statusKey: 'ext-pr-1' },
+        { id: 'ext-dp-3', category: 'Equipamentos', topic: 'Iluminação Externa Blindada contra Vapor (IP65)', docId: 'pdf-8-area_externa', statusKey: 'ext-pl-2' }
       ]
     };
     
@@ -59,32 +59,83 @@ class DecisionsController {
   switchDecidirSubTab(subTab) {
     this.activeDecidirSubTab = subTab;
     
-    // Toggle active segment buttons
-    const btnDilemas = document.getElementById('decidir-tab-dilemas');
-    const btnBiblioteca = document.getElementById('decidir-tab-biblioteca');
+    // Toggle areas in DOM
+    const areaProtocolos = document.getElementById('decidir-protocolos-area');
+    const areaGuias = document.getElementById('decidir-guias-area');
     
-    if (subTab === 'dilemas') {
-      if (btnDilemas) btnDilemas.classList.add('active');
-      if (btnBiblioteca) btnBiblioteca.classList.remove('active');
-      
-      const vDilemas = document.getElementById('decidir-dilemas-view');
-      const vBiblioteca = document.getElementById('decidir-biblioteca-view');
-      if (vDilemas) vDilemas.style.display = 'block';
-      if (vBiblioteca) vBiblioteca.style.display = 'none';
-      
-      this.renderDecidirEnvironmentsScroll();
-      this.renderDecidirPontos();
-      this.updateDecidirStats();
-    } else if (subTab === 'biblioteca') {
-      if (btnDilemas) btnDilemas.classList.remove('active');
-      if (btnBiblioteca) btnBiblioteca.classList.add('active');
-      
-      const vDilemas = document.getElementById('decidir-dilemas-view');
-      const vBiblioteca = document.getElementById('decidir-biblioteca-view');
-      if (vDilemas) vDilemas.style.display = 'none';
-      if (vBiblioteca) vBiblioteca.style.display = 'block';
-      
+    if (areaProtocolos && areaGuias) {
+      if (subTab === 'protocolos') {
+        areaProtocolos.style.display = 'block';
+        areaGuias.style.display = 'none';
+      } else {
+        areaProtocolos.style.display = 'none';
+        areaGuias.style.display = 'block';
+        // Render library grid
+        if (this.app.conteudosController) {
+          this.app.conteudosController.renderPdfGrid();
+        }
+      }
+    }
+    
+    // Toggle active classes on buttons
+    const btnProtocolos = document.getElementById('decidir-toggle-btn-protocolos');
+    const btnGuias = document.getElementById('decidir-toggle-btn-guias');
+    
+    if (btnProtocolos && btnGuias) {
+      if (subTab === 'protocolos') {
+        btnProtocolos.classList.add('active');
+        btnGuias.classList.remove('active');
+      } else {
+        btnProtocolos.classList.remove('active');
+        btnGuias.classList.add('active');
+      }
+    }
+    
+    this.updateDecidirStats();
+  }
+
+  openEnvironmentGamma(envId) {
+    if (this.app.paywallController.isEnvironmentLocked(envId)) {
+      this.app.paywallController.triggerEnvironmentPurchase(envId);
+      return;
+    }
+    
+    const urls = {
+      cozinha: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-COZINHA--yvyrdi7dit8yxd7',
+      banheiro: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-BANHEIRO-7ihshc0wsdnwjrl',
+      quarto: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-QUARTO-ndlbc3vlcqroiy2',
+      sala: 'https://gamma.app/docs/PROTOCOLO-DECISAO-SALA-0xaifmkls6novgn',
+      area_externa: 'https://gamma.app/docs/PROTOCOLO-DECISAO-AREA-EXTERNA-jlggd1eqc2obftv'
+    };
+    
+    const url = urls[envId];
+    if (url) {
+      this.app.triggerPushNotification("🧠 ABRINDO PROTOCOLO", `Redirecionando para o protocolo do ambiente...`, "success");
+      setTimeout(() => {
+        window.open(url, '_blank');
+      }, 400);
+    } else {
+      alert("Protocolo indisponível no momento.");
+    }
+  }
+
+  filterDecidirCards() {
+    const input = document.getElementById('decidir-search-input');
+    const query = input ? input.value.trim().toLowerCase() : '';
+    
+    if (this.activeDecidirSubTab === 'protocolos') {
+      const cards = document.querySelectorAll('#decidir-protocolos-grid .glass-card');
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    } else {
       if (this.app.conteudosController) {
+        this.app.conteudosController.librarySearchQuery = query;
         this.app.conteudosController.renderPdfGrid();
       }
     }
@@ -187,46 +238,45 @@ class DecisionsController {
     const listContainer = document.getElementById('protocolos-pdfs-list');
     if (!listContainer) return;
     
-    // Mapeamento dos links reais do Gamma conforme o usuário forneceu
-    const GAMMA_LINKS = {
+    const PROTOCOL_LINKS = {
       cozinha: {
         planejar: [
-          { title: 'Protocolo de Decisão — Cozinha', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-COZINHA--yvyrdi7dit8yxd7' }
+          { title: 'Protocolo de Decisão — Cozinha', url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-COZINHA.pdf', id: 'prot-coz' }
         ],
         prevenir: [],
         proteger: []
       },
       sala: {
         planejar: [
-          { title: 'Protocolo de Decisão — Sala', url: 'https://gamma.app/docs/PROTOCOLO-DECISAO-SALA-0xaifmkls6novgn' }
+          { title: 'Protocolo de Decisão — Sala', url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DECISAO-SALA.pdf', id: 'prot-sal' }
         ],
         prevenir: [],
         proteger: []
       },
       quarto: {
         planejar: [
-          { title: 'Protocolo de Decisão — Quarto', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-QUARTO-ndlbc3vlcqroiy2' }
+          { title: 'Protocolo de Decisão — Quarto', url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-QUARTO.pdf', id: 'prot-qua' }
         ],
         prevenir: [],
         proteger: []
       },
       banheiro: {
         planejar: [
-          { title: 'Protocolo de Decisão — Banheiro', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-BANHEIRO-7ihshc0wsdnwjrl' }
+          { title: 'Protocolo de Decisão — Banheiro', url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-BANHEIRO.pdf', id: 'prot-ban' }
         ],
         prevenir: [],
         proteger: []
       },
       area_externa: {
         planejar: [
-          { title: 'Protocolo de Decisão — Área Externa', url: 'https://gamma.app/docs/PROTOCOLO-DECISAO-AREA-EXTERNA-jlggd1eqc2obftv' }
+          { title: 'Protocolo de Decisão — Área Externa', url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DECISAO-AREA-EXTERNA.pdf', id: 'prot-ext' }
         ],
         prevenir: [],
         proteger: []
       }
     };
 
-    const envLinks = GAMMA_LINKS[this.activeEnvironment] || { planejar: [], prevenir: [], proteger: [] };
+    const envLinks = PROTOCOL_LINKS[this.activeEnvironment] || { planejar: [], prevenir: [], proteger: [] };
     const phaseLinks = envLinks[this.activePhase] || [];
 
     if (phaseLinks.length === 0) {
@@ -266,16 +316,18 @@ class DecisionsController {
   }
 
   compareQuotes(avoidScroll = false) {
+    const parseCurr = (val) => this.app.financeiroController ? this.app.financeiroController.parseInputCurrency(val) : parseFloat(val) || 0;
+
     const s1Name = document.getElementById('quote-s1-name')?.value || "Fornecedor A";
-    const s1Price = parseFloat(document.getElementById('quote-s1-price')?.value) || 0;
+    const s1Price = parseCurr(document.getElementById('quote-s1-price')?.value);
     const s1Risk = parseInt(document.getElementById('quote-s1-risk')?.value) || 0;
 
     const s2Name = document.getElementById('quote-s2-name')?.value || "Fornecedor B";
-    const s2Price = parseFloat(document.getElementById('quote-s2-price')?.value) || 0;
+    const s2Price = parseCurr(document.getElementById('quote-s2-price')?.value);
     const s2Risk = parseInt(document.getElementById('quote-s2-risk')?.value) || 0;
 
     const s3Name = document.getElementById('quote-s3-name')?.value || "Fornecedor C";
-    const s3Price = parseFloat(document.getElementById('quote-s3-price')?.value) || 0;
+    const s3Price = parseCurr(document.getElementById('quote-s3-price')?.value);
     const s3Risk = parseInt(document.getElementById('quote-s3-risk')?.value) || 0;
 
     const suppliers = [];
@@ -539,29 +591,29 @@ class DecisionsController {
   _renderDrawerProtocolPhase(envId, phase, container) {
     if (!container) return;
     
-    const GAMMA_LINKS = {
+    const PROTOCOL_LINKS = {
       cozinha: {
-        planejar: [ { title: 'Protocolo de Decisão — Cozinha', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-COZINHA--yvyrdi7dit8yxd7' } ],
+        planejar: [ { title: 'Protocolo de Decisão — Cozinha', url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-COZINHA.pdf', id: 'prot-coz' } ],
         prevenir: [],
         proteger: []
       },
       sala: {
-        planejar: [ { title: 'Protocolo de Decisão — Sala', url: 'https://gamma.app/docs/PROTOCOLO-DECISAO-SALA-0xaifmkls6novgn' } ],
+        planejar: [ { title: 'Protocolo de Decisão — Sala', url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DECISAO-SALA.pdf', id: 'prot-sal' } ],
         prevenir: [],
         proteger: []
       },
       quarto: {
-        planejar: [ { title: 'Protocolo de Decisão — Quarto', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-QUARTO-ndlbc3vlcqroiy2' } ],
+        planejar: [ { title: 'Protocolo de Decisão — Quarto', url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-QUARTO.pdf', id: 'prot-qua' } ],
         prevenir: [],
         proteger: []
       },
       banheiro: {
-        planejar: [ { title: 'Protocolo de Decisão — Banheiro', url: 'https://gamma.app/docs/PROTOCOLO-DE-DECISAO-BANHEIRO-7ihshc0wsdnwjrl' } ],
+        planejar: [ { title: 'Protocolo de Decisão — Banheiro', url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-BANHEIRO.pdf', id: 'prot-ban' } ],
         prevenir: [],
         proteger: []
       },
       area_externa: {
-        planejar: [ { title: 'Protocolo de Decisão — Área Externa', url: 'https://gamma.app/docs/PROTOCOLO-DECISAO-AREA-EXTERNA-jlggd1eqc2obftv' } ],
+        planejar: [ { title: 'Protocolo de Decisão — Área Externa', url: './MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DECISAO-AREA-EXTERNA.pdf', id: 'prot-ext' } ],
         prevenir: [],
         proteger: []
       }
@@ -569,12 +621,12 @@ class DecisionsController {
     
     let allLinks = [];
     if (envId === 'casa_completa') {
-      Object.keys(GAMMA_LINKS).forEach(key => {
-        const phaseLinks = GAMMA_LINKS[key][phase] || [];
+      Object.keys(PROTOCOL_LINKS).forEach(key => {
+        const phaseLinks = PROTOCOL_LINKS[key][phase] || [];
         allLinks.push(...phaseLinks);
       });
     } else {
-      const envLinks = GAMMA_LINKS[envId] || {};
+      const envLinks = PROTOCOL_LINKS[envId] || {};
       allLinks = envLinks[phase] || [];
     }
     
@@ -829,21 +881,5 @@ class DecisionsController {
       const unlockedCount = this.app.selectedEnvironments.length;
       regDoubtCountEl.textContent = unlockedCount.toString();
     }
-  }
-  filterDecidirCards() {
-    const input = document.getElementById('decidir-search-input');
-    if (!input) return;
-    const query = input.value.toLowerCase().trim();
-    
-    const cards = document.querySelectorAll('#decidir-environments-grid .environment-progress-card');
-    cards.forEach(card => {
-      const envName = (card.getAttribute('data-env-name') || '').toLowerCase();
-      const text = (card.textContent || '').toLowerCase();
-      if (query === '' || envName.includes(query) || text.includes(query)) {
-        card.style.display = '';
-      } else {
-        card.style.display = 'none';
-      }
-    });
   }
 }

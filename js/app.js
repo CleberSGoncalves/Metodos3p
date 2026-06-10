@@ -276,7 +276,8 @@ class AppOrchestrator {
       this.conteudosController.renderProtegerTab();
       this.conteudosController.switchProtegerStep(1, false); // highlight node 1 without scrolling
     } else if (tabId === 'decidir') {
-      this.decisoesController.switchDecidirSubTab(this.decisoesController.activeDecidirSubTab || 'dilemas');
+      this.conteudosController.selectLibraryEnvironment(this.conteudosController.librarySelectedEnvironment || 'cozinha');
+      this.conteudosController.selectLibraryPhase(this.conteudosController.librarySelectedPhase || 'planejar');
     }
 
     // Toggle floating wizard button visibility (only show on Painel / Dashboard tab)
@@ -319,10 +320,41 @@ class AppOrchestrator {
 
   highlightNavButton(tabId, subTabId = null, sectionId = null) {
     const navItems = document.querySelectorAll('.app-navigation-bar .nav-item');
-    navItems.forEach(item => item.classList.remove('active'));
+    navItems.forEach(item => {
+      item.classList.remove('active');
+      item.style.color = '';
+      const icon = item.querySelector('.nav-icon');
+      if (icon) {
+        icon.style.filter = '';
+        icon.style.transform = '';
+      }
+    });
 
     const btn = document.getElementById(`nav-btn-${tabId}`);
-    if (btn) btn.classList.add('active');
+    if (btn) {
+      btn.classList.add('active');
+      let color = '#ff6a00'; // painel default orange
+      let glow = 'rgba(255, 106, 0, 0.4)';
+      if (tabId === 'planejar') {
+        color = '#32d74b'; // green
+        glow = 'rgba(50, 215, 75, 0.4)';
+      } else if (tabId === 'prevenir') {
+        color = '#0088ff'; // blue
+        glow = 'rgba(0, 136, 255, 0.4)';
+      } else if (tabId === 'proteger') {
+        color = '#bf5af2'; // purple
+        glow = 'rgba(191, 90, 242, 0.4)';
+      } else if (tabId === 'decidir') {
+        color = '#bf5af2'; // purple premium
+        glow = 'rgba(191, 90, 242, 0.4)';
+      }
+      btn.style.color = color;
+      const icon = btn.querySelector('.nav-icon');
+      if (icon) {
+        icon.style.filter = `drop-shadow(0 0 4px ${glow})`;
+        icon.style.transform = 'scale(1.1)';
+      }
+    }
   }
 
   // ==========================================================================
@@ -358,24 +390,31 @@ class AppOrchestrator {
     document.getElementById('drawer-expense-overlay').classList.remove('active');
     document.getElementById('exp-desc').value = '';
     document.getElementById('exp-amount').value = '';
+    const planned = document.getElementById('exp-planned-val');
+    if (planned) planned.value = '';
+    const supplier = document.getElementById('exp-supplier');
+    if (supplier) supplier.value = '';
   }
 
   addExpenseSubmit() {
     const desc = document.getElementById('exp-desc').value.trim();
-    const amount = document.getElementById('exp-amount').value;
     const cat = document.getElementById('exp-category').value;
+    const plannedVal = parseFloat(document.getElementById('exp-planned-val').value) || 0;
+    const amount = parseFloat(document.getElementById('exp-amount').value) || 0;
+    const status = document.getElementById('exp-status').value;
     const date = document.getElementById('exp-date').value;
+    const supplier = document.getElementById('exp-supplier').value.trim() || 'Geral';
     
     if (!desc) {
       alert("Por favor, digite a descrição do gasto.");
       return;
     }
-    if (!amount || parseFloat(amount) <= 0) {
-      alert("Por favor, digite um valor monetário válido.");
+    if (amount <= 0 && plannedVal <= 0) {
+      alert("Por favor, insira o valor previsto ou o valor real.");
       return;
     }
     
-    this.financeiroController.addExpense(desc, cat, amount, date);
+    this.financeiroController.addExpense(desc, cat, amount, date, plannedVal, supplier, status);
     this.closeExpenseDrawer();
   }
 
@@ -387,6 +426,97 @@ class AppOrchestrator {
 
   closePdfDrawer() {
     this.conteudosController.closePdfReader();
+  }
+
+  openPlanejarDrawer(type) {
+    const overlay = document.getElementById(`drawer-planejar-${type}-overlay`);
+    if (overlay) {
+      overlay.classList.add('active');
+      if (type === 'orcamento') {
+        const valInput = document.getElementById('form-orcamento-valor');
+        if (valInput) valInput.value = this.financeiroController.investment || '';
+        const obsText = document.getElementById('form-orcamento-obs');
+        if (obsText) obsText.value = localStorage.getItem('reformas_3p_orcamento_obs') || '';
+        const origens = document.getElementsByName('form-orcamento-origem');
+        const savedOrigem = localStorage.getItem('reformas_3p_orcamento_origem') || 'Recursos próprios';
+        origens.forEach(o => {
+          o.checked = o.value === savedOrigem;
+        });
+      } else if (type === 'margem') {
+        const hasMargin = localStorage.getItem('reformas_3p_margem_definida') === 'true';
+        const marginVal = parseFloat(localStorage.getItem('reformas_3p_margem_pct') || '10');
+        const radioSug = document.getElementsByName('form-margem-sug');
+        let matched = false;
+        radioSug.forEach(r => {
+          if (hasMargin && r.value === marginVal.toString()) {
+            r.checked = true;
+            matched = true;
+          } else if (!hasMargin && r.value === '10') {
+            r.checked = true;
+          }
+        });
+        const customContainer = document.getElementById('form-margem-custom-container');
+        const customInput = document.getElementById('form-margem-custom-val');
+        if (!matched && hasMargin) {
+          const radioCustom = Array.from(radioSug).find(r => r.value === 'custom');
+          if (radioCustom) radioCustom.checked = true;
+          if (customContainer) customContainer.style.display = 'block';
+          if (customInput) customInput.value = marginVal;
+        } else {
+          if (customContainer) customContainer.style.display = 'none';
+        }
+      } else if (type === 'prioridades') {
+        this.financeiroController.renderPrioritiesFormList();
+      }
+    }
+  }
+
+  closePlanejarDrawer(type) {
+    const overlay = document.getElementById(`drawer-planejar-${type}-overlay`);
+    if (overlay) overlay.classList.remove('active');
+  }
+
+  openPrevenirDrawer(type) {
+    const overlay = document.getElementById(`drawer-prevenir-${type}-overlay`);
+    if (overlay) {
+      overlay.classList.add('active');
+      if (type === 'comparar') {
+        this.financeiroController.renderQuotesTable();
+      } else if (type === 'compras') {
+        this.financeiroController.renderComprasSemErroTable();
+      } else if (type === 'fornecedores') {
+        this.financeiroController.renderFornecedoresTable();
+      } else if (type === 'pagamentos') {
+        this.financeiroController.renderPagamentosTable();
+      }
+    }
+  }
+
+  closePrevenirDrawer(type) {
+    const overlay = document.getElementById(`drawer-prevenir-${type}-overlay`);
+    if (overlay) overlay.classList.remove('active');
+  }
+
+  openProtegerDrawer(type) {
+    const overlay = document.getElementById(`drawer-proteger-${type}-overlay`);
+    if (overlay) {
+      overlay.classList.add('active');
+      if (type === 'garantias') {
+        this.conteudosController.renderProtegerGarantiasTable();
+      } else if (type === 'contratos') {
+        this.conteudosController.renderProtegerContratosTable();
+      } else if (type === 'pendencias') {
+        this.conteudosController.renderAcompanhamentoObra();
+        this.conteudosController.renderProtegerPendenciasTable();
+      } else if (type === 'checklist') {
+        this.conteudosController.renderProtegerChecklistTable();
+      }
+    }
+  }
+
+  closeProtegerDrawer(type) {
+    const overlay = document.getElementById(`drawer-proteger-${type}-overlay`);
+    if (overlay) overlay.classList.remove('active');
   }
 
   // ==========================================================================
@@ -598,7 +728,13 @@ class AppOrchestrator {
     
     const statsTasks = document.getElementById('profile-stat-tasks');
     const physicalProgress = this.conteudosController.getOverallPhysicalProgress();
-    if (statsTasks) statsTasks.textContent = `${physicalProgress.toFixed(0)}%`;
+    if (statsTasks) {
+      if (physicalProgress === null) {
+        statsTasks.textContent = "-";
+      } else {
+        statsTasks.textContent = `${physicalProgress.toFixed(0)}%`;
+      }
+    }
   }
 
   async resetProjectData() {
@@ -608,7 +744,11 @@ class AppOrchestrator {
       this.financeiroController.budget = 0;
       this.financeiroController.expenses = [];
       this.financeiroController.plannedItems = [];
+      this.financeiroController.priorityItems = [];
       this.conteudosController.tasksProgress = {};
+      this.conteudosController.warranties = [];
+      this.conteudosController.contracts = [];
+      this.conteudosController.pendencias = [];
       
       // 2. Limpar chaves de dados do localStorage (PRESERVANDO o login, token e compras!)
       const keysToRemove = [
@@ -621,7 +761,24 @@ class AppOrchestrator {
         'reformas_3p_crono_durations',
         'reformas_3p_risk_suppliers',
         'reformas_3p_supplier_scores',
-        'reformas_3p_onboarding_finished'
+        'reformas_3p_onboarding_finished',
+        'reformas_3p_orcamento_definido',
+        'reformas_3p_margem_definida',
+        'reformas_3p_margem_pct',
+        'reformas_3p_prioridades_definidas',
+        'reformas_3p_quotes_completed',
+        'reformas_3p_compras_controladas',
+        'reformas_3p_fornecedor_aprovado_registrado',
+        'reformas_3p_pagamentos_registrados',
+        'reformas_3p_garantias_organizadas',
+        'reformas_3p_pendencias_registradas',
+        'reformas_3p_obra_concluida',
+        'reformas_3p_priority_items',
+        'reformas_3p_quotes_saved',
+        'reformas_3p_suppliers_aprovados',
+        'reformas_3p_warranties',
+        'reformas_3p_contracts',
+        'reformas_3p_pendencias'
       ];
       keysToRemove.forEach(k => localStorage.removeItem(k));
       
@@ -1208,6 +1365,34 @@ class AppOrchestrator {
       console.error("Failed to handle Google credential response", e);
       alert("Falha no login com a Conta do Google.");
     }
+  }
+
+  switchAccount() {
+    console.log("Switching account: clearing local session...");
+    const keysToRemove = [
+      'reformas_3p_user_email',
+      'reformas_3p_user_name',
+      'reformas_3p_user_picture',
+      'reformas_3p_user_tier',
+      'reformas_3p_unlocked_rooms',
+      'reformas_3p_onboarding_finished',
+      'reformas_3p_supabase_token',
+      'reformas_3p_wizard_step',
+      'reformas_3p_wizard_data',
+      'reformas_3p_orcamento_definido',
+      'reformas_3p_margem_definida'
+    ];
+    keysToRemove.forEach(key => localStorage.removeItem(key));
+    
+    if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+      google.accounts.id.disableAutoSelect();
+    }
+    
+    if (typeof supabaseDB !== 'undefined' && supabaseDB && typeof supabaseDB.logout === 'function') {
+      supabaseDB.logout();
+    }
+    
+    window.location.reload();
   }
 
   // ==========================================================================

@@ -23,6 +23,28 @@ class ContentsController {
         this.warranties = [];
       }
     }
+
+    // Load contracts
+    this.contracts = [];
+    const savedContracts = localStorage.getItem('reformas_3p_contracts');
+    if (savedContracts) {
+      try {
+        this.contracts = JSON.parse(savedContracts);
+      } catch (e) {
+        this.contracts = [];
+      }
+    }
+
+    // Load pendencias
+    this.pendencias = [];
+    const savedPendencias = localStorage.getItem('reformas_3p_pendencias');
+    if (savedPendencias) {
+      try {
+        this.pendencias = JSON.parse(savedPendencias);
+      } catch (e) {
+        this.pendencias = [];
+      }
+    }
     
     this.cronogramaDurations = {
       stage1: 5,
@@ -164,15 +186,32 @@ class ContentsController {
   }
 
   getOverallPhysicalProgress() {
-    const activeEnvironments = this.app.selectedEnvironments;
-    if (activeEnvironments.length === 0) return 0;
+    if (localStorage.getItem('reformas_3p_obra_concluida') === 'true') return 100;
     
-    let totalProgressSum = 0;
-    activeEnvironments.forEach(envId => {
-      totalProgressSum += this.getEnvironmentProgress(envId);
+    let progress = null;
+    const saved = localStorage.getItem('reformas_3p_acompanhamento');
+    if (saved) {
+      try {
+        progress = JSON.parse(saved);
+      } catch(e) {}
+    }
+    
+    if (!progress || Object.keys(progress).length === 0) {
+      return null; // indicates no physical progress has been input yet
+    }
+    
+    const stages = [
+      "Demolição", "Infraestrutura", "Elétrica", "Hidráulica", 
+      "Revestimentos", "Pintura", "Instalações", "Acabamentos", 
+      "Limpeza Final", "Entrega Final"
+    ];
+    
+    let sum = 0;
+    stages.forEach(stage => {
+      sum += (progress[stage] !== undefined ? progress[stage] : 0);
     });
     
-    return totalProgressSum / activeEnvironments.length;
+    return sum / stages.length;
   }
 
   getEnvironmentProgress(envId) {
@@ -608,20 +647,92 @@ class ContentsController {
   // ==========================================================================
   // PILAR 3.2: PDF Library Grid Renders
   // ==========================================================================
+  selectLibraryEnvironment(envId) {
+    this.librarySelectedEnvironment = envId;
+    
+    // Update active button state
+    ['cozinha', 'banheiro', 'quarto', 'sala', 'area_externa'].forEach(e => {
+      const btn = document.getElementById(`lib-env-btn-${e}`);
+      if (btn) {
+        if (e === envId) {
+          btn.classList.add('active');
+          btn.style.background = 'rgba(191,90,242,0.12)';
+          btn.style.borderColor = 'rgba(191,90,242,0.3)';
+        } else {
+          btn.classList.remove('active');
+          btn.style.background = 'rgba(255,255,255,0.04)';
+          btn.style.borderColor = 'var(--border-glass)';
+        }
+      }
+    });
+    
+    this.renderPdfGrid();
+  }
+
+  selectLibraryPhase(phase) {
+    this.librarySelectedPhase = phase;
+    
+    // Update active button state
+    ['planejar', 'prevenir', 'proteger'].forEach(p => {
+      const btn = document.getElementById(`lib-phase-btn-${p}`);
+      if (btn) {
+        if (p === phase) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+    });
+    
+    this.renderPdfGrid();
+  }
+
   renderPdfGrid() {
     const container = document.getElementById('library-grid-container');
     if (!container) return;
     
     const library = METODO_3P_DATABASE.library;
+    const query = (this.librarySearchQuery || '').toLowerCase().trim();
     
     const filtered = library.filter(pdf => {
-      const matchesCat = this.libraryFilterCategory === 'all' || pdf.category === this.libraryFilterCategory;
-      const matchesSearch = this.librarySearchQuery === '' || 
-        pdf.title.toLowerCase().includes(this.librarySearchQuery.toLowerCase()) ||
-        pdf.desc.toLowerCase().includes(this.librarySearchQuery.toLowerCase()) ||
-        pdf.tags.some(tag => tag.toLowerCase().includes(this.librarySearchQuery.toLowerCase()));
-        
-      return matchesCat && matchesSearch;
+      // 1. Search Query override
+      if (query !== '') {
+        return pdf.title.toLowerCase().includes(query) ||
+               pdf.desc.toLowerCase().includes(query) ||
+               pdf.tags.some(tag => tag.toLowerCase().includes(query));
+      }
+      
+      // 2. Default interactive filters
+      const env = this.librarySelectedEnvironment || 'cozinha';
+      const phase = this.librarySelectedPhase || 'planejar';
+      
+      // Match environment
+      let matchesEnv = false;
+      if (pdf.env === 'general') {
+        matchesEnv = true;
+      } else if (env === 'cozinha') {
+        matchesEnv = pdf.tags.includes('cozinha') || pdf.title.toLowerCase().includes('cozinha');
+      } else if (env === 'banheiro') {
+        matchesEnv = pdf.tags.includes('banheiro') || pdf.title.toLowerCase().includes('banheiro');
+      } else if (env === 'quarto') {
+        matchesEnv = pdf.tags.includes('quarto') || pdf.title.toLowerCase().includes('quarto');
+      } else if (env === 'sala') {
+        matchesEnv = pdf.tags.includes('sala') || pdf.title.toLowerCase().includes('sala') || pdf.tags.includes('sala de estar');
+      } else if (env === 'area_externa') {
+        matchesEnv = pdf.tags.includes('area') || pdf.tags.includes('externa') || pdf.tags.includes('area_externa') || pdf.title.toLowerCase().includes('externa') || pdf.title.toLowerCase().includes('churrasqueira');
+      }
+      
+      // Match phase category
+      let matchesPhase = false;
+      if (phase === 'planejar') {
+        matchesPhase = pdf.category === 'planejamento';
+      } else if (phase === 'prevenir') {
+        matchesPhase = pdf.category === 'financeiro' || pdf.category === 'materiais';
+      } else if (phase === 'proteger') {
+        matchesPhase = pdf.category === 'contratos' || pdf.category === 'tecnico';
+      }
+      
+      return matchesEnv && matchesPhase;
     });
     
     if (filtered.length === 0) {
@@ -629,17 +740,35 @@ class ContentsController {
         <div class="empty-state" style="grid-column: span 2">
           <div class="empty-emoji">🔍</div>
           <h4>Nenhum guia encontrado</h4>
-          <p>Tente buscar por termos simples como 'porcelanato', 'vazamento' ou 'cimento'.</p>
+          <p>Não há guias nesta fase para o ambiente selecionado.</p>
         </div>`;
       return;
     }
     
     container.innerHTML = filtered.map(pdf => {
-      const isLocked = this.app.paywallController.isPdfLocked(pdf.id, pdf.category);
+      const isLocked = pdf.env !== 'general' && this.app.paywallController.isEnvironmentLocked(pdf.env);
+      
+      // Dynamic button labels based on category
+      let premiumActionLabel = '🔓 LIBERAR GUIA';
+      let freeActionLabel = 'LER GUIA AGORA ➔';
+      
+      if (pdf.category === 'planejamento') {
+        premiumActionLabel = '🔓 CONSULTAR GUIA';
+        freeActionLabel = 'CONSULTAR GUIA ➔';
+      } else if (pdf.category === 'financeiro') {
+        premiumActionLabel = '🔓 VER ESTRATÉGIA';
+        freeActionLabel = 'VER ESTRATÉGIA ➔';
+      } else if (pdf.category === 'contratos') {
+        premiumActionLabel = '🔓 ABRIR MINUTA';
+        freeActionLabel = 'ABRIR CONTRATO ➔';
+      } else if (pdf.category === 'tecnico' || pdf.category === 'materiais') {
+        premiumActionLabel = '🔓 ACESSAR MATERIAL';
+        freeActionLabel = 'ACESSAR MATERIAL ➔';
+      }
       
       if (isLocked) {
         return `
-          <div class="premium-pdf-card locked" onclick="window.app.paywallController.showPaywallModal()">
+          <div class="premium-pdf-card locked" onclick="window.app.paywallController.triggerEnvironmentPurchase('${pdf.env}')">
             <div class="premium-pdf-left">
               <div class="pdf-tag-row">
                 <span class="pdf-cat-badge ${pdf.category}">${pdf.category.toUpperCase()}</span>
@@ -648,7 +777,7 @@ class ContentsController {
               <h4 class="pdf-title">${pdf.title}</h4>
               <p class="pdf-desc">${pdf.desc}</p>
               <div class="pdf-card-action">
-                <span class="pdf-action-btn premium">🔓 LIBERAR GUIA PREMIUM</span>
+                <span class="pdf-action-btn premium">${premiumActionLabel}</span>
               </div>
             </div>
             <div class="premium-pdf-right">
@@ -672,7 +801,7 @@ class ContentsController {
             <h4 class="pdf-title">${pdf.title}</h4>
             <p class="pdf-desc">${pdf.desc}</p>
             <div class="pdf-card-action">
-              <span class="pdf-action-btn">LER GUIA AGORA ➔</span>
+              <span class="pdf-action-btn">${freeActionLabel}</span>
             </div>
           </div>
           <div class="premium-pdf-right">
@@ -689,6 +818,12 @@ class ContentsController {
   openPdfReader(id) {
     const pdf = METODO_3P_DATABASE.library.find(p => p.id === id);
     if (!pdf) return;
+    
+    // Check environment paywall lock first
+    if (pdf.env !== 'general' && this.app.paywallController.isEnvironmentLocked(pdf.env)) {
+      this.app.paywallController.triggerEnvironmentPurchase(pdf.env);
+      return;
+    }
     
     // If it is the app manual, open it locally in the drawer so they have a nice local documentation viewer!
     if (id === 'pdf-doc') {
@@ -1312,11 +1447,11 @@ class ContentsController {
       
       return `
         <tr>
-          <td><strong>${task.title}</strong></td>
-          <td>${envData.name}</td>
-          <td>${statusBadge}</td>
-          <td style="font-size: 10px; color: #8c96ab; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${task.desc}</td>
-          <td>${actionBtn}</td>
+          <td data-label="Etapa / Item"><strong>${task.title}</strong></td>
+          <td data-label="Ambiente">${envData.name}</td>
+          <td data-label="Status">${statusBadge}</td>
+          <td data-label="Detalhes / Recomendação" style="font-size: 10px; color: #8c96ab; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${task.desc}</td>
+          <td data-label="Ação">${actionBtn}</td>
         </tr>
       `;
     }).join('');
@@ -1500,44 +1635,537 @@ class ContentsController {
     if (photoEl) photoEl.textContent = `${photosCount} arquivos`;
   }
 
-  updateProtegerSummaryMetrics() {
-    const checkedItemsEl = document.getElementById('proteger-metric-checked-items');
-    const checkedItemsPctEl = document.getElementById('proteger-metric-checked-items-pct');
-    const warrantiesEl = document.getElementById('proteger-metric-warranties');
-    const documentsEl = document.getElementById('proteger-metric-documents');
-    const finalProgressEl = document.getElementById('proteger-metric-final-progress');
+  saveContracts() {
+    localStorage.setItem('reformas_3p_contracts', JSON.stringify(this.contracts));
+    this.updateProtegerSummaryMetrics();
+  }
+
+  savePendencias() {
+    localStorage.setItem('reformas_3p_pendencias', JSON.stringify(this.pendencias));
+    this.updateProtegerSummaryMetrics();
+  }
+
+  saveWarranties() {
+    localStorage.setItem('reformas_3p_warranties', JSON.stringify(this.warranties));
+    this.updateProtegerSummaryMetrics();
+  }
+
+  saveWarrantyFromForm() {
+    const type = document.getElementById('warr-type')?.value || 'Garantia';
+    const supplier = document.getElementById('warr-supplier')?.value.trim();
+    const item = document.getElementById('warr-item')?.value.trim();
+    const duration = document.getElementById('warr-duration')?.value.trim() || 'N/A';
+    const startDate = document.getElementById('warr-date')?.value || new Date().toISOString().split('T')[0];
+    const file = document.getElementById('warr-file')?.value.trim() || '#';
+    const obs = document.getElementById('warr-obs')?.value.trim() || '';
     
-    const activeEnvironments = this.app.selectedEnvironments || ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'];
+    if (!supplier || !item) {
+      alert("Por favor, preencha o Fornecedor e o Item/Produto.");
+      return;
+    }
     
-    let totalTasks = 0;
-    let completedTasks = 0;
+    let years = 1;
+    if (duration.toLowerCase().includes('ano')) {
+      years = parseInt(duration) || 1;
+    } else if (duration.toLowerCase().includes('mes') || duration.toLowerCase().includes('mês')) {
+      years = (parseInt(duration) || 12) / 12;
+    }
     
-    activeEnvironments.forEach(envId => {
-      const envData = METODO_3P_DATABASE.checklists[envId];
-      if (envData && envData.proteger) {
-        envData.proteger.forEach(t => {
-          totalTasks++;
-          if (this.tasksProgress[t.id]) completedTasks++;
-        });
+    let endDate = '';
+    try {
+      const d = new Date(startDate + 'T00:00:00');
+      d.setFullYear(d.getFullYear() + years);
+      endDate = d.toISOString().split('T')[0];
+    } catch(e) {
+      endDate = startDate;
+    }
+    
+    const newWarranty = {
+      id: 'warr-' + Date.now(),
+      type,
+      supplier,
+      item,
+      duration,
+      startDate,
+      endDate,
+      docUrl: file,
+      obs
+    };
+    
+    this.warranties.push(newWarranty);
+    this.saveWarranties();
+    this.renderProtegerGarantiasTable();
+    
+    this.app.triggerPushNotification("🛡️ DOCUMENTO SALVO", `${type} de "${item}" salva com sucesso.`, "success");
+    
+    // Clear form
+    if (document.getElementById('warr-supplier')) document.getElementById('warr-supplier').value = '';
+    if (document.getElementById('warr-item')) document.getElementById('warr-item').value = '';
+    if (document.getElementById('warr-duration')) document.getElementById('warr-duration').value = '';
+    if (document.getElementById('warr-date')) document.getElementById('warr-date').value = '';
+    if (document.getElementById('warr-file')) document.getElementById('warr-file').value = '';
+    if (document.getElementById('warr-obs')) document.getElementById('warr-obs').value = '';
+  }
+
+  deleteWarranty(id) {
+    this.warranties = this.warranties.filter(w => w.id !== id);
+    this.saveWarranties();
+    this.renderProtegerGarantiasTable();
+  }
+
+  renderProtegerGarantiasTable() {
+    const tbody = document.getElementById('proteger-garantias-table-body');
+    if (!tbody) return;
+    
+    if (this.warranties.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #8c96ab; font-size: 11px;">Nenhum documento registrado ainda. Preencha o formulário acima.</td></tr>`;
+      return;
+    }
+    
+    tbody.innerHTML = this.warranties.map(w => {
+      let fStart = w.startDate;
+      try {
+        fStart = new Date(w.startDate + 'T00:00:00').toLocaleDateString('pt-BR');
+      } catch (e) {}
+      
+      const docLink = w.docUrl && w.docUrl !== '#'
+        ? `<a href="#" onclick="alert('Visualização do documento: ${w.docUrl}'); return false;" style="color: #bf5af2; font-weight: 700; text-decoration: none;">Link 📂</a>`
+        : `<span style="color: #8c96ab; font-style: italic;">Sem anexo</span>`;
+        
+      const deleteBtn = `<button class="btn btn-secondary btn-mini" style="padding: 2px 6px; color: var(--color-danger); border: none; background: rgba(255, 59, 48, 0.05); cursor: pointer;" onclick="window.app.conteudosController.deleteWarranty('${w.id}')">✕</button>`;
+      
+      const typeBadge = `<span class="stats-badge" style="background: rgba(191,90,242,0.1); color: #bf5af2; border: 1px solid rgba(191,90,242,0.2); font-size: 9px; padding: 2px 6px;">${w.type || 'Garantia'}</span>`;
+      
+      return `
+        <tr>
+          <td data-label="Tipo">${typeBadge}</td>
+          <td data-label="Fornecedor"><strong>${w.supplier}</strong></td>
+          <td data-label="Item / Descrição">${w.item}</td>
+          <td data-label="Garantia" style="color: #bf5af2; font-weight: 700;">${w.duration}</td>
+          <td data-label="Início">${fStart}</td>
+          <td data-label="Anexo">${docLink}</td>
+          <td data-label="Excluir">${deleteBtn}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  openAddContratoModal() {
+    const service = prompt("Serviço / Objeto do Contrato (Ex: Pintura, Gesso, Obra Geral):");
+    if (!service) return;
+    const provider = prompt("Empresa ou Profissional Contratado:");
+    if (!provider) return;
+    const value = parseFloat(prompt("Valor Total do Contrato (R$):")) || 0;
+    
+    const newContract = {
+      id: 'contract-' + Date.now(),
+      service: service,
+      provider: provider,
+      value: value,
+      date: new Date().toISOString().split('T')[0]
+    };
+    
+    this.contracts.push(newContract);
+    this.saveContracts();
+    this.renderProtegerContratosTable();
+    this.app.triggerPushNotification("📂 CONTRATO INCLUÍDO", `Contrato de "${service}" registrado.`, "success");
+  }
+
+  deleteContract(id) {
+    this.contracts = this.contracts.filter(c => c.id !== id);
+    this.saveContracts();
+    this.renderProtegerContratosTable();
+  }
+
+  renderProtegerContratosTable() {
+    const tbody = document.getElementById('proteger-contratos-tbody');
+    if (!tbody) return;
+    
+    if (this.contracts.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #8c96ab; font-size: 11px;">Nenhum contrato registrado ainda. Clique em "Novo Contrato".</td></tr>`;
+      return;
+    }
+    
+    const fin = this.app.financeiroController;
+    tbody.innerHTML = this.contracts.map(c => {
+      const deleteBtn = `<button class="btn btn-secondary btn-mini" style="padding: 2px 6px; color: var(--color-danger); border: none; background: rgba(255, 59, 48, 0.05); cursor: pointer;" onclick="window.app.conteudosController.deleteContract('${c.id}')">✕</button>`;
+      const formattedValue = fin ? fin.formatCurrency(c.value) : `R$ ${c.value.toFixed(2)}`;
+      return `
+        <tr>
+          <td data-label="Serviço"><strong>${c.service}</strong></td>
+          <td data-label="Contratado">${c.provider}</td>
+          <td data-label="Valor total" style="color: #bf5af2; font-weight: 700;">${formattedValue}</td>
+          <td data-label="Excluir">${deleteBtn}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  renderAcompanhamentoObra() {
+    const container = document.getElementById('proteger-acompanhamento-list');
+    if (!container) return;
+    
+    const stages = [
+      "Demolição", "Infraestrutura", "Elétrica", "Hidráulica", 
+      "Revestimentos", "Pintura", "Instalações", "Acabamentos", 
+      "Limpeza Final", "Entrega Final"
+    ];
+    
+    let progress = {};
+    try {
+      progress = JSON.parse(localStorage.getItem('reformas_3p_acompanhamento') || '{}');
+    } catch(e) {}
+    
+    container.innerHTML = stages.map((stage, idx) => {
+      const currentPct = progress[stage] !== undefined ? progress[stage] : 0;
+      
+      const pctOptions = [0, 25, 50, 75, 100];
+      const buttonsHtml = pctOptions.map(pct => {
+        const isActive = currentPct === pct;
+        let btnBg = 'transparent';
+        let borderCol = 'rgba(255,255,255,0.1)';
+        if (isActive) {
+          btnBg = pct === 100 ? '#30d158' : '#bf5af2';
+          borderCol = pct === 100 ? '#30d158' : '#bf5af2';
+        }
+        return `
+          <button type="button" class="btn-stage-pct" onclick="window.app.conteudosController.setStageProgress('${stage}', ${pct})" style="padding: 4px 6px; font-size: 9px; font-weight: bold; border-radius: 4px; border: 1px solid ${borderCol}; background: ${btnBg}; color: #fff; cursor: pointer; min-width: 36px; transition: all 0.2s;">
+            ${pct}%
+          </button>
+        `;
+      }).join('');
+      
+      return `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.04); border-radius: 6px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 10px; color: #8c96ab; width: 18px;">${idx + 1}.</span>
+            <span style="font-size: 11px; font-weight: 700; color: #fff;">${stage}</span>
+          </div>
+          <div style="display: flex; gap: 4px; align-items: center;">
+            ${buttonsHtml}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  setStageProgress(stage, pct) {
+    let progress = {};
+    try {
+      progress = JSON.parse(localStorage.getItem('reformas_3p_acompanhamento') || '{}');
+    } catch(e) {}
+    
+    progress[stage] = pct;
+    localStorage.setItem('reformas_3p_acompanhamento', JSON.stringify(progress));
+    
+    this.renderAcompanhamentoObra();
+    
+    // Update central stats
+    this.app.financeiroController.updateDashboard();
+  }
+
+  savePendenciaFromForm() {
+    const detail = document.getElementById('pend-detail')?.value.trim();
+    const responsible = document.getElementById('pend-responsible')?.value.trim() || 'Empreiteiro';
+    const deadline = document.getElementById('pend-deadline')?.value.trim() || 'N/A';
+    const status = document.getElementById('pend-status')?.value || 'Aberta';
+    const photo = document.getElementById('pend-photo')?.value.trim() || '#';
+    
+    if (!detail) {
+      alert("Por favor, preencha a descrição da pendência.");
+      return;
+    }
+    
+    const newPendencia = {
+      id: 'pend-' + Date.now(),
+      detail,
+      responsible,
+      deadline,
+      status,
+      photo
+    };
+    
+    this.pendencias.push(newPendencia);
+    this.savePendencias();
+    this.renderProtegerPendenciasTable();
+    
+    this.app.triggerPushNotification("📋 PENDÊNCIA SALVA", `Pendência registrada com sucesso.`, "warning");
+    
+    // Clear form
+    if (document.getElementById('pend-detail')) document.getElementById('pend-detail').value = '';
+    if (document.getElementById('pend-responsible')) document.getElementById('pend-responsible').value = '';
+    if (document.getElementById('pend-deadline')) document.getElementById('pend-deadline').value = '';
+    if (document.getElementById('pend-photo')) document.getElementById('pend-photo').value = '';
+  }
+
+  deletePendencia(id) {
+    this.pendencias = this.pendencias.filter(p => p.id !== id);
+    this.savePendencias();
+    this.renderProtegerPendenciasTable();
+  }
+
+  togglePendenciaNextStatus(id) {
+    const pend = this.pendencias.find(p => p.id === id);
+    if (!pend) return;
+    const order = ['Aberta', 'Em andamento', 'Resolvida', 'Cancelada'];
+    let idx = order.indexOf(pend.status);
+    if (idx === -1) idx = 0;
+    pend.status = order[(idx + 1) % order.length];
+    this.savePendencias();
+    this.renderProtegerPendenciasTable();
+  }
+
+  renderProtegerPendenciasTable() {
+    const tbody = document.getElementById('proteger-pendencias-tbody');
+    if (!tbody) return;
+    
+    if (this.pendencias.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #8c96ab; font-size: 11px;">Nenhuma pendência registrada ainda.</td></tr>`;
+      return;
+    }
+    
+    tbody.innerHTML = this.pendencias.map(p => {
+      const deleteBtn = `<button class="btn btn-secondary btn-mini" style="padding: 2px 6px; color: var(--color-danger); border: none; background: rgba(255, 59, 48, 0.05); cursor: pointer;" onclick="window.app.conteudosController.deletePendencia('${p.id}')">✕</button>`;
+      
+      const statusColors = {
+        'Aberta': 'background: rgba(255,59,48,0.1); color: var(--color-danger); border: 1px solid rgba(255,59,48,0.2);',
+        'Em andamento': 'background: rgba(255,159,10,0.1); color: var(--color-warning); border: 1px solid rgba(255,159,10,0.2);',
+        'Resolvida': 'background: rgba(38,208,124,0.1); color: var(--color-success); border: 1px solid rgba(38,208,124,0.2);',
+        'Cancelada': 'background: rgba(255,255,255,0.05); color: #8c96ab; border: 1px solid rgba(255,255,255,0.1);'
+      };
+      
+      const statusBadge = `<span class="stats-badge" style="font-size: 9px; padding: 4px 8px; border-radius: 4px; cursor: pointer; ${statusColors[p.status] || ''}" onclick="window.app.conteudosController.togglePendenciaNextStatus('${p.id}')">${p.status}</span>`;
+      
+      return `
+        <tr>
+          <td data-label="Pendência"><strong>${p.detail}</strong></td>
+          <td data-label="Responsável">${p.responsible}</td>
+          <td data-label="Prazo limite">${p.deadline}</td>
+          <td data-label="Status">${statusBadge}</td>
+          <td data-label="Excluir">${deleteBtn}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  renderProtegerChecklistTable() {
+    const container = document.getElementById('vistoria-checklist-container');
+    if (!container) return;
+    
+    const items = [
+      { id: "v1", title: "🔌 Elétrica testada", desc: "Tomadas, lâmpadas, disjuntores e fiação verificados." },
+      { id: "v2", title: "🚿 Hidráulica testada", desc: "Vazamentos, ralos, fluxo de água e pressão checados." },
+      { id: "v3", title: "✨ Acabamentos revisados", desc: "Pintura, gesso, rodapés e rejuntes sem falhas visíveis." },
+      { id: "v4", title: "🚪 Portas funcionando", desc: "Dobradiças, fechaduras e fechamento perfeitos." },
+      { id: "v5", title: "🪟 Janelas funcionando", desc: "Correr suave, travas e esquadrias vedadas." },
+      { id: "v6", title: "💡 Iluminação funcionando", desc: "Todos os spots, lustres e fitas de LED acesos." },
+      { id: "v7", title: "🛡️ Garantias anexadas", desc: "Todos os manuais e termos guardados no app." },
+      { id: "v8", title: "📁 Contratos arquivados", desc: "Todos os acordos de prestação de serviço assinados." },
+      { id: "v9", title: "📋 Pendências resolvidas", desc: "Nenhum erro grave pendente de correção." },
+      { id: "v10", title: "🧹 Limpeza final realizada", desc: "Canteiro limpo, resíduos e entulho descartados." }
+    ];
+    
+    let checked = {};
+    try {
+      checked = JSON.parse(localStorage.getItem('reformas_3p_checklist_final') || '{}');
+    } catch(e) {}
+    
+    let completedCount = 0;
+    container.innerHTML = items.map(item => {
+      const isChecked = !!checked[item.id];
+      if (isChecked) completedCount++;
+      
+      return `
+        <label style="display: flex; align-items: flex-start; gap: 10px; padding: 10px; background: rgba(0,0,0,0.15); border-radius: 8px; border: 1px solid rgba(255,255,255,0.04); cursor: pointer;">
+          <input type="checkbox" style="margin-top: 3px;" ${isChecked ? 'checked' : ''} onchange="window.app.conteudosController.toggleChecklistFinalItem('${item.id}', this.checked)">
+          <div>
+            <strong style="font-size: 12px; color: #fff; display: block;">${item.title}</strong>
+            <span style="font-size: 10px; color: #8c96ab;">${item.desc}</span>
+          </div>
+        </label>
+      `;
+    }).join('');
+    
+    const pct = items.length > 0 ? (completedCount / items.length) * 100 : 0;
+    const txt = document.getElementById('proteger-checklist-concluidos-text');
+    if (txt) {
+      txt.textContent = `${completedCount} de ${items.length} (${pct.toFixed(0)}%)`;
+    }
+  }
+
+  toggleChecklistFinalItem(id, isChecked) {
+    let checked = {};
+    try {
+      checked = JSON.parse(localStorage.getItem('reformas_3p_checklist_final') || '{}');
+    } catch(e) {}
+    
+    checked[id] = isChecked;
+    localStorage.setItem('reformas_3p_checklist_final', JSON.stringify(checked));
+    
+    this.renderProtegerChecklistTable();
+    this.updateProtegerSummaryMetrics();
+  }
+
+  finalizarReforma() {
+    let checked = {};
+    try {
+      checked = JSON.parse(localStorage.getItem('reformas_3p_checklist_final') || '{}');
+    } catch(e) {}
+    
+    const checkedCount = Object.values(checked).filter(v => v).length;
+    if (checkedCount < 10) {
+      alert("Atenção: É recomendado concluir todos os 10 itens de vistoria técnica antes de finalizar a reforma.");
+      if (!confirm("Deseja finalizar mesmo com vistorias pendentes?")) return;
+    }
+    
+    const resultado = document.getElementById('vistoria-resultado')?.value || 'aprovado';
+    const obs = document.getElementById('vistoria-obs')?.value.trim() || '';
+    const fotos = document.getElementById('vistoria-fotos')?.value.trim() || '';
+    
+    localStorage.setItem('reformas_3p_obra_concluida', 'true');
+    localStorage.setItem('reformas_3p_vistoria_resultado', resultado);
+    localStorage.setItem('reformas_3p_vistoria_obs', obs);
+    localStorage.setItem('reformas_3p_vistoria_fotos', fotos);
+    
+    // Set all stage progress to 100%
+    const stages = [
+      "Demolição", "Infraestrutura", "Elétrica", "Hidráulica", 
+      "Revestimentos", "Pintura", "Instalações", "Acabamentos", 
+      "Limpeza Final", "Entrega Final"
+    ];
+    let progress = {};
+    stages.forEach(s => progress[s] = 100);
+    localStorage.setItem('reformas_3p_acompanhamento', JSON.stringify(progress));
+    
+    this.app.financeiroController.updateDashboard();
+    window.app.closeProtegerDrawer('checklist');
+    
+    // Switch to Painel to show completed state
+    this.app.switchTab('painel');
+    
+    this.app.triggerPushNotification(
+      "🏆 REFORMA CONCLUÍDA!",
+      "Parabéns! Sua reforma foi finalizada seguindo o Método 3P.",
+      "success"
+    );
+  }
+
+  renderProtegerRelatorioFinal() {
+    const fin = this.app.financeiroController;
+    if (!fin) return;
+    
+    const totalSpent = fin.getTotalSpent();
+    const budget = fin.budget;
+    const economy = budget - totalSpent;
+    
+    const budgetEl = document.getElementById('report-metric-budget');
+    const executedEl = document.getElementById('report-metric-executed');
+    const economyEl = document.getElementById('report-metric-economy');
+    
+    if (budgetEl) budgetEl.textContent = fin.formatCurrency(budget);
+    if (executedEl) executedEl.textContent = fin.formatCurrency(totalSpent);
+    if (economyEl) {
+      economyEl.textContent = fin.formatCurrency(Math.max(0, economy));
+      economyEl.style.color = economy >= 0 ? '#32d74b' : '#ff453a';
+    }
+    
+    // Update doc counters
+    const nfEl = document.getElementById('report-doc-count-nfs');
+    const contractEl = document.getElementById('report-doc-count-contracts');
+    const warrantyEl = document.getElementById('report-doc-count-warranties');
+    const receiptEl = document.getElementById('report-doc-count-receipts');
+    const photoEl = document.getElementById('report-doc-count-photos');
+    
+    const invoiceExpenses = fin.expenses.filter(e => e.status === 'pago');
+    const pendingExpenses = fin.expenses.filter(e => e.status === 'a_pagar');
+    
+    if (nfEl) nfEl.textContent = `${invoiceExpenses.length} arquivos`;
+    if (contractEl) contractEl.textContent = `${Math.min(3, fin.expenses.length)} arquivos`;
+    if (warrantyEl) warrantyEl.textContent = `${this.warranties.length} arquivos`;
+    if (receiptEl) receiptEl.textContent = `${pendingExpenses.length} arquivos`;
+    
+    let photosCount = 0;
+    const allEnvIds = ['cozinha', 'banheiro', 'sala', 'quarto', 'area_externa'];
+    allEnvIds.forEach(envId => {
+      const savedPhotos = localStorage.getItem(`reformas_3p_photos_${envId}`);
+      if (savedPhotos) {
+        try {
+          const list = JSON.parse(savedPhotos);
+          photosCount += list.length;
+        } catch (e) {}
       }
     });
+    if (photoEl) photoEl.textContent = `${photosCount} arquivos`;
+  }
+
+  updateProtegerSummaryMetrics() {
+    const hasGarantias = this.warranties.length > 0;
+    const hasContratos = this.contracts.length > 0;
     
-    if (checkedItemsEl) checkedItemsEl.textContent = `${completedTasks} / ${totalTasks}`;
-    if (checkedItemsPctEl) {
-      const pct = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
-      checkedItemsPctEl.textContent = `${pct.toFixed(0)}% concluído`;
+    let checklistPercent = 0;
+    let checked = {};
+    try {
+      checked = JSON.parse(localStorage.getItem('reformas_3p_checklist_final') || '{}');
+      const checkedCount = Object.values(checked).filter(v => v).length;
+      checklistPercent = (checkedCount / 10) * 100;
+    } catch(e) {}
+    
+    let progress = {};
+    try {
+      progress = JSON.parse(localStorage.getItem('reformas_3p_acompanhamento') || '{}');
+    } catch(e) {}
+    const hasAcompanhamento = Object.keys(progress).length > 0;
+    
+    const chkGarantias = document.getElementById('chk-garantias-status');
+    const chkContratos = document.getElementById('chk-contratos-status');
+    const chkAcompanhamentos = document.getElementById('chk-acompanhamentos-status');
+    const chkChecklist = document.getElementById('chk-checklist-status');
+    
+    if (chkGarantias) chkGarantias.textContent = hasGarantias ? '🟢' : '⚪';
+    if (chkContratos) chkContratos.textContent = hasContratos ? '🟢' : '⚪';
+    if (chkAcompanhamentos) chkAcompanhamentos.textContent = hasAcompanhamento ? '🟢' : '⚪';
+    if (chkChecklist) chkChecklist.textContent = checklistPercent > 0 ? '🟢' : '⚪';
+    
+    const progressPercent = Math.round(
+      (hasGarantias ? 25 : 0) +
+      (hasContratos ? 25 : 0) +
+      (hasAcompanhamento ? 25 : 0) +
+      (checklistPercent * 0.25)
+    );
+    
+    const progressCircle = document.getElementById('proteger-progress-circle');
+    const progressText = document.getElementById('proteger-progress-text');
+    
+    if (progressCircle) {
+      progressCircle.style.strokeDasharray = `${progressPercent}, 100`;
+    }
+    if (progressText) {
+      progressText.textContent = `${progressPercent}%`;
     }
     
-    if (warrantiesEl) warrantiesEl.textContent = this.warranties.length.toString();
-    
-    let docsCount = this.warranties.length;
-    const fin = this.app.financeiroController;
-    if (fin) {
-      docsCount += fin.expenses.length;
+    const timelineText = document.getElementById('proteger-timeline-progress-text');
+    if (timelineText) {
+      timelineText.textContent = `${progressPercent}% concluído`;
     }
-    if (documentsEl) documentsEl.textContent = docsCount.toString();
     
-    const overallProgress = this.getPhaseProgress('proteger') || 0;
-    if (finalProgressEl) finalProgressEl.textContent = `${overallProgress.toFixed(0)}%`;
+    const gPct = document.getElementById('proteger-garantias-pct');
+    const gBar = document.getElementById('proteger-garantias-bar');
+    if (gPct) gPct.textContent = hasGarantias ? '100%' : '0%';
+    if (gBar) gBar.style.width = hasGarantias ? '100%' : '0%';
+
+    const cPct = document.getElementById('proteger-contratos-pct');
+    const cBar = document.getElementById('proteger-contratos-bar');
+    if (cPct) cPct.textContent = hasContratos ? '100%' : '0%';
+    if (cBar) cBar.style.width = hasContratos ? '100%' : '0%';
+
+    const pPct = document.getElementById('proteger-pendencias-pct');
+    const pBar = document.getElementById('proteger-pendencias-bar');
+    if (pPct) pPct.textContent = hasAcompanhamento ? '100%' : '0%';
+    if (pBar) pBar.style.width = hasAcompanhamento ? '100%' : '0%';
+
+    const fPct = document.getElementById('proteger-final-pct');
+    const fBar = document.getElementById('proteger-final-bar');
+    if (fPct) fPct.textContent = `${checklistPercent.toFixed(0)}%`;
+    if (fBar) fBar.style.width = `${checklistPercent}%`;
   }
 }
