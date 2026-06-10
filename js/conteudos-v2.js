@@ -843,11 +843,16 @@ class ContentsController {
             </div>
           `;
         } else {
-          // It's a local PDF file, embed it via iframe
+          // It's a local PDF file, embed it securely via Canvas
           const encodedUrl = encodeURI(pdf.url);
           simulatedPages.innerHTML = `
-            <iframe src="${encodedUrl}" width="100%" height="80vh" style="border: none; border-radius: 12px; background: #fff; min-height: 500px;"></iframe>
+            <div id="pdf-render-container" style="width: 100%; height: 80vh; overflow-y: auto; background: #2a2a2a; border-radius: 12px; text-align: center; padding: 20px 0; -webkit-overflow-scrolling: touch;">
+               <div id="pdf-loading-indicator" style="color: #fff; font-size: 14px; font-weight: bold; margin-top: 50px;">
+                 <span style="display: inline-block; animation: pulse 1.5s infinite;">Carregando visualizador seguro...</span>
+               </div>
+            </div>
           `;
+          this.renderSecurePdf(encodedUrl);
         }
       }
       
@@ -883,6 +888,73 @@ class ContentsController {
 
   closePdfReader() {
     document.getElementById('drawer-pdf-overlay').classList.remove('active');
+  }
+
+  async renderSecurePdf(pdfUrl) {
+    try {
+      const container = document.getElementById('pdf-render-container');
+      if (!container) return;
+
+      if (typeof pdfjsLib === 'undefined') {
+        throw new Error("A biblioteca PDF.js não carregou a tempo.");
+      }
+
+      const loadingTask = pdfjsLib.getDocument(pdfUrl);
+      const pdf = await loadingTask.promise;
+      
+      const loadingIndicator = document.getElementById('pdf-loading-indicator');
+      if (loadingIndicator) loadingIndicator.style.display = 'none';
+      
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        
+        const viewportForScale = page.getViewport({ scale: 1.0 });
+        const containerWidth = container.clientWidth - 40; // 40px padding
+        
+        let scale = containerWidth / viewportForScale.width;
+        // Cap the scale for ultra-wide screens to not be blurry
+        if (scale > 2.0) scale = 2.0;
+        // Boost scale slightly for mobile to make text clearer
+        if (window.innerWidth <= 768) scale = scale * 1.5;
+        
+        const viewport = page.getViewport({ scale: scale });
+        
+        const wrapper = document.createElement('div');
+        wrapper.style.marginBottom = '16px';
+        wrapper.style.display = 'flex';
+        wrapper.style.justifyContent = 'center';
+        wrapper.style.width = '100%';
+        wrapper.style.padding = '0 10px';
+        
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvas.style.boxShadow = "0 4px 15px rgba(0,0,0,0.3)";
+        canvas.style.borderRadius = "8px";
+        canvas.style.maxWidth = "100%";
+        canvas.style.height = "auto";
+        canvas.style.background = "#fff";
+        
+        // Anti-piracy measure: Disable right click context menu to prevent easy saving
+        canvas.oncontextmenu = function(e) { e.preventDefault(); return false; };
+        
+        wrapper.appendChild(canvas);
+        container.appendChild(wrapper);
+        
+        const renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        };
+        await page.render(renderContext).promise;
+      }
+    } catch (error) {
+      console.error('Error rendering PDF:', error);
+      const container = document.getElementById('pdf-render-container');
+      if (container) {
+        container.innerHTML = `<div style="color: #ff3b30; padding: 20px; font-weight: bold;">⚠️ Erro ao carregar o PDF protegido. Tente novamente mais tarde.</div>`;
+      }
+    }
   }
 
   searchLibrary() {
