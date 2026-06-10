@@ -866,10 +866,12 @@ class ContentsController {
             let initialDist = 0;
             let initialZoom = 1.0;
             let lastTap = 0;
+            let wasPinching = false;
             
             containerEl.addEventListener('touchstart', (e) => {
               if (e.touches.length === 2) {
                 e.preventDefault();
+                wasPinching = true;
                 initialDist = Math.hypot(
                   e.touches[0].clientX - e.touches[1].clientX,
                   e.touches[0].clientY - e.touches[1].clientY
@@ -881,6 +883,7 @@ class ContentsController {
             containerEl.addEventListener('touchmove', (e) => {
               if (e.touches.length === 2 && initialDist > 0) {
                 e.preventDefault();
+                wasPinching = true;
                 const dist = Math.hypot(
                   e.touches[0].clientX - e.touches[1].clientX,
                   e.touches[0].clientY - e.touches[1].clientY
@@ -913,27 +916,35 @@ class ContentsController {
                 }
               }
               
-              // Double tap toggle zoom (100% <=> 175%)
-              const currentTime = new Date().getTime();
-              const tapLength = currentTime - lastTap;
-              if (tapLength < 300 && tapLength > 0) {
-                e.preventDefault();
-                if (this.pdfZoom > 1.2) {
-                  this.pdfZoom = 1.0;
-                } else {
-                  this.pdfZoom = 1.75;
-                }
-                
-                const zoomLevelEl = document.getElementById('pdf-zoom-level');
-                if (zoomLevelEl) zoomLevelEl.textContent = `${Math.round(this.pdfZoom * 100)}%`;
-                
-                const wrapper = document.getElementById('pdf-canvas-wrapper');
-                if (wrapper) {
-                  wrapper.style.transition = 'width 0.3s ease';
-                  wrapper.style.width = `${this.pdfZoom * 100}%`;
-                }
+              if (e.touches.length === 0) {
+                setTimeout(() => {
+                  wasPinching = false;
+                }, 300);
               }
-              lastTap = currentTime;
+              
+              // Double tap toggle zoom (100% <=> 175%)
+              if (!wasPinching) {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                if (tapLength < 300 && tapLength > 0) {
+                  e.preventDefault();
+                  if (this.pdfZoom > 1.2) {
+                    this.pdfZoom = 1.0;
+                  } else {
+                    this.pdfZoom = 1.75;
+                  }
+                  
+                  const zoomLevelEl = document.getElementById('pdf-zoom-level');
+                  if (zoomLevelEl) zoomLevelEl.textContent = `${Math.round(this.pdfZoom * 100)}%`;
+                  
+                  const wrapper = document.getElementById('pdf-canvas-wrapper');
+                  if (wrapper) {
+                    wrapper.style.transition = 'width 0.3s ease';
+                    wrapper.style.width = `${this.pdfZoom * 100}%`;
+                  }
+                }
+                lastTap = currentTime;
+              }
             });
           }
         }
@@ -1067,26 +1078,6 @@ class ContentsController {
           viewport: viewport
         };
         await page.render(renderContext).promise;
-        
-        // Draw Dynamic Watermark with User Email (Anti-Screenshot Measure)
-        // Make the watermark extremely subtle (thin, light grey and spaced out) so it is perfectly readable
-        const userEmail = (this.app.userEmail || "Material Protegido").toUpperCase();
-        context.save();
-        context.font = "normal " + (viewport.width * 0.016) + "px Arial"; // Thinner, slightly smaller font
-        context.fillStyle = "rgba(120, 120, 120, 0.04)"; // Extremely subtle opacity (4%) to keep text perfectly legible
-        context.translate(canvas.width / 2, canvas.height / 2);
-        context.rotate(-Math.PI / 4); // 45 degrees diagonal
-        context.textAlign = "center";
-        
-        // Repeat watermark across the page with much larger spacing (less dense grid)
-        const spacingX = viewport.width * 0.75;
-        const spacingY = viewport.height * 0.35;
-        for(let i = -canvas.width; i < canvas.width; i += spacingX) {
-          for(let j = -canvas.height; j < canvas.height; j += spacingY) {
-            context.fillText(userEmail, i, j);
-          }
-        }
-        context.restore();
       }
     } catch (error) {
       console.error('Error rendering PDF:', error);
