@@ -1769,9 +1769,16 @@
           </div>
           
           <div class="drawer-body pdf-viewer-body">
-            <div class="pdf-meta-header">
-              <span class="pdf-tag" id="pdf-reader-category">PLANEJAMENTO</span>
-              <span class="pdf-pages-badge">📄 14 Páginas • Leitura Offline</span>
+            <div class="pdf-meta-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <span class="pdf-tag" id="pdf-reader-category">PLANEJAMENTO</span>
+                <span class="pdf-pages-badge">📄 Leitura Segura</span>
+              </div>
+              <div class="pdf-zoom-controls" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 2px 8px;">
+                <button onclick="window.app.conteudosController.zoomPdf(-0.25)" style="background:none; border:none; color:white; font-size: 18px; padding: 0 10px; cursor: pointer;">-</button>
+                <span id="pdf-zoom-level" style="font-size: 12px; font-weight: bold; width: 45px; text-align: center;">100%</span>
+                <button onclick="window.app.conteudosController.zoomPdf(0.25)" style="background:none; border:none; color:white; font-size: 18px; padding: 0 10px; cursor: pointer;">+</button>
+              </div>
             </div>
             <div class="pdf-simulated-pages">
               <!-- Content injected here -->

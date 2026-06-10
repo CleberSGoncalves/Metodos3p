@@ -816,6 +816,10 @@ class ContentsController {
   }
 
   openPdfReader(id) {
+    this.pdfZoom = 1.0;
+    const zoomLevelEl = document.getElementById('pdf-zoom-level');
+    if (zoomLevelEl) zoomLevelEl.textContent = '100%';
+
     const pdf = METODO_3P_DATABASE.library.find(p => p.id === id);
     if (!pdf) return;
     
@@ -846,9 +850,11 @@ class ContentsController {
           // It's a local PDF file, embed it securely via Canvas
           const encodedUrl = encodeURI(pdf.url);
           simulatedPages.innerHTML = `
-            <div id="pdf-render-container" style="width: 100%; height: 80vh; overflow-y: auto; background: #2a2a2a; border-radius: 12px; text-align: center; padding: 20px 0; -webkit-overflow-scrolling: touch;">
-               <div id="pdf-loading-indicator" style="color: #fff; font-size: 14px; font-weight: bold; margin-top: 50px;">
-                 <span style="display: inline-block; animation: pulse 1.5s infinite;">Carregando visualizador seguro...</span>
+            <div id="pdf-render-container" style="width: 100%; height: 80vh; overflow: auto; background: #2a2a2a; border-radius: 12px; text-align: center; padding: 20px 0; -webkit-overflow-scrolling: touch;">
+               <div id="pdf-canvas-wrapper" style="width: 100%; transition: width 0.3s ease; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+                 <div id="pdf-loading-indicator" style="color: #fff; font-size: 14px; font-weight: bold; margin-top: 50px;">
+                   <span style="display: inline-block; animation: pulse 1.5s infinite;">Carregando visualizador seguro...</span>
+                 </div>
                </div>
             </div>
           `;
@@ -857,6 +863,23 @@ class ContentsController {
       }
       
       if (overlay) overlay.classList.add('active');
+      
+      // Anti-screenshot listener
+      this.antiScreenshotListener = (e) => {
+        if (e.key === "PrintScreen" || (e.ctrlKey && (e.key === "p" || e.key === "s"))) {
+          e.preventDefault();
+          this.app.triggerPushNotification("⚠️ AÇÃO BLOQUEADA", "A captura ou cópia de tela é restrita por direitos autorais.", "danger");
+          const overlay = document.getElementById('drawer-pdf-overlay');
+          if (overlay) overlay.style.display = 'none'; // Flash hide
+          setTimeout(() => { if(overlay) overlay.style.display = 'flex'; }, 2000);
+          
+          // Clear clipboard
+          navigator.clipboard.writeText("Conteúdo protegido.").catch(()=>{});
+        }
+      };
+      window.addEventListener('keyup', this.antiScreenshotListener);
+      window.addEventListener('keydown', this.antiScreenshotListener);
+      
       return;
     }
     
@@ -886,14 +909,33 @@ class ContentsController {
     }, 400);
   }
 
+  zoomPdf(delta) {
+    if (!this.pdfZoom) this.pdfZoom = 1.0;
+    this.pdfZoom += delta;
+    if (this.pdfZoom < 0.5) this.pdfZoom = 0.5;
+    if (this.pdfZoom > 3.0) this.pdfZoom = 3.0;
+    
+    const zoomLevelEl = document.getElementById('pdf-zoom-level');
+    if (zoomLevelEl) zoomLevelEl.textContent = `${Math.round(this.pdfZoom * 100)}%`;
+    
+    const wrapper = document.getElementById('pdf-canvas-wrapper');
+    if (wrapper) {
+      wrapper.style.width = `${this.pdfZoom * 100}%`;
+    }
+  }
+
   closePdfReader() {
     document.getElementById('drawer-pdf-overlay').classList.remove('active');
+    if (this.antiScreenshotListener) {
+      window.removeEventListener('keyup', this.antiScreenshotListener);
+      window.removeEventListener('keydown', this.antiScreenshotListener);
+    }
   }
 
   async renderSecurePdf(pdfUrl) {
     try {
-      const container = document.getElementById('pdf-render-container');
-      if (!container) return;
+      const wrapper = document.getElementById('pdf-canvas-wrapper');
+      if (!wrapper) return;
 
       if (typeof pdfjsLib === 'undefined') {
         throw new Error("A biblioteca PDF.js não carregou a tempo.");
@@ -909,22 +951,21 @@ class ContentsController {
         const page = await pdf.getPage(pageNum);
         
         const viewportForScale = page.getViewport({ scale: 1.0 });
+        const container = document.getElementById('pdf-render-container');
         const containerWidth = container.clientWidth - 40; // 40px padding
         
         let scale = containerWidth / viewportForScale.width;
-        // Cap the scale for ultra-wide screens to not be blurry
-        if (scale > 2.0) scale = 2.0;
-        // Boost scale slightly for mobile to make text clearer
-        if (window.innerWidth <= 768) scale = scale * 1.5;
+        // Render at a higher resolution (e.g. 2x) for sharpness when zooming
+        scale = scale * 2.0; 
         
         const viewport = page.getViewport({ scale: scale });
         
-        const wrapper = document.createElement('div');
-        wrapper.style.marginBottom = '16px';
-        wrapper.style.display = 'flex';
-        wrapper.style.justifyContent = 'center';
-        wrapper.style.width = '100%';
-        wrapper.style.padding = '0 10px';
+        const pageContainer = document.createElement('div');
+        pageContainer.style.marginBottom = '16px';
+        pageContainer.style.display = 'flex';
+        pageContainer.style.justifyContent = 'center';
+        pageContainer.style.width = '100%';
+        pageContainer.style.padding = '0 10px';
         
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
@@ -932,27 +973,48 @@ class ContentsController {
         canvas.width = viewport.width;
         canvas.style.boxShadow = "0 4px 15px rgba(0,0,0,0.3)";
         canvas.style.borderRadius = "8px";
-        canvas.style.maxWidth = "100%";
+        canvas.style.width = "100%"; // CSS width 100% of the wrapper
         canvas.style.height = "auto";
         canvas.style.background = "#fff";
+        canvas.style.userSelect = "none";
+        canvas.style.pointerEvents = "none"; // Disable all interaction
         
         // Anti-piracy measure: Disable right click context menu to prevent easy saving
         canvas.oncontextmenu = function(e) { e.preventDefault(); return false; };
         
-        wrapper.appendChild(canvas);
-        container.appendChild(wrapper);
+        pageContainer.appendChild(canvas);
+        wrapper.appendChild(pageContainer);
         
         const renderContext = {
           canvasContext: context,
           viewport: viewport
         };
         await page.render(renderContext).promise;
+        
+        // Draw Dynamic Watermark with User Email (Anti-Screenshot Measure)
+        const userEmail = (this.app.userEmail || "Material Protegido").toUpperCase();
+        context.save();
+        context.font = "bold " + (viewport.width * 0.03) + "px Arial"; // Scale font with canvas
+        context.fillStyle = "rgba(180, 180, 180, 0.35)"; // Semi-transparent grey
+        context.translate(canvas.width / 2, canvas.height / 2);
+        context.rotate(-Math.PI / 4); // 45 degrees diagonal
+        context.textAlign = "center";
+        
+        // Repeat watermark across the page
+        const spacingX = viewport.width * 0.4;
+        const spacingY = viewport.height * 0.2;
+        for(let i = -canvas.width; i < canvas.width; i += spacingX) {
+          for(let j = -canvas.height; j < canvas.height; j += spacingY) {
+            context.fillText(userEmail, i, j);
+          }
+        }
+        context.restore();
       }
     } catch (error) {
       console.error('Error rendering PDF:', error);
-      const container = document.getElementById('pdf-render-container');
-      if (container) {
-        container.innerHTML = `<div style="color: #ff3b30; padding: 20px; font-weight: bold;">⚠️ Erro ao carregar o PDF protegido. Tente novamente mais tarde.</div>`;
+      const wrapper = document.getElementById('pdf-canvas-wrapper');
+      if (wrapper) {
+        wrapper.innerHTML = `<div style="color: #ff3b30; padding: 20px; font-weight: bold;">⚠️ Erro ao carregar o PDF protegido. Tente novamente mais tarde.</div>`;
       }
     }
   }
