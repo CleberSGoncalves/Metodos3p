@@ -60,11 +60,11 @@ class DecisionsController {
     this.activeDecidirSubTab = subTab;
     
     // Toggle areas in DOM
-    const areaProtocolos = document.getElementById('decidir-protocolos-area');
-    const areaGuias = document.getElementById('decidir-guias-area');
+    const areaProtocolos = document.getElementById('decidir-dilemas-view');
+    const areaGuias = document.getElementById('decidir-biblioteca-view');
     
     if (areaProtocolos && areaGuias) {
-      if (subTab === 'protocolos') {
+      if (subTab === 'dilemas') {
         areaProtocolos.style.display = 'block';
         areaGuias.style.display = 'none';
       } else {
@@ -78,11 +78,11 @@ class DecisionsController {
     }
     
     // Toggle active classes on buttons
-    const btnProtocolos = document.getElementById('decidir-toggle-btn-protocolos');
-    const btnGuias = document.getElementById('decidir-toggle-btn-guias');
+    const btnProtocolos = document.getElementById('decidir-tab-dilemas');
+    const btnGuias = document.getElementById('decidir-tab-biblioteca');
     
     if (btnProtocolos && btnGuias) {
-      if (subTab === 'protocolos') {
+      if (subTab === 'dilemas') {
         btnProtocolos.classList.add('active');
         btnGuias.classList.remove('active');
       } else {
