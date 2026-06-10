@@ -294,7 +294,7 @@ class DecisionsController {
       const isLocked = pdf.url === '#';
       const clickAction = isLocked 
         ? `alert('Protocolo em elaboração. Estará disponível em breve!')` 
-        : `window.open('${pdf.url}', '_blank')`;
+        : `window.app.conteudosController.openPdfReader('${pdf.id}')`;
         
       return `
       <div class="library-item-card" onclick="${clickAction}" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: transform 0.2s; margin-bottom: 8px;">
@@ -303,10 +303,10 @@ class DecisionsController {
         </div>
         <div style="flex: 1; text-align: left;">
           <h4 style="font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 4px 0;">${pdf.title}</h4>
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <div style="flex-shrink: 0; text-align: right;">
             ${isLocked 
-              ? '<span style="font-size: 9px; font-weight: 600; color: #ff453a; background: rgba(255,69,58,0.1); padding: 2px 6px; border-radius: 4px;">Em Elaboração 🔒</span>'
-              : '<span style="font-size: 9px; font-weight: 600; color: var(--primary-orange); background: rgba(255,106,0,0.1); padding: 2px 6px; border-radius: 4px;">Abrir no Gamma ➔</span>'
+              ? '<span style="font-size: 16px; opacity: 0.5;">🔒</span>'
+              : '<span style="font-size: 9px; font-weight: 600; color: var(--primary-orange); background: rgba(255,106,0,0.1); padding: 2px 6px; border-radius: 4px;">Abrir no App ➔</span>'
             }
           </div>
         </div>
@@ -650,11 +650,11 @@ class DecisionsController {
       html += `<div style="margin-bottom: 16px;">`;
       html += `<h5 style="font-size: 11px; font-weight: 700; color: #ff9f0a; text-transform: uppercase; margin: 0 0 10px 0;">📄 Protocolos de Referência</h5>`;
       html += allLinks.map(pdf => `
-        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,106,0,0.2); border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; margin-bottom: 8px; transition: background 0.2s;" onclick="window.open('${pdf.url}', '_blank')" onmouseover="this.style.background='rgba(255,106,0,0.05)'" onmouseout="this.style.background='rgba(255,255,255,0.02)'">
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,106,0,0.2); border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; margin-bottom: 8px; transition: background 0.2s;" onclick="window.app.conteudosController.openPdfReader('${pdf.id}')" onmouseover="this.style.background='rgba(255,106,0,0.05)'" onmouseout="this.style.background='rgba(255,255,255,0.02)'">
           <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255,106,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">📄</div>
           <div style="flex: 1; text-align: left;">
             <h5 style="font-size: 12px; font-weight: 700; color: #fff; margin: 0 0 2px 0;">${pdf.title}</h5>
-            <span style="font-size: 9px; font-weight: 600; color: #ff9f0a; background: rgba(255,106,0,0.1); padding: 2px 6px; border-radius: 4px;">Abrir no Gamma ➔</span>
+            <span style="font-size: 9px; font-weight: 600; color: #ff9f0a; background: rgba(255,106,0,0.1); padding: 2px 6px; border-radius: 4px;">Abrir no App ➔</span>
           </div>
         </div>
       `).join('');

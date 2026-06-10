@@ -825,22 +825,30 @@ class ContentsController {
       return;
     }
     
-    // If it is the app manual, open it locally in the drawer so they have a nice local documentation viewer!
-    if (id === 'pdf-doc') {
+    // If it is the app manual or a direct local PDF
+    if (id === 'pdf-doc' || (pdf.url && pdf.url.toLowerCase().endsWith('.pdf'))) {
       const overlay = document.getElementById('drawer-pdf-overlay');
       const drawerTitle = document.getElementById('pdf-reader-title');
       const drawerCat = document.getElementById('pdf-reader-category');
       const simulatedPages = document.querySelector('.pdf-simulated-pages');
       
       if (drawerTitle) drawerTitle.textContent = pdf.title;
-      if (drawerCat) drawerCat.textContent = pdf.category.toUpperCase();
+      if (drawerCat) drawerCat.textContent = pdf.category ? pdf.category.toUpperCase() : 'PDF';
       
       if (simulatedPages) {
-        simulatedPages.innerHTML = `
-          <div class="pdf-page-view" style="background: #ffffff; color: #000000; padding: 20px; border-radius: 12px; font-size: 12px; line-height: 1.6; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
-            ${pdf.content}
-          </div>
-        `;
+        if (id === 'pdf-doc') {
+          simulatedPages.innerHTML = `
+            <div class="pdf-page-view" style="background: #ffffff; color: #000000; padding: 20px; border-radius: 12px; font-size: 12px; line-height: 1.6; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+              ${pdf.content}
+            </div>
+          `;
+        } else {
+          // It's a local PDF file, embed it via iframe
+          const encodedUrl = encodeURI(pdf.url);
+          simulatedPages.innerHTML = `
+            <iframe src="${encodedUrl}" width="100%" height="80vh" style="border: none; border-radius: 12px; background: #fff; min-height: 500px;"></iframe>
+          `;
+        }
       }
       
       if (overlay) overlay.classList.add('active');

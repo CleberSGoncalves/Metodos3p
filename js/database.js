@@ -1618,6 +1618,56 @@ const METODO_3P_DATABASE = {
       ],
       "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/AREA EXTERNA/PDF-12-RELATORIO-FINA...",
       "env": "area_externa"
+    },
+    {
+      "id": "prot-coz",
+      "title": "Protocolo de Decisão — Cozinha",
+      "category": "planejamento",
+      "pages": 1,
+      "desc": "Protocolo com critérios e regras de decisão para a Cozinha.",
+      "tags": ["cozinha", "protocolo"],
+      "url": "./MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-COZINHA.pdf",
+      "env": "cozinha"
+    },
+    {
+      "id": "prot-ban",
+      "title": "Protocolo de Decisão — Banheiro",
+      "category": "planejamento",
+      "pages": 1,
+      "desc": "Protocolo com critérios e regras de decisão para o Banheiro.",
+      "tags": ["banheiro", "protocolo"],
+      "url": "./MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-BANHEIRO.pdf",
+      "env": "banheiro"
+    },
+    {
+      "id": "prot-sal",
+      "title": "Protocolo de Decisão — Sala",
+      "category": "planejamento",
+      "pages": 1,
+      "desc": "Protocolo com critérios e regras de decisão para a Sala.",
+      "tags": ["sala", "protocolo"],
+      "url": "./MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DECISAO-SALA.pdf",
+      "env": "sala"
+    },
+    {
+      "id": "prot-qua",
+      "title": "Protocolo de Decisão — Quarto",
+      "category": "planejamento",
+      "pages": 1,
+      "desc": "Protocolo com critérios e regras de decisão para o Quarto.",
+      "tags": ["quarto", "protocolo"],
+      "url": "./MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DE-DECISAO-QUARTO.pdf",
+      "env": "quarto"
+    },
+    {
+      "id": "prot-ext",
+      "title": "Protocolo de Decisão — Área Externa",
+      "category": "planejamento",
+      "pages": 1,
+      "desc": "Protocolo com critérios e regras de decisão para a Área Externa.",
+      "tags": ["area_externa", "protocolo"],
+      "url": "./MÉTODO 3P/PROTOCOLO DE  DECISÃO/PROTOCOLO-DECISAO-AREA-EXTERNA.pdf",
+      "env": "area_externa"
     }
   ]
 };
