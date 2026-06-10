@@ -632,7 +632,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "sonho"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF-1-MEU-SONHO-NO-PAPEL-C...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF-1-MEU-SONHO-NO-PAPEL-COZINHA (1).pdf",
       "env": "cozinha"
     },
     {
@@ -650,7 +650,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "sonho"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-1-MEUS-SONHO-NO-PAPEL...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-1-MEUS-SONHO-NO-PAPEL-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -668,7 +668,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "sonho"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/SALA/PDF-1-MEU-SONHO-NO-PAPEL-SALA...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/SALA/PDF-1-MEU-SONHO-NO-PAPEL-SALA.pdf",
       "env": "sala"
     },
     {
@@ -686,7 +686,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "sonho"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-1-MEU-SONHO-NO-PAPEL-QU...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-1-MEU-SONHO-NO-PAPEL-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -704,7 +704,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "sonho"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-1-MEU-SONHO-NO-PA...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-1-MEU-SONHO-NO-PAPEL-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -722,7 +722,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "erro"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF-2-CHECK-LIST-ZERO-ERRO...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF-2-CHECK-LIST-ZERO-ERRO-COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -740,7 +740,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "erro"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-2-CHECK-LIST-ZERO-ERR...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-2-CHECK-LIST-ZERO-ERRO-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -758,7 +758,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "erro"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/SALA/PDF-2-CHECKLIST-ZERO-ERRO-SAL...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/SALA/PDF-2-CHECKLIST-ZERO-ERRO-SALA.pdf",
       "env": "sala"
     },
     {
@@ -776,7 +776,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "erro"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-2-CHECKLIST-ZERO-ERRO-3...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-2-CHECKLIST-ZERO-ERRO-3P-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -794,7 +794,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "erro"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-2-CHECKLIST-ZRO-E...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-2-CHECKLIST-ZRO-ERRO-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -812,7 +812,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "layout"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF-3-GUIA-VISUAL-DE-LAYOU...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF-3-GUIA-VISUAL-DE-LAYOUT-INTELIGENTE-COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -830,7 +830,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "layout"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-3-GUIA-VISUAL-DE-LAYO...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-3-GUIA-VISUAL-DE-LAYOYT-INTELIGENTE-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -848,7 +848,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "layout"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/SALA/PDF-3-GUIA-VISUAL-DE-LAYOUT-I...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/SALA/PDF-3-GUIA-VISUAL-DE-LAYOUT-INTELIGENTE-SALA.pdf",
       "env": "sala"
     },
     {
@@ -866,7 +866,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "layout"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-3-GUIA-VISUAL-DE-LAYOUT...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-3-GUIA-VISUAL-DE-LAYOUT-INTELIGENTE-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -884,7 +884,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "layout"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-3-GUIA-VISUAL-DE-...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-3-GUIA-VISUAL-DE-LAYOUT-INTELIGENTE-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -902,7 +902,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "iluminacao"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF -4 - CADERNO-DE-PLANEJ...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF -4 - CADERNO-DE-PLANEJAMENTO-COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -920,7 +920,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "iluminacao"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-4-CADERNO-DE-PLANEJAM...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-4-CADERNO-DE-PLANEJAMENTO-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -938,7 +938,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "iluminacao"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/SALA/PDF-4-CADERNO-DE-PLANEJAMENTO...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/SALA/PDF-4-CADERNO-DE-PLANEJAMENTO-SALA.pdf",
       "env": "sala"
     },
     {
@@ -956,7 +956,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "iluminacao"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-4-CADERNO-DE-PLANEJAMEN...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-4-CADERNO-DE-PLANEJAMENTO-3P-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -974,7 +974,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "iluminacao"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-4-CADERNO-DE-PLAN...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-4-CADERNO-DE-PLANEJAMENTO-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -992,7 +992,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "cronograma"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF-5-CRONOGRAMA-OFICIAL-C...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF-5-CRONOGRAMA-OFICIAL-COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -1010,7 +1010,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "cronograma"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-5-CRONOGRAMA-OFICIAL-...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-5-CRONOGRAMA-OFICIAL-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -1028,7 +1028,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "cronograma"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/SALA/PDF-5-CRONOGRAMA-OFICIAL-SALA...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/SALA/PDF-5-CRONOGRAMA-OFICIAL-SALA.pdf",
       "env": "sala"
     },
     {
@@ -1046,7 +1046,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "cronograma"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-5-CRONOGRAMA-OFICIAL-DO...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-5-CRONOGRAMA-OFICIAL-DO-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -1064,7 +1064,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "cronograma"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-5-CRONOGRAMA-OFIC...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-5-CRONOGRAMA-OFICIAL-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -1082,7 +1082,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "revestimento"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF-6-GUIA-DE-MATERIAIS-CO...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/COZINHA/PDF-6-GUIA-DE-MATERIAIS-COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -1100,7 +1100,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "revestimento"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-6-GUIA-DE-MATERIAIS-B...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/BANHEIRO/PDF-6-GUIA-DE-MATERIAIS-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -1136,7 +1136,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "revestimento"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-6-GUIA-DE-MATERIAIS-QUA...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/QUARTO/PDF-6-GUIA-DE-MATERIAIS-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -1154,7 +1154,7 @@ const METODO_3P_DATABASE = {
         "planejamento",
         "revestimento"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-6-GUIA-DE-MATERIA...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 1 - PLANEJAR/AREA EXTERNA/PDF-6-GUIA-DE-MATERIAIS-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -1169,7 +1169,7 @@ const METODO_3P_DATABASE = {
         "orcamento",
         "blindado"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/COZINHA/PDF-7-ROTEIRO-DO-ORCAMENTO...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/COZINHA/PDF-7-ROTEIRO-DO-ORCAMENTO-BLINDADO-COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -1184,7 +1184,7 @@ const METODO_3P_DATABASE = {
         "contratacao",
         "guia"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/COZINHA/PDF-8-GUIA-DE-CONTRATACAO-...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/COZINHA/PDF-8-GUIA-DE-CONTRATACAO-ESTRATEGICA - COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -1199,7 +1199,7 @@ const METODO_3P_DATABASE = {
         "compras",
         "lista"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/COZINHA/PDF-9-LISTA-DE-COMPRAS-COM...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/COZINHA/PDF-9-LISTA-DE-COMPRAS-COMPLETA-COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -1214,7 +1214,7 @@ const METODO_3P_DATABASE = {
         "checklist",
         "vistoria"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/COZINHA/PDF-10-CHECK-LIST-FINAL-DE...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/COZINHA/PDF-10-CHECK-LIST-FINAL-DE-ENTREGA-COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -1229,7 +1229,7 @@ const METODO_3P_DATABASE = {
         "garantia",
         "checkout"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/COZINHA/PDF-11-CHECK-OUT-and-GARAN...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/COZINHA/PDF-11-CHECK-OUT-and-GARANTIAS-COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -1244,7 +1244,7 @@ const METODO_3P_DATABASE = {
         "manutencao",
         "manual"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/COZINHA/PDF-12-RELATORIO-FINAL-DA-...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/COZINHA/PDF-12-RELATORIO-FINAL-DA-OBRA-COZINHA.pdf",
       "env": "cozinha"
     },
     {
@@ -1259,7 +1259,7 @@ const METODO_3P_DATABASE = {
         "orcamento",
         "blindado"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/BANHEIRO/GUIA-7-ROTEIRO DO ORCAMEN...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/BANHEIRO/GUIA-7-ROTEIRO DO ORCAMENTO BLINDADO -BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -1274,7 +1274,7 @@ const METODO_3P_DATABASE = {
         "contratacao",
         "guia"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/BANHEIRO/PDF-8-GUIA-DE-CONTRATACAO...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/BANHEIRO/PDF-8-GUIA-DE-CONTRATACAO-ESTRATEGICA-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -1289,7 +1289,7 @@ const METODO_3P_DATABASE = {
         "compras",
         "lista"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/BANHEIRO/PDF-9-GUIA-DE-COMPRAS-SEM...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/BANHEIRO/PDF-9-GUIA-DE-COMPRAS-SEM-ERROS-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -1304,7 +1304,7 @@ const METODO_3P_DATABASE = {
         "checklist",
         "vistoria"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/BANHEIRO/PDF-10-CHECK-LIST-FINAL-D...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/BANHEIRO/PDF-10-CHECK-LIST-FINAL-DE-ENTREGA-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -1319,7 +1319,7 @@ const METODO_3P_DATABASE = {
         "garantia",
         "checkout"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/BANHEIRO/PDF-11-CHECK-OUT-and-GARA...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/BANHEIRO/PDF-11-CHECK-OUT-and-GARANTIAS-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -1334,7 +1334,7 @@ const METODO_3P_DATABASE = {
         "manutencao",
         "manual"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/BANHEIRO/PDF-12-RELATORIO-FINAL-DA...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/BANHEIRO/PDF-12-RELATORIO-FINAL-DA-OBRA-BANHEIRO.pdf",
       "env": "banheiro"
     },
     {
@@ -1349,7 +1349,7 @@ const METODO_3P_DATABASE = {
         "orcamento",
         "blindado"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/QUARTO/PDF-7-ROTEIRO-DO-ORCAMENTO-...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/QUARTO/PDF-7-ROTEIRO-DO-ORCAMENTO-BLINDADO-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -1364,7 +1364,7 @@ const METODO_3P_DATABASE = {
         "contratacao",
         "guia"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/QUARTO/PDF-8-GUIA-DE-CONTRATACAO-E...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/QUARTO/PDF-8-GUIA-DE-CONTRATACAO-ESTRATEGICA-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -1379,7 +1379,7 @@ const METODO_3P_DATABASE = {
         "compras",
         "lista"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/QUARTO/PDF-9- GUIA DE COMPRAS SEM ...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/QUARTO/PDF-9- GUIA DE COMPRAS SEM ERROS - QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -1394,7 +1394,7 @@ const METODO_3P_DATABASE = {
         "checklist",
         "vistoria"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/QUARTO/PDF-10-CHECKLIST-FINAL-DE-E...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/QUARTO/PDF-10-CHECKLIST-FINAL-DE-ENTREGA-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -1409,7 +1409,7 @@ const METODO_3P_DATABASE = {
         "garantia",
         "checkout"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/QUARTO/PDF-11-CHECK-OUT-and-GARANT...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/QUARTO/PDF-11-CHECK-OUT-and-GARANTIAS-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -1424,7 +1424,7 @@ const METODO_3P_DATABASE = {
         "manutencao",
         "manual"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/QUARTO/PDF-12-RELATORIO-FINAL-DA-O...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/QUARTO/PDF-12-RELATORIO-FINAL-DA-OBRA-QUARTO.pdf",
       "env": "quarto"
     },
     {
@@ -1439,7 +1439,7 @@ const METODO_3P_DATABASE = {
         "orcamento",
         "blindado"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/SALA/PDF-7-ROTEIRO-DO-ORCAMENTO-BL...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/SALA/PDF-7-ROTEIRO-DO-ORCAMENTO-BLINDADO-SALA.pdf",
       "env": "sala"
     },
     {
@@ -1454,7 +1454,7 @@ const METODO_3P_DATABASE = {
         "contratacao",
         "guia"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/SALA/PDF-8-GUIA-DE-CONTRATACAO-EST...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/SALA/PDF-8-GUIA-DE-CONTRATACAO-ESTRATEGICA-SALA.pdf",
       "env": "sala"
     },
     {
@@ -1484,7 +1484,7 @@ const METODO_3P_DATABASE = {
         "checklist",
         "vistoria"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/SALA/PDF-10-CHECK-LIST-FINAL-DE-EN...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/SALA/PDF-10-CHECK-LIST-FINAL-DE-ENTREGA-SALA.pdf",
       "env": "sala"
     },
     {
@@ -1499,7 +1499,7 @@ const METODO_3P_DATABASE = {
         "garantia",
         "checkout"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/SALA/PDF-11-CHECK-OUT-and-GARANTIA...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/SALA/PDF-11-CHECK-OUT-and-GARANTIAS-SALA.pdf",
       "env": "sala"
     },
     {
@@ -1514,7 +1514,7 @@ const METODO_3P_DATABASE = {
         "manutencao",
         "manual"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/SALA/PDF-12-RELATORIO-FINAL-DA-OBR...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/SALA/PDF-12-RELATORIO-FINAL-DA-OBRA-SALA.pdf",
       "env": "sala"
     },
     {
@@ -1531,7 +1531,7 @@ const METODO_3P_DATABASE = {
         "orcamento",
         "blindado"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/AREA EXTERNA/PDF-7-ROTEIRO-DO-ORCA...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/AREA EXTERNA/PDF-7-ROTEIRO-DO-ORCAMENTO-BLINDADO-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -1548,7 +1548,7 @@ const METODO_3P_DATABASE = {
         "contratacao",
         "guia"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/AREA EXTERNA/PDF-8-GUIA-DE-CONTRAT...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/AREA EXTERNA/PDF-8-GUIA-DE-CONTRATACAO-ESTRATEGICA-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -1565,7 +1565,7 @@ const METODO_3P_DATABASE = {
         "compras",
         "lista"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/AREA EXTERNA/PDF-9-GUIA-DE-COMPRAS...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 2 - PREVENIR/AREA EXTERNA/PDF-9-GUIA-DE-COMPRAS-SEM-ERROS-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -1582,7 +1582,7 @@ const METODO_3P_DATABASE = {
         "checklist",
         "vistoria"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/AREA EXTERNA/PDF-10-CHECK-LIST-FIN...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/AREA EXTERNA/PDF-10-CHECK-LIST-FINAL-DE-ENTREGA-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -1599,7 +1599,7 @@ const METODO_3P_DATABASE = {
         "garantia",
         "checkout"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/AREA EXTERNA/PDF-11-CHECK-OUT-and-...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/AREA EXTERNA/PDF-11-CHECK-OUT-and-GARANTIAS-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
@@ -1616,7 +1616,7 @@ const METODO_3P_DATABASE = {
         "manutencao",
         "manual"
       ],
-      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/AREA EXTERNA/PDF-12-RELATORIO-FINA...",
+      "url": "./MÉTODO 3P/GUIAS E ESTRATÉGIAS/FASE 3 - PROTEGER/AREA EXTERNA/PDF-12-RELATORIO-FINAL-AREA-EXTERNA.pdf",
       "env": "area_externa"
     },
     {
