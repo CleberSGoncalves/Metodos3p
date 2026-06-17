@@ -461,14 +461,26 @@
                   </div>
                   
                   <!-- Card 3: Falta Pagar -->
-                  <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(191, 90, 242, 0.2);">
-                    <div class="dash-control-icon-box" style="background: rgba(191, 90, 242, 0.08); border: 1px solid rgba(191, 90, 242, 0.2); color: #bf5af2; box-shadow: 0 0 8px rgba(191, 90, 242, 0.15);">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 3 5 5-5 5M7 21l-5-5 5-5M2 16h20M22 8H2"></path></svg>
+                  <div class="dash-control-card glass-card" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(255, 159, 10, 0.2);">
+                    <div class="dash-control-icon-box" style="background: rgba(255, 159, 10, 0.08); border: 1px solid rgba(255, 159, 10, 0.2); color: #ff9f0a; box-shadow: 0 0 8px rgba(255, 159, 10, 0.15);">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
                     </div>
                     <div class="dash-control-info">
                       <span>FALTA PAGAR</span>
-                      <strong id="dash-metric-topay" style="color: #bf5af2;">R$ 0,00</strong>
+                      <strong id="dash-metric-topay" style="color: #ff9f0a;">R$ 0,00</strong>
                       <span id="dash-metric-topay-pct" class="pct-sub">0% do total</span>
+                    </div>
+                  </div>
+
+                  <!-- Card 4: Conclusão Física -->
+                  <div class="dash-control-card glass-card" onclick="window.app.switchTab('proteger')" style="background: rgba(15, 18, 26, 0.45); border: 1px solid rgba(191, 90, 242, 0.2); cursor: pointer;">
+                    <div class="dash-control-icon-box" style="background: rgba(191, 90, 242, 0.08); border: 1px solid rgba(191, 90, 242, 0.2); color: #bf5af2; box-shadow: 0 0 8px rgba(191, 90, 242, 0.15);">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="dash-control-info">
+                      <span>CONCLUSÃO FÍSICA</span>
+                      <strong id="dash-metric-physical" style="color: #bf5af2;">0%</strong>
+                      <span class="pct-sub">da obra</span>
                     </div>
                   </div>
                 </div>
@@ -2101,7 +2113,7 @@
   <script src="js/conteudos-v2.js?v=3.0.12"></script>
   <script src="js/paywall.js?v=2.0.4"></script>
   <script src="js/chat.js?v=2.0.0"></script>
-  <script src="js/app.js?v=3.0.25"></script>
+  <script src="js/app.js?v=3.0.26"></script>
   
   <script>
     // System simulated clock update

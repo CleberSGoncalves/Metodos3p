@@ -397,13 +397,32 @@ class AppOrchestrator {
   }
 
   addExpenseSubmit() {
-    const desc = document.getElementById('exp-desc').value.trim();
-    const cat = document.getElementById('exp-category').value;
-    const plannedVal = parseFloat(document.getElementById('exp-planned-val').value) || 0;
-    const amount = parseFloat(document.getElementById('exp-amount').value) || 0;
-    const status = document.getElementById('exp-status').value;
-    const date = document.getElementById('exp-date').value;
-    const supplier = document.getElementById('exp-supplier').value.trim() || 'Geral';
+    const descEl = document.getElementById('exp-desc');
+    const catEl = document.getElementById('exp-category');
+    const amountEl = document.getElementById('exp-amount');
+    const statusEl = document.getElementById('exp-status');
+    const dateEl = document.getElementById('exp-date');
+
+    if (!descEl || !catEl || !amountEl || !statusEl || !dateEl) {
+      console.error('[addExpenseSubmit] Um ou mais campos do formulário não foram encontrados no DOM.', {
+        descEl, catEl, amountEl, statusEl, dateEl
+      });
+      alert('Erro ao salvar: formulário não está disponível. Tente fechar e reabrir o painel de gastos.');
+      return;
+    }
+
+    const desc = descEl.value.trim();
+    const cat = catEl.value;
+    
+    const plannedEl = document.getElementById('exp-planned-val');
+    const plannedVal = plannedEl ? parseFloat(plannedEl.value) || 0 : 0;
+    
+    const amount = parseFloat(amountEl.value) || 0;
+    const status = statusEl.value;
+    const date = dateEl.value;
+    
+    const supplierEl = document.getElementById('exp-supplier');
+    const supplier = (supplierEl && supplierEl.value) ? supplierEl.value.trim() || 'Geral' : 'Geral';
     
     if (!desc) {
       alert("Por favor, digite a descrição do gasto.");
@@ -495,6 +514,44 @@ class AppOrchestrator {
   closePrevenirDrawer(type) {
     const overlay = document.getElementById(`drawer-prevenir-${type}-overlay`);
     if (overlay) overlay.classList.remove('active');
+  }
+
+  switchCompareTab(tab) {
+    const btnProducts = document.getElementById('btn-comp-products');
+    const btnProviders = document.getElementById('btn-comp-providers');
+    const secProducts = document.getElementById('comp-products-section');
+    const secProviders = document.getElementById('comp-providers-section');
+    
+    if (!btnProducts || !btnProviders || !secProducts || !secProviders) return;
+    
+    if (tab === 'products') {
+      btnProducts.classList.add('active');
+      btnProducts.style.background = 'var(--primary-gradient)';
+      btnProducts.style.color = '#fff';
+      
+      btnProviders.classList.remove('active');
+      btnProviders.style.background = 'transparent';
+      btnProviders.style.color = '#8c96ab';
+      
+      secProducts.style.display = 'flex';
+      secProviders.style.display = 'none';
+    } else {
+      btnProviders.classList.add('active');
+      btnProviders.style.background = 'var(--primary-gradient)';
+      btnProviders.style.color = '#fff';
+      
+      btnProducts.classList.remove('active');
+      btnProducts.style.background = 'transparent';
+      btnProducts.style.color = '#8c96ab';
+      
+      secProducts.style.display = 'none';
+      secProviders.style.display = 'flex';
+      
+      // Render provider quotes table when switching to providers
+      if (this.financeiroController) {
+        this.financeiroController.renderQuotesTable();
+      }
+    }
   }
 
   openProtegerDrawer(type) {
